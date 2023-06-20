@@ -1,5 +1,51 @@
+import { MapPinIcon } from "@heroicons/react/24/outline"
 export default function Proposals() {
+  const grants = [
+    {
+      title: "Well Project",
+      location: "Nammpoak, Togo",
+      summary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      collaborators: ["John Doe", "Jane Doe"]
+    },
+    {
+      title: "Well Project",
+      location: "Nammpoak, Togo",
+      summary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      collaborators: ["John Doe", "Jane Doe"]
+    },
+    {
+      title: "Well Project",
+      location: "Nammpoak, Togo",
+      summary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      collaborators: ["John Doe", "Jane Doe"]
+    },
+    {
+      title: "Well Project",
+      location: "Nammpoak, Togo",
+      summary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      collaborators: ["John Doe", "Jane Doe"]
+    }
+  ]
   return (
-    <p>Index of all proposals</p>
+    <>
+      <h3 className="font-bold mb-6">Proposed Grants</h3>
+      {grants.map((grant) => (
+        <div className="mb-4">
+          <h3 className="font-bold mb-1">{grant.title}</h3>
+          <div className="text-sm align-middle"><MapPinIcon className="h-4 inline-block" /> {grant.location}</div>
+          <p className="text-sm mt-2 mb-1 leading-1">{grant.summary}</p>
+          {grant.collaborators.map((user, index) => (
+            <>
+              {(index+1) === grant.collaborators.length && (
+                <span>{user}</span>
+              )}
+              {(index+1) !== grant.collaborators.length && (
+                <span>{user}, </span>
+              )}
+            </>
+          ))}
+        </div>
+      ))}
+    </>
   )
 }
