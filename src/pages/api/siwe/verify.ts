@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { SiweMessage } from "siwe";
+import { supabase } from "../../../../lib/supabase-client";
+import jwt from "jsonwebtoken";
 
 import { withSessionRoute } from "../../../../lib/server";
 
@@ -20,6 +22,22 @@ export default withSessionRoute(async function handler(
 
 			//TODO: Add supabase interaction
 			if (process.env.SUPABASE_URL) {
+				const { data, error } = await supabase
+					.from("users")
+					.upsert({ address: fields.address })
+					.select();
+				if (!error) {
+					const token = jwt.sign(
+						{
+							address: fields.address, // this will be read by RLS policy
+							sub: data.id,
+							aud: "authenticated",
+						},
+						process.env.SUPABASE_JWT_SECRET as string,
+						{ expiresIn: 60 * 2 }
+					);
+					res.setHeader("Set-Cookie", `token=${token}; path=/; HttpOnly`);
+				}
 			}
 			return res.json({ ok: true });
 		} catch (ex) {
