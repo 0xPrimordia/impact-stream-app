@@ -56,7 +56,7 @@ export default function Proposals() {
         </div>
       ))}
       <div className="fixed bottom-4 right-0 left-0 bg-white p-5 z-20">
-        <button className="w-full border border-slate-400 rounded leading-10 font-bold" type="submit">Write Proposal</button>
+        <button onClick={() => router.push("/proposals/write")} className="w-full border border-slate-400 rounded leading-10 font-bold">Write Proposal</button>
       </div>
     </div>
   )
