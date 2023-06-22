@@ -16,6 +16,10 @@
   }
 }
 
+.brand-bg-color {
+  background-color: rgb(203, 229, 241)
+}
+
 body {
   color: rgb(var(--foreground-rgb));
 }

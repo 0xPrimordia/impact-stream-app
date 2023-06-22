@@ -12,4 +12,4 @@ export default function Onboarding() {
             <button className="w-full border border-slate-400 rounded leading-10 font-bold" type="submit">Submit</button>
         </form>
     )
-  }
+}
