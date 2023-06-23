@@ -36,7 +36,7 @@ export default function Proposals() {
   ]
 
   return (
-    <div className="mb-20">
+    <div className="mb-14">
       <h3 className="font-bold mb-6">Proposed Grants</h3>
       {grants.map((grant) => (
         <div onClick={() => router.push(`/proposals/${grant.id}`)} className="mb-4">

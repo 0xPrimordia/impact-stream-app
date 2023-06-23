@@ -13,22 +13,22 @@ export const Navbar = () => {
                     src="/impact-stream-logo.svg"
                     alt="Impact Stream"
                     className="dark:invert"
-                    width={161}
-                    height={63}
+                    width={114}
+                    height={45}
                     priority
                 />
             </div>
             {overlay && (
-                <nav className='brand-bg-color text-3xl font-bold fixed top-0 bottom-0 right-0 left-0 p-10 pt-40 z-40'>
+                <nav className='brand-bg-color text-3xl font-bold fixed top-0 bottom-0 right-0 left-0 p-10 pt-28 z-40'>
                     <ul>
                         <li><a href="/proposals">Proposals</a></li>
                     </ul>
-                    <XMarkIcon onClick={() => setOverlay(false)} className='h-8 absolute right-12 top-12' />
+                    <XMarkIcon onClick={() => setOverlay(false)} className='h-8 absolute right-12 top-10' />
                 </nav>
             )}
             {!overlay && (
                 <div onClick={() => setOverlay(true)}>
-                    <Bars3Icon className="h-8 absolute right-12 top-12" />
+                    <Bars3Icon className="h-8 absolute right-12 top-10" />
                 </div>
             )}
             
