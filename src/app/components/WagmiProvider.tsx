@@ -1,14 +1,14 @@
 "use client";
-import {
-	WagmiConfig,
-	createConfig,
-	configureChains,
-	mainnet,
-	sepolia,
-} from "wagmi";
+import { PrivyWagmiConnector } from "@privy-io/wagmi-connector";
+import { createConfig, configureChains, mainnet, sepolia } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
+import { PrivyProvider } from "@privy-io/react-auth";
 
-const { publicClient, webSocketPublicClient } = configureChains(
+const handleLogin = (user) => {
+	console.log(`User ${user.id} logged in!`);
+};
+
+const configureChainsConfig = configureChains(
 	[mainnet, sepolia],
 	[
 		alchemyProvider({
@@ -16,13 +16,25 @@ const { publicClient, webSocketPublicClient } = configureChains(
 		}),
 	]
 );
-
-const config = createConfig({
-	autoConnect: true,
-	publicClient,
-	webSocketPublicClient,
-});
-
 export function WagmiProvider({ children }: any) {
-	return <WagmiConfig config={config}>{children}</WagmiConfig>;
+	return (
+		<PrivyProvider
+			appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID as string}
+			onSuccess={handleLogin}
+			config={{
+				loginMethods: ["sms"],
+				appearance: {
+					theme: "light",
+					logo: "/impact-stream-logo.svg",
+				},
+				embeddedWallets: {
+					createOnLogin: "users-without-wallets",
+				},
+			}}
+		>
+			<PrivyWagmiConnector wagmiChainsConfig={configureChainsConfig}>
+				{children}
+			</PrivyWagmiConnector>
+		</PrivyProvider>
+	);
 }
