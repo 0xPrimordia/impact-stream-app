@@ -16,9 +16,6 @@ export async function POST(request: Request) {
 		}
 	);
 
-	const { error } = await supabaseAdmin
-		.from("users")
-		.upsert({ id: userId, address }, { defaultToNull: true });
 	return new Response(null, {
 		status: 200,
 		headers: {
