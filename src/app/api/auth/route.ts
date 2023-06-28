@@ -3,8 +3,7 @@ import jwt from "jsonwebtoken";
 import { supabaseAdmin } from "../../../../lib/supabase-client";
 
 export async function POST(request: Request) {
-	const { address, userId } = request.body;
-
+	const { address, userId } = await request.json();
 	const token = jwt.sign(
 		{
 			address,
@@ -17,7 +16,9 @@ export async function POST(request: Request) {
 		}
 	);
 
-	await supabaseAdmin.from("users").upsert({ id: userId, address });
+	const { error } = await supabaseAdmin
+		.from("users")
+		.upsert({ id: userId, address }, { defaultToNull: true });
 	return new Response(null, {
 		status: 200,
 		headers: {
