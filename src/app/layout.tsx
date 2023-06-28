@@ -16,15 +16,16 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	return (
-		<html lang="en">
-			<body className={inter.className}>
-				<WagmiProvider>
-					<Navbar />
-					{children}
-					<Footer />
-				</WagmiProvider>
-			</body>
-		</html>
-	);
+
+  return (
+    <html lang="en">
+      <body className={inter.className + " p-8 pb-12 pt-28"}>
+        <WagmiProvider>
+        <Navbar />
+        {children}
+        <Footer />
+        </WagmiProvider>
+      </body>
+    </html>
+  )
 }

@@ -13,6 +13,7 @@
     "@privy-io/react-auth": "^1.27.0",
     "@privy-io/wagmi-connector": "^0.0.10",
     "@supabase/supabase-js": "^2.26.0",
+    "@heroicons/react": "^2.0.18",
     "@types/node": "20.3.1",
     "@types/react": "18.2.12",
     "@types/react-dom": "18.2.5",
