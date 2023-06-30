@@ -2,6 +2,7 @@
 
 import { PrivyProvider } from "@privy-io/react-auth";
 import { usePrivy } from "@privy-io/react-auth";
+import { useRouter } from "next/navigation";
 
 async function supabaseAuth(address: string, userId: string) {
 	await fetch("/api/auth", {
@@ -14,12 +15,13 @@ async function supabaseAuth(address: string, userId: string) {
 }
 
 export function Wallet() {
+	const router = useRouter();
 	const { login, authenticated, user } = usePrivy();
 
 	if (authenticated && user && user.wallet?.address) {
 		supabaseAuth(user.wallet?.address, user.id);
-		return <p>User: {user.wallet?.address}</p>;
+		router.push(`/onboarding/`);
 	}
 
-	return <button onClick={login}>Log In</button>;
+	return <button className="bg-slate-100 p-20 rounded block m-auto font-bold text-slate-400" onClick={login}>Sign-In</button>;
 }
