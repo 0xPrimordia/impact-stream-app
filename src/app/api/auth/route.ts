@@ -1,6 +1,12 @@
 import { headers } from "next/headers";
 import jwt from "jsonwebtoken";
-import { supabaseAdmin } from "../../../../lib/supabase-client";
+import { createClient } from "@supabase/supabase-js";
+
+// Create a single supabase client with admin rights
+export const supabaseAdmin = createClient(
+	process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+	process.env.SUPABASE_SERVICE_ROLE_KEY as string
+);
 
 export async function POST(request: Request) {
 	const { address, userId } = await request.json();
@@ -15,7 +21,11 @@ export async function POST(request: Request) {
 			expiresIn: 60 * 2,
 		}
 	);
-
+	const { error } = await supabaseAdmin.from("users").insert({
+		id: userId,
+		address,
+	});
+	console.log(error);
 	return new Response(null, {
 		status: 200,
 		headers: {
