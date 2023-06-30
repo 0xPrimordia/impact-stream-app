@@ -5,30 +5,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
 import { supabase } from "../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
+import { Proposal } from "@/app/types";
 
 interface MilestoneProps {
 	index: string;
 }
-
-type Milestone = {
-	proposal: string;
-	title: string;
-	budget: number;
-};
-
-type Proposal = {
-	authorId: string;
-	title: string;
-	collaboratorIds: string[];
-	description: string;
-	timeline: string;
-	affected_locations: string;
-	community_problem: string;
-	proposed_solution: string;
-	minimum_budget: number;
-	key_players: string;
-	milestones: Milestone[];
-};
 
 export default function WriteProposal() {
 	const { user, authenticated } = usePrivy();
@@ -126,6 +107,11 @@ export default function WriteProposal() {
 				className={inputClasses}
 				placeholder="Title"
 				{...register("title")}
+			/>
+            <input
+				className={inputClasses}
+				placeholder="Location"
+				{...register("location")}
 			/>
 			<input className={inputClasses} placeholder="Add Collaborator" />
 			<textarea
