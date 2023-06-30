@@ -31,14 +31,17 @@ type Proposal = {
 };
 
 export default function WriteProposal() {
+	const { user, authenticated } = usePrivy();
 	const router = useRouter();
+	if (!authenticated) {
+		router.push("/");
+	}
 	const {
 		register,
 		handleSubmit,
 		watch,
 		formState: { errors },
 	} = useForm<Proposal>();
-	const { user } = usePrivy();
 	const onSubmit: SubmitHandler<Proposal> = async (data) => {
 		try {
 			console.log(data);
