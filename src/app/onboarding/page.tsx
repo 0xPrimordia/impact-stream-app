@@ -15,6 +15,9 @@ type User = {
 export default function Onboarding() {
 	const { user, authenticated } = usePrivy();
 	const router = useRouter();
+	if (!authenticated) {
+		router.push("/");
+	}
 	const {
 		register,
 		handleSubmit,
