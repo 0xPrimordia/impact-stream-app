@@ -2,18 +2,18 @@
 import React, { useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useForm, SubmitHandler } from "react-hook-form"
-import { createStore, createLocalPersister } from 'tinybase';
+import { createStore, createLocalPersister, createRelationships } from 'tinybase';
 import { CellView } from 'tinybase/ui-react';
-//import { usePrivy } from 
+import { usePrivy } from '@privy-io/react-auth'
 
-const store = createStore()
-//const {user} = usePrivy();
+const store = createStore();
 
 interface MilestoneProps {
     index:string
 }
 
 type Milestone = {
+    proposal:string;
     title:string;
     budget:number;
 }
@@ -25,9 +25,10 @@ type User = {
 }
 
 type Proposal = {
+    id:string;
     title:string;
-    author: User;
-    collaborators:User[];
+    authorId: string;
+    collaboratorIds: string[];
     description:string;
     milestones:Milestone[];
     timeline:string;
@@ -40,19 +41,43 @@ export default function WriteProposal() {
         watch,
         formState: { errors },
       } = useForm<Proposal>()
+    const { user } = usePrivy();
     const onSubmit: SubmitHandler<Proposal> = (data) => {
-        let proposalhash = 'proposal-'+(Math.random() + 1).toString(36).substring(2);
-        store.setRow("proposals", proposalhash, {
+        const relationships = createRelationships(store);
+        relationships.setRelationshipDefinition(
+            'proposalMilestones', //  relationshipId
+            'proposals', //        localTableId to link from
+            'milestones', //     remoteTableId to link to
+            'proposal', //     cellId containing remote key
+          );
+        let proposalHash = 'proposal-'+(Math.random() + 1).toString(36).substring(2);
+        let milestoneHash = 'milestone-'+(Math.random() + 1).toString(36).substring(2);
+        let milestoneKeys = Object.keys(data.milestones)
+        if(user)
+        store.setRow("proposals", proposalHash, {
+            id: proposalHash,
             title: data.title,
-            //author: 
+            author: user?.id,
             //collaborators: data.collaborators,
             description: data.description,
-            //milestones: data.milestones,
             timeline: data.title
         });
-        const persister = createLocalPersister(store, "proposals");
-        persister.save();
-        console.log(localStorage.proposals)
+        console.log(data.milestones)
+        if(data.milestones)
+        milestoneKeys.map((key:any) => {
+            let milestone = data.milestones[key]
+            store.setRow("milestones", milestoneHash, {
+                title: milestone.title,
+                budget: milestone.budget,
+                proposal: proposalHash
+            })
+        })
+        
+        const proposalPersister = createLocalPersister(store, "proposals");
+        const milestonePersister = createLocalPersister(store, "milestones");
+        proposalPersister.save();
+        milestonePersister.save();
+        console.log(relationships.getRemoteRowId('proposalMilestones', 'default'))
     }
     const [rows, setRows] = useState([{key:'default'}]);
     const inputClasses = "w-full border border-slate-300 rounded h-10 pl-2 mb-6"
@@ -67,12 +92,15 @@ export default function WriteProposal() {
     const MilestoneRow = ({index, ...props}:MilestoneProps) => {
         return(
             <div className='flex mb-2'>
-                <input className="w-1/2 border border-slate-300 rounded h-10 pl-2 mb-2" placeholder="Title" />
+                <input {// @ts-ignore
+                ...register(`milestones.${index}.title`)} className="w-1/2 border border-slate-300 rounded h-10 pl-2 mb-2" placeholder="Title" />
                 {index!=='default' && (
-                    <input className="w-2/5 border border-slate-300 rounded h-10 pl-2 mb-2 ml-2" placeholder="Budget" />
+                    <input {// @ts-ignore
+                        ...register(`milestones.${index}.budget`)} className="w-2/5 border border-slate-300 rounded h-10 pl-2 mb-2 ml-2" placeholder="Budget" />
                 )}
                 {index==='default' && (
-                    <input className="w-1/2 border border-slate-300 rounded h-10 pl-2 mb-2 ml-2" placeholder="Budget" />
+                    <input {// @ts-ignore
+                        ...register(`milestones.${index}.budget`)} className="w-1/2 border border-slate-300 rounded h-10 pl-2 mb-2 ml-2" placeholder="Budget" />
                 )}
                 {index!=='default' && (
                     <XMarkIcon onClick={() => removeRow(index)} className='h-6 ml-2 mt-2.5' />
