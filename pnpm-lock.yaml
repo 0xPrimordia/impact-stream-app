@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@heroicons/react':
+        specifier: ^2.0.18
+        version: 2.0.18(react@18.2.0)
       '@privy-io/react-auth':
         specifier: ^1.27.0
         version: 1.27.0(@babel/core@7.22.5)(react-dom@18.2.0)(react-is@16.13.1)(react@18.2.0)
@@ -17,9 +20,6 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.26.0
         version: 2.26.0
-      '@heroicons/react':
-        specifier: ^2.0.18
-        version: 2.0.18(react@18.2.0)
       '@types/node':
         specifier: 20.3.1
         version: 20.3.1
@@ -53,6 +53,9 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
+      react-hook-form:
+        specifier: ^7.45.1
+        version: 7.45.1(react@18.2.0)
       tailwindcss:
         specifier: 3.3.2
         version: 3.3.2
@@ -6016,6 +6019,15 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-hook-form@7.45.1(react@18.2.0):
+    resolution: {integrity: sha512-6dWoFJwycbuFfw/iKMcl+RdAOAOHDiF11KWYhNDRN/OkUt+Di5qsZHwA0OwsVnu9y135gkHpTw9DJA+WzCeR9w==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-is@16.13.1:
