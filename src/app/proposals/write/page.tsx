@@ -16,12 +16,6 @@ type Milestone = {
 	budget: number;
 };
 
-type User = {
-	id: string;
-	givenName: string;
-	familyName: string;
-};
-
 type Proposal = {
 	authorId: string;
 	title: string;
