@@ -1,12 +1,12 @@
 "use client";
-import { useDisconnect } from "wagmi";
+import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 
 export default function Settings() {
-	const { disconnect } = useDisconnect();
+	const { logout } = usePrivy();
 	const router = useRouter();
 	const handleDisconnect = () => {
-		disconnect();
+		logout();
 		router.push("/");
 	};
 	return (

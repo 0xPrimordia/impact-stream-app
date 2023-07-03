@@ -50,7 +50,7 @@ export interface Database {
           id: string
           key_players: string | null
           location: string | null
-          minimum_budget: string | null
+          minimum_budget: number | null
           project_milestones: Json | null
           proposed_solution: string | null
           timeline: string | null
@@ -65,7 +65,7 @@ export interface Database {
           id?: string
           key_players?: string | null
           location?: string | null
-          minimum_budget?: string | null
+          minimum_budget?: number | null
           project_milestones?: Json | null
           proposed_solution?: string | null
           timeline?: string | null
@@ -80,7 +80,7 @@ export interface Database {
           id?: string
           key_players?: string | null
           location?: string | null
-          minimum_budget?: string | null
+          minimum_budget?: number | null
           project_milestones?: Json | null
           proposed_solution?: string | null
           timeline?: string | null
@@ -102,6 +102,7 @@ export interface Database {
           family_name: string | null
           id: string
           name: string | null
+          onboarded: boolean | null
           phone_number: string | null
           village_neighborhood: string | null
         }
@@ -111,6 +112,7 @@ export interface Database {
           family_name?: string | null
           id: string
           name?: string | null
+          onboarded?: boolean | null
           phone_number?: string | null
           village_neighborhood?: string | null
         }
@@ -120,6 +122,7 @@ export interface Database {
           family_name?: string | null
           id?: string
           name?: string | null
+          onboarded?: boolean | null
           phone_number?: string | null
           village_neighborhood?: string | null
         }

@@ -12,9 +12,10 @@ interface MilestoneProps {
 }
 
 export default function WriteProposal() {
-	const { user, authenticated } = usePrivy();
+	const { user, ready, authenticated } = usePrivy();
 	const router = useRouter();
-	if (!authenticated) {
+	if (!ready) return null;
+	if (ready && !authenticated) {
 		router.push("/");
 	}
 	const {
