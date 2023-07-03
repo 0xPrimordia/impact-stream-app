@@ -23,5 +23,5 @@ export function Wallet() {
 		router.push(`/onboarding/`);
 	}
 
-	return <button className="bg-slate-100 p-20 rounded block m-auto font-bold text-slate-400" onClick={login}>Sign-In</button>;
+	return <button className="bg-slate-100 p-20 rounded block m-auto font-bold text-slate-400 mt-10" onClick={login}>Sign-In</button>;
 }
