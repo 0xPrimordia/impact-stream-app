@@ -16,6 +16,7 @@ export default function Proposals() {
   async function getProposals() {
     const { data } = await supabase.from("proposals").select();
     if (data) setProposals(data);
+    console.log(proposals)
   }
   if (!ready) return null;
   if (ready && !authenticated) {
@@ -64,6 +65,11 @@ export default function Proposals() {
             }
           </div>
         ))}
+        {proposals.length === 0 && (
+          <p className="text-sm text-center italic my-10">
+          There are currently no proposals or there is a problem with your connection.
+          </p>
+        )}
       <div className="fixed bottom-4 right-0 left-0 bg-white p-5 z-0">
         <button
           onClick={() => router.push("/proposals/write")}
