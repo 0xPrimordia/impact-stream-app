@@ -47,12 +47,18 @@ export function Wallet() {
 	}
 
 	return (
-		<button
-			className="bg-slate-100 p-20 rounded block m-auto font-bold text-slate-400"
-			onClick={login}
-		>
-			Sign-In
-		</button>
+		<>
+			<p className="text-sm text-center italic my-10">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+				eiusmod tempor incididunt ut labore et.
+			</p>
+			<button
+				className="w-full border border-slate-400 rounded leading-10 font-bold"
+				onClick={login}
+			>
+				Sign In
+			</button>
+		</>
 	);
 
 }
