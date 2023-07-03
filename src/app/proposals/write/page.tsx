@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
 import { supabase } from "../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
+import { Proposal } from "@/app/types";
 
 interface MilestoneProps {
 	index: string;
@@ -14,20 +15,6 @@ type Milestone = {
 	proposal: string;
 	title: string;
 	budget: number;
-};
-
-type Proposal = {
-	authorId: string;
-	title: string;
-	collaboratorIds: string[];
-	description: string;
-	timeline: string;
-	affected_locations: string;
-	community_problem: string;
-	proposed_solution: string;
-	minimum_budget: number;
-	key_players: string;
-	milestones: Milestone[];
 };
 
 export default function WriteProposal() {
@@ -59,7 +46,7 @@ export default function WriteProposal() {
 					proposed_solution: formData.proposed_solution,
 					minimum_budget: formData.minimum_budget,
 					key_players: formData.key_players,
-					project_milestones: formData.milestones,
+					//project_milestones: formData.milestones,  need to add this another way, TS error on Proposal type
 				})
 				.select()
 				.single();
