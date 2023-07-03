@@ -32,6 +32,7 @@ export default function Onboarding() {
 					family_name: data.familyName,
 					village_neighborhood: data.villageNeighborhood,
 					phone_number: data.phoneNumber,
+					onboarded: true,
 				})
 				.eq("id", user?.id);
 			router.push(`/proposals/`);

@@ -4,9 +4,10 @@ import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
 
 export default function Proposals() {
-	const { user, authenticated } = usePrivy();
+	const { user, ready, authenticated } = usePrivy();
 	const router = useRouter();
-	if (!authenticated) {
+	if (!ready) return null;
+	if (ready && !authenticated) {
 		router.push("/");
 	}
 	const grants = [
