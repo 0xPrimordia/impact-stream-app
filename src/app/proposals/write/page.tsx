@@ -23,25 +23,35 @@ export default function WriteProposal() {
 		watch,
 		formState: { errors },
 	} = useForm<Proposal>();
-	const onSubmit: SubmitHandler<Proposal> = async (data) => {
+	const onSubmit: SubmitHandler<Proposal> = async (formData) => {
 		try {
-			console.log(data);
-			const { error } = await supabase.from("proposals").insert({
-				author_id: user?.id,
-				title: data.title,
-				description: data.description,
-				timeline: data.timeline,
-				affected_locations: data.affected_locations,
-				community_problem: data.community_problem,
-				proposed_solution: data.proposed_solution,
-				minimum_budget: data.minimum_budget,
-				key_players: data.key_players,
-				project_milestones: data.milestones,
+			console.log(formData);
+			const { data: proposalData, error: proposalError } = await supabase
+				.from("proposals")
+				.insert({
+					author_id: user?.id,
+					title: formData.title,
+					description: formData.description,
+					timeline: formData.timeline,
+					affected_locations: formData.affected_locations,
+					community_problem: formData.community_problem,
+					proposed_solution: formData.proposed_solution,
+					minimum_budget: formData.minimum_budget,
+					key_players: formData.key_players,
+					project_milestones: formData.milestones,
+				})
+				.select();
+			if (proposalError) {
+				throw proposalError;
+			}
+			const { error } = await supabase.from("proposal_collaborators").insert({
+				proposal_id: proposalData.id,
+				collaborator_id: user?.id,
 			});
-			router.push(`/proposals/`);
 			if (error) {
 				throw error;
 			}
+			router.push(`/proposals/`);
 		} catch (error) {
 			console.log(error);
 		}
@@ -49,26 +59,27 @@ export default function WriteProposal() {
 	const [rows, setRows] = useState([{ key: "default" }]);
 	const [currentStep, setCurrentStep] = useState(1);
 	const inputClasses = "w-full border border-slate-300 rounded h-10 pl-2 mb-6";
-	const textareaClasses = "w-full border border-slate-300 rounded h-20 pl-2 mb-6";
+	const textareaClasses =
+		"w-full border border-slate-300 rounded h-20 pl-2 mb-6";
 
 	function removeRow(index: string) {
 		if (index !== "default")
 			setRows((current) => current.filter((_) => _.key !== index));
 	}
 
-	function setStep(direction:string) {
-		console.log(currentStep)
-		if(direction === "next") {
-			setCurrentStep(currentStep+1)
+	function setStep(direction: string) {
+		console.log(currentStep);
+		if (direction === "next") {
+			setCurrentStep(currentStep + 1);
 		}
-		if(direction === "previous") {
-			setCurrentStep(currentStep-1)
+		if (direction === "previous") {
+			setCurrentStep(currentStep - 1);
 		}
-		console.log(currentStep)
+		console.log(currentStep);
 	}
 
 	const StepControls = () => {
-		return(
+		return (
 			<div className="flex mb-10 mt-10">
 				{currentStep !== 1 && (
 					<button
@@ -78,7 +89,7 @@ export default function WriteProposal() {
 						Previous
 					</button>
 				)}
-				
+
 				{currentStep !== 6 && (
 					<button
 						className="border border-slate-400 rounded leading-10 font-bold px-10 ml-auto"
@@ -88,8 +99,8 @@ export default function WriteProposal() {
 					</button>
 				)}
 			</div>
-		)
-	}
+		);
+	};
 
 	const MilestoneRow = ({ index, ...props }: MilestoneProps) => {
 		return (
@@ -180,7 +191,10 @@ export default function WriteProposal() {
 						placeholder="Community Problem to Address"
 						{...register("community_problem")}
 					/>
-					<p className="text-sm center italic">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+					<p className="text-sm center italic">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+						eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					</p>
 					<StepControls />
 				</>
 			)}
@@ -192,7 +206,10 @@ export default function WriteProposal() {
 						placeholder="Proposed Solution"
 						{...register("proposed_solution")}
 					/>
-					<p className="text-sm center italic">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+					<p className="text-sm center italic">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+						eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					</p>
 					<StepControls />
 				</>
 			)}
@@ -229,7 +246,12 @@ export default function WriteProposal() {
 					>
 						Add Milestone
 					</p>
-					<p className="underline mb-8 text-sky-600" onClick={() => setStep("previous")}>Previous</p>
+					<p
+						className="underline mb-8 text-sky-600"
+						onClick={() => setStep("previous")}
+					>
+						Previous
+					</p>
 					<button
 						className="w-full border border-slate-400 rounded leading-10 font-bold"
 						type="submit"
