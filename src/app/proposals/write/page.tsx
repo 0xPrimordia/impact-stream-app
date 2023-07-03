@@ -5,25 +5,45 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
 import { supabase } from "../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
-import { Proposal } from "@/app/types";
 
 interface MilestoneProps {
 	index: string;
 }
 
+type Milestone = {
+	proposal: string;
+	title: string;
+	budget: number;
+};
+
+type Proposal = {
+	authorId: string;
+	title: string;
+	collaboratorIds: string[];
+	description: string;
+	timeline: string;
+	affected_locations: string;
+	community_problem: string;
+	proposed_solution: string;
+	minimum_budget: number;
+	key_players: string;
+	milestones: Milestone[];
+};
+
 export default function WriteProposal() {
-	const { user, ready, authenticated } = usePrivy();
+	const { user, authenticated, ready } = usePrivy();
 	const router = useRouter();
-	if (!ready) return null;
-	if (ready && !authenticated) {
-		router.push("/");
-	}
 	const {
 		register,
 		handleSubmit,
 		watch,
 		formState: { errors },
 	} = useForm<Proposal>();
+	const [rows, setRows] = useState([{ key: "default" }]);
+	if (!ready) return null;
+	if (ready && !authenticated) {
+		router.push("/");
+	}
 	const onSubmit: SubmitHandler<Proposal> = async (formData) => {
 		try {
 			console.log(formData);
@@ -41,7 +61,8 @@ export default function WriteProposal() {
 					key_players: formData.key_players,
 					project_milestones: formData.milestones,
 				})
-				.select();
+				.select()
+				.single();
 			if (proposalError) {
 				throw proposalError;
 			}
@@ -57,51 +78,12 @@ export default function WriteProposal() {
 			console.log(error);
 		}
 	};
-	const [rows, setRows] = useState([{ key: "default" }]);
-	const [currentStep, setCurrentStep] = useState(1);
 	const inputClasses = "w-full border border-slate-300 rounded h-10 pl-2 mb-6";
-	const textareaClasses =
-		"w-full border border-slate-300 rounded h-20 pl-2 mb-6";
 
 	function removeRow(index: string) {
 		if (index !== "default")
 			setRows((current) => current.filter((_) => _.key !== index));
 	}
-
-	function setStep(direction: string) {
-		console.log(currentStep);
-		if (direction === "next") {
-			setCurrentStep(currentStep + 1);
-		}
-		if (direction === "previous") {
-			setCurrentStep(currentStep - 1);
-		}
-		console.log(currentStep);
-	}
-
-	const StepControls = () => {
-		return (
-			<div className="flex mb-10 mt-10">
-				{currentStep !== 1 && (
-					<button
-						className="border border-slate-400 rounded leading-10 font-bold px-10"
-						onClick={() => setStep("previous")}
-					>
-						Previous
-					</button>
-				)}
-
-				{currentStep !== 6 && (
-					<button
-						className="border border-slate-400 rounded leading-10 font-bold px-10 ml-auto"
-						onClick={() => setStep("next")}
-					>
-						Next
-					</button>
-				)}
-			</div>
-		);
-	};
 
 	const MilestoneRow = ({ index, ...props }: MilestoneProps) => {
 		return (
@@ -151,116 +133,64 @@ export default function WriteProposal() {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			{currentStep === 1 && (
-				<>
-					<h3 className="font-bold mb-6">Basic Information</h3>
-					<input
-						className={inputClasses}
-						placeholder="Title"
-						{...register("title")}
-					/>
-					<input
-						className={inputClasses}
-						placeholder="Location"
-						{...register("location")}
-					/>
-					<input className={inputClasses} placeholder="Add Collaborator" />
-					<StepControls />
-				</>
-			)}
-			{currentStep === 2 && (
-				<>
-					<h3 className="font-bold mb-6">Grant Information</h3>
-					<textarea
-						className={textareaClasses}
-						placeholder="Description"
-						{...register("description")}
-					/>
-					<input
-						className={inputClasses}
-						placeholder="Locations Affected"
-						{...register("affected_locations")}
-					/>
-					<StepControls />
-				</>
-			)}
-			{currentStep === 3 && (
-				<>
-					<h3 className="font-bold mb-6">Community Problem</h3>
-					<textarea
-						className={textareaClasses}
-						placeholder="Community Problem to Address"
-						{...register("community_problem")}
-					/>
-					<p className="text-sm center italic">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-						eiusmod tempor incididunt ut labore et dolore magna aliqua.
-					</p>
-					<StepControls />
-				</>
-			)}
-			{currentStep === 4 && (
-				<>
-					<h3 className="font-bold mb-6">Proposed Solution</h3>
-					<textarea
-						className={textareaClasses}
-						placeholder="Proposed Solution"
-						{...register("proposed_solution")}
-					/>
-					<p className="text-sm text-center italic">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-						eiusmod tempor incididunt ut labore et dolore magna aliqua.
-					</p>
-					<StepControls />
-				</>
-			)}
-			{currentStep === 5 && (
-				<>
-					<h3 className="font-bold mb-6">Project Details</h3>
-					<input
-						className={inputClasses}
-						placeholder="Minimum Total Budget"
-						{...register("minimum_budget")}
-					/>
-					<input
-						className={inputClasses}
-						placeholder="Key Players (Including Vendors)"
-						{...register("key_players")}
-					/>
-					<input
-						className={inputClasses}
-						placeholder="Timeline"
-						{...register("timeline")}
-					/>
-					<StepControls />
-				</>
-			)}
-			{currentStep === 6 && (
-				<>
-					<h3 className="font-bold mb-6">Milestones</h3>
-					{rows.map((row, index) => (
-						<MilestoneRow key={row.key} index={row.key} />
-					))}
-					<p
-						className="text-right underline mb-8 text-sky-600 mt-2"
-						onClick={addRow}
-					>
-						Add Milestone
-					</p>
-					<p
-						className="underline mb-8 text-sky-600"
-						onClick={() => setStep("previous")}
-					>
-						Previous
-					</p>
-					<button
-						className="w-full border border-slate-400 rounded leading-10 font-bold"
-						type="submit"
-					>
-						Submit
-					</button>
-				</>
-			)}
+			<h3 className="font-bold mb-6">Grant Information</h3>
+			<input
+				className={inputClasses}
+				placeholder="Title"
+				{...register("title")}
+			/>
+			<input className={inputClasses} placeholder="Add Collaborator" />
+			<textarea
+				className={inputClasses}
+				placeholder="Description"
+				{...register("description")}
+			/>
+			<input
+				className={inputClasses}
+				placeholder="Locations Affected"
+				{...register("affected_locations")}
+			/>
+			<input
+				className={inputClasses}
+				placeholder="Community Problem to Address"
+				{...register("community_problem")}
+			/>
+			<input
+				className={inputClasses}
+				placeholder="Proposed Solution"
+				{...register("proposed_solution")}
+			/>
+			<input
+				className={inputClasses}
+				placeholder="Minimum Total Budget"
+				{...register("minimum_budget")}
+			/>
+			<input
+				className={inputClasses}
+				placeholder="Key Players (Including Vendors)"
+				{...register("key_players")}
+			/>
+			<input
+				className={inputClasses}
+				placeholder="Timeline"
+				{...register("timeline")}
+			/>
+			<h3 className="font-bold mb-4">Milestones</h3>
+			{rows.map((row, index) => (
+				<MilestoneRow key={row.key} index={row.key} />
+			))}
+			<p
+				className="text-right underline mb-8 text-sky-600 mt-2"
+				onClick={addRow}
+			>
+				Add Milestone
+			</p>
+			<button
+				className="w-full border border-slate-400 rounded leading-10 font-bold"
+				type="submit"
+			>
+				Submit
+			</button>
 		</form>
 	);
 }
