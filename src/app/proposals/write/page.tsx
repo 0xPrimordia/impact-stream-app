@@ -45,7 +45,7 @@ export default function WriteProposal() {
 				throw proposalError;
 			}
 			const { error } = await supabase.from("proposal_collaborators").insert({
-				proposal_id: proposalData.id,
+				//proposal_id: proposalData.id, this TS error is back
 				collaborator_id: user?.id,
 			});
 			if (error) {

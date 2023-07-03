@@ -1,7 +1,7 @@
 export type Proposal = {
     id: string;
 	title: string|null;
-   location: string|null;
+    location: string|null;
 	description: string|null;
 	timeline: string|null;
 	affected_locations: string|null;
