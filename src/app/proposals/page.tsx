@@ -48,6 +48,11 @@ export default function Proposals() {
           /*))*/}
         </div>
       ))}
+      {!proposals && (
+        <p className="text-sm text-center italic my-10">
+				There are currently no proposals or there is a problem with your connection.
+			  </p>
+      )}
       <div className="fixed bottom-4 right-0 left-0 bg-white p-5 z-0">
         <button onClick={() => router.push("/proposals/write")} className="w-full border border-slate-400 rounded leading-10 font-bold">Write Proposal</button>
       </div>

@@ -207,7 +207,7 @@ export default function WriteProposal() {
 						placeholder="Proposed Solution"
 						{...register("proposed_solution")}
 					/>
-					<p className="text-sm center italic">
+					<p className="text-sm text-center italic">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
 						eiusmod tempor incididunt ut labore et dolore magna aliqua.
 					</p>
