@@ -1,22 +1,61 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Select from 'react-tailwindcss-select';
+import 'react-tailwindcss-select/dist/index.css'
+import { SelectValue } from "react-tailwindcss-select/dist/components/type";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
 import { supabase } from "../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
-import { Proposal } from "@/app/types";
+import { Proposal, User } from "@/app/types";
 
 interface MilestoneProps {
 	index: string;
 }
 
+interface SelectOption {
+	value: string;
+	label: string;
+}
+
 export default function WriteProposal() {
 	const { user, authenticated } = usePrivy();
+	const [userOptions, setUserOptions] = useState<SelectOption[]>([]);
+	const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
+	const [users, setUsers] = useState<User[]>([]);
 	const router = useRouter();
 	if (!authenticated) {
 		router.push("/");
 	}
+	useEffect(() => {
+		getUsers()
+	}, []);
+
+	useEffect(() => {
+		let options:SelectOption[] = []
+		users.forEach((user) => {
+			let userOption = {value: user.id, label: user.name+' '+user.family_name}
+			options.push(userOption)
+		})
+		setUserOptions([...userOptions, ...options])
+	}, [users])
+	
+	async function getUsers() {
+		const { data } = await supabase.from("users").select();
+		if(data)
+		setUsers(data)
+	}
+
+	const selectUser = (user:SelectValue) => {
+		if(user)
+		setUserOptions((current) =>
+			// @ts-ignore
+      		current.filter((option) => option.value !== user.value)
+    	);
+		setSelectedUsers([...selectedUsers, user])
+	}
+
 	const {
 		register,
 		handleSubmit,
@@ -25,7 +64,7 @@ export default function WriteProposal() {
 	} = useForm<Proposal>();
 	const onSubmit: SubmitHandler<Proposal> = async (formData) => {
 		try {
-			console.log(formData);
+			
 			const { data: proposalData, error: proposalError } = await supabase
 				.from("proposals")
 				.insert({
@@ -68,14 +107,14 @@ export default function WriteProposal() {
 	}
 
 	function setStep(direction: string) {
-		console.log(currentStep);
+		
 		if (direction === "next") {
 			setCurrentStep(currentStep + 1);
 		}
 		if (direction === "previous") {
 			setCurrentStep(currentStep - 1);
 		}
-		console.log(currentStep);
+		
 	}
 
 	const StepControls = () => {
@@ -163,7 +202,12 @@ export default function WriteProposal() {
 						placeholder="Location"
 						{...register("location")}
 					/>
-					<input className={inputClasses} placeholder="Add Collaborator" />
+					{selectedUsers.length > 0 && selectedUsers.map((user) => (
+						<span>{user?.label}</span>	
+					))}
+					{userOptions.length > 0 && (
+						<Select primaryColor={"blue"} onChange={selectUser} value={null} isSearchable={true} placeholder="Select Collaborators" options={userOptions} />
+					)}
 					<StepControls />
 				</>
 			)}

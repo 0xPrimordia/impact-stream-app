@@ -23,3 +23,7 @@
 body {
   color: rgb(var(--foreground-rgb));
 }
+
+.select-search-container:not(.select-search-has-focus) .select-search-select {
+  display: none;
+}

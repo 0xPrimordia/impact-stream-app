@@ -16,6 +16,7 @@ export default function Proposals() {
   async function getProposals() {
     const { data } = await supabase.from("proposals").select();
     if (data) setProposals(data);
+    console.log("proposals:")
     console.log(proposals)
   }
   if (!ready) return null;
