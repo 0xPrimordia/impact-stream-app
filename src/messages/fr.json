@@ -1,0 +1,53 @@
+{
+  "Sign-In": {
+    "signInButton": "S'identifier",
+    "disclaimer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+  },
+  "Onboarding": {
+    "heading": "Complète Ton Profil",
+    "firstName": "Prénom",
+    "lastName": "Nom De Famille",
+    "location": "Village / Quartier",
+    "phone": "Numéro De Téléphone",
+    "disclaimer": "Vos informations ne seront pas partagées avec le public et ne seront utilisées qu'à des fins d'identification et pour vous contacter si nécessaire."
+  },
+  "Proposals": {
+    "heading": "Subventions Proposées",
+    "nullMessage": "Il n'y a actuellement aucune proposition ou il y a un problème avec votre connexion."
+  },
+  "Create Proposal": {
+    "heading1": "Informations De Base",
+    "title": "Titre",
+    "location": "Emplacement",
+    "addCollaborator": "Ajouter le collaborateur",
+    "nextButton": "Suivant",
+    "heading2": "Informations Sur Votre Subvention",
+    "descriptionPlaceholder": "Description",
+    "locationsAffectedPlaceholder": "Emplacements Affectés",
+    "previousButton": "Precedent",
+    "heading3": "Problème De La Communauté",
+    "communityProblemPlaceholder": "Problème Communautaire À Résoudre",
+    "communityProblemContext": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+    "proposedSolutionPlaceholder": "Solution Proposée",
+    "proposedSolutionContext": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+    "heading4": "Détails Du Projet",
+    "minimumBudgetPlaceholder": "Budget Total Minimum",
+    "keyPlayersPlaceholder": "Joueurs Clés (Y Compris Les Vendeurs)",
+    "timelinePlaceholder": "Ligne Du Temps",
+    "heading5": "Jalons",
+    "budgetPlaceholder": "Budget",
+    "addMilestoneButton": "Ajouter Un Jalon",
+    "submitButton": "Soumettre"
+  },
+  "Navigation": {
+    "proposals": "Les Propositions",
+    "settings": "Paramètres"
+  },
+  "Settings": {
+    "heading": "Paramètres Utilisateur",
+    "logoutButton": "Se Déconnecter"
+  },
+  "Footer": {
+    "message": "Le tour de vote commence 11/11/2023 à 14h00"
+  }
+}

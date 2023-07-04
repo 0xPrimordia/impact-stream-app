@@ -1,0 +1,53 @@
+{
+  "Sign-In": {
+    "signInButton": "De asi agbalẽ te .",
+    "disclaimer": "Lorem ipsum dolor kit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+  },
+  "Onboarding": {
+    "heading": "Kpe wò nyatakakawo ɖo",
+    "firstName": "Wotsɔ ŋkɔ si wotsɔ na",
+    "lastName": "Wotsɔ ŋkɔ si wotsɔ na",
+    "location": "Kɔƒe / Nutome",
+    "phone": "Telefon xexlẽdzesi",
+    "disclaimer": "Womagblɔ wò nyatakakawo na dukɔa o eye ɖeko woazã wo atsɔ ade dzesi wò eye woate ŋu aƒo ka na wò ne ehiã."
+  },
+  "Proposals": {
+    "heading": "Kpekpeɖeŋunaɖoɖo siwo wodo ɖa",
+    "nullMessage": "Fifia la, aɖaŋuɖoɖo aɖeke meli o alo kuxi aɖe le miaƒe kadodoa ŋu."
+  },
+  "Create Proposal": {
+    "heading1": "Nyatakaka Veviwo",
+    "title": "Tanya",
+    "location": "Teƒe",
+    "addCollaborator": "Tsɔ Collaborator kpe ɖe eŋu",
+    "nextButton": "Esi kplᴐe ɖo",
+    "heading2": "Nyatakaka siwo wona",
+    "descriptionPlaceholder": "Nuɖᴐɖᴐ",
+    "locationsAffectedPlaceholder": "Teƒe siwo wògblẽ nu le",
+    "previousButton": "Si do ŋgᴐ",
+    "heading3": "Nutoa me ƒe kuxi",
+    "communityProblemPlaceholder": "Nutoa me ƒe kuxi si gbɔ woakpɔ",
+    "communityProblemContext": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+    "proposedSolutionPlaceholder": "Egbɔkpɔnu si wodo ɖa",
+    "proposedSolutionContext": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+    "heading4": "Dɔa ŋuti nyatakakawo",
+    "minimumBudgetPlaceholder": "Gazazã bliboa ƒe suetɔ kekeake",
+    "keyPlayersPlaceholder": "Fefewɔla veviwo (siwo dome nudzralawo hã le)",
+    "timelinePlaceholder": "Ɣeyiɣi ƒe ɖoɖo",
+    "heading5": "Nu vevi siwo wowɔ",
+    "budgetPlaceholder": "Gaɖaŋu",
+    "addMilestoneButton": "Tsɔ nu vevi aɖe kpe ɖe eŋu",
+    "submitButton": "tsᴐe yi"
+  },
+  "Navigation": {
+    "proposals": "Aɖaŋuɖoɖowo",
+    "settings": "Ðoɖowo"
+  },
+  "Settings": {
+    "heading": "Zãla ƒe Ðoɖowo",
+    "logoutButton": "Do le eme"
+  },
+  "Footer": {
+    "message": "Akɔdada ƒe ɣeyiɣia dzea egɔme le 11/11/23 le ŋdɔ ga 2 me"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "Sign-In": {
+    "signInButton": "Sign-In",
+    "disclaimer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+  },
+  "Onboarding": {
+    "heading": "Complete Your Profile",
+    "firstName": "Given Name",
+    "lastName": "Family Name",
+    "location": "Village / Neighborhood",
+    "phone": "Phone Number",
+    "disclaimer": " Your information will not be shared with the public and will only be used for identification purposes and to contact you if necessary."
+  },
+  "Proposals": {
+    "heading": "Proposed Grants",
+    "nullMessage": "There are currently no proposals or there is a problem with your connection."
+  },
+  "Create Proposal": {
+    "heading1": "Basic Information",
+    "title": "Title",
+    "location": "Location",
+    "addCollaborator": "Add Collaborator",
+    "nextButton": "Next",
+    "heading2": "Grant Information",
+    "descriptionPlaceholder": "Description",
+    "locationsAffectedPlaceholder": "Locations Affected",
+    "previousButton": "Previous",
+    "heading3": "Community Problem",
+    "communityProblemPlaceholder": "Community Problem To Address",
+    "communityProblemContext": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+    "proposedSolutionPlaceholder": "Proposed Solution",
+    "proposedSolutionContext": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+    "heading4": "Project Details",
+    "minimumBudgetPlaceholder": "Minimum Total Budget",
+    "keyPlayersPlaceholder": "Key Players (Including Vendors)",
+    "timelinePlaceholder": "Timeline",
+    "heading5": "Milestones",
+    "budgetPlaceholder": "Budget",
+    "addMilestoneButton": "Add Milestone",
+    "submitButton": "Submit"
+  },
+  "Navigation": {
+    "proposals": "Proposals",
+    "settings": "Settings"
+  },
+  "Settings": {
+    "heading": "User Settings",
+    "logoutButton": "Logout"
+  },
+  "Footer": {
+    "message": "Voting round begins 11/11/2023 at 2:00 PM"
+  }
+}
