@@ -56,6 +56,15 @@ export default function WriteProposal() {
 		setSelectedUsers([...selectedUsers, user])
 	}
 
+	const removeCollaborator = (user:SelectValue) => {
+		setSelectedUsers((current) => 
+			// @ts-ignore
+			current.filter((option) => option.value !== user.value)
+		);
+		// @ts-ignore
+		setUserOptions([...userOptions, user])
+	}
+
 	const {
 		register,
 		handleSubmit,
@@ -202,8 +211,18 @@ export default function WriteProposal() {
 						placeholder="Location"
 						{...register("location")}
 					/>
+					<h3 className="font-bold mb-6">Add Collaborators</h3>
 					{selectedUsers.length > 0 && selectedUsers.map((user) => (
-						<span>{user?.label}</span>	
+						<div key={user} className="border border-slate-400 rounded leading-8 text-xs px-2 font-bold inline-block mb-3">
+							<input type="hidden" value={selectedUsers} />
+							<div className="flex">
+								{user?.label}
+								<XMarkIcon
+									onClick={() => removeCollaborator(user)}
+									className="h-3 ml-2 mt-2.5 cursor-pointer"
+								/>
+							</div>
+						</div>	
 					))}
 					{userOptions.length > 0 && (
 						<Select primaryColor={"blue"} onChange={selectUser} value={null} isSearchable={true} placeholder="Select Collaborators" options={userOptions} />
