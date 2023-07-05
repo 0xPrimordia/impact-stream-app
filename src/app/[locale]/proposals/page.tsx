@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "../../../../lib/supabase-client";
 import { Proposal } from "../types";
 import { usePrivy } from "@privy-io/react-auth";
+import { useTranslations } from "next-intl";
 
 export default function Proposals() {
 	const { user, ready, authenticated } = usePrivy();
@@ -13,6 +14,7 @@ export default function Proposals() {
 	useEffect(() => {
 		getProposals();
 	}, []);
+	const t = useTranslations("Proposals");
 	async function getProposals() {
 		const { data } = await supabase.from("proposals").select();
 		if (data) setProposals(data);
@@ -25,7 +27,7 @@ export default function Proposals() {
 
 	return (
 		<div className="mb-14">
-			<h3 className="font-bold mb-6">Proposed Grants</h3>
+			<h3 className="font-bold mb-6">{t("heading")}</h3>
 			{proposals &&
 				proposals.map((grant) => (
 					<div
@@ -66,17 +68,14 @@ export default function Proposals() {
 					</div>
 				))}
 			{proposals.length === 0 && (
-				<p className="text-sm text-center italic my-10">
-					There are currently no proposals or there is a problem with your
-					connection.
-				</p>
+				<p className="text-sm text-center italic my-10">{t("nullMessage")}</p>
 			)}
 			<div className="fixed bottom-4 right-0 left-0 bg-white p-5 z-0">
 				<button
 					onClick={() => router.push("/proposals/write")}
 					className="w-full border border-slate-400 rounded leading-10 font-bold"
 				>
-					Write Proposal
+					{t("addProposalButton")}
 				</button>
 			</div>
 		</div>

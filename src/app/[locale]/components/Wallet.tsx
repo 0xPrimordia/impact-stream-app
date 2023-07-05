@@ -4,6 +4,7 @@ import { PrivyProvider } from "@privy-io/react-auth";
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../../lib/supabase-client";
+import { useTranslations } from "next-intl";
 
 async function supabaseAuth(address: string, userId: string) {
 	await fetch("/api/auth", {
@@ -34,6 +35,7 @@ async function checkOnboardingStatus(userId: string) {
 export function Wallet() {
 	const router = useRouter();
 	const { login, authenticated, user, ready } = usePrivy();
+	const t = useTranslations("Sign-In");
 
 	if (ready && authenticated && user && user.wallet?.address) {
 		checkOnboardingStatus(user.id).then((onboarded) => {
@@ -48,15 +50,12 @@ export function Wallet() {
 
 	return (
 		<>
-			<p className="text-sm text-center italic my-10">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-				tempor incididunt ut labore et.
-			</p>
+			<p className="text-sm text-center italic my-10">{t("disclaimer")}</p>
 			<button
 				className="w-full border border-slate-400 rounded leading-10 font-bold"
 				onClick={login}
 			>
-				Sign In
+				{t("signInButton")}
 			</button>
 		</>
 	);

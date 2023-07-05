@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
 import { supabase } from "../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 type User = {
 	id: string;
@@ -20,6 +21,7 @@ export default function Onboarding() {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<User>();
+	const t = useTranslations("Onboarding");
 	if (!ready) return null;
 	if (ready && !authenticated) {
 		router.push("/");
@@ -46,37 +48,34 @@ export default function Onboarding() {
 	const inputClasses = "w-full border border-slate-300 rounded h-10 pl-2 mb-6";
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<h3 className="font-bold mb-6">Complete Your Profile</h3>
+			<h3 className="font-bold mb-6">{t("heading")}</h3>
 			<input
 				className={inputClasses}
-				placeholder="Given Name"
+				placeholder={t("firstName")}
 				{...register("givenName")}
 			/>
 			<input
 				className={inputClasses}
-				placeholder="Family Name"
+				placeholder={t("lastName")}
 				{...register("familyName")}
 			/>
 			<input
 				className={inputClasses}
-				placeholder="Village / Neighborhood"
+				placeholder={t("location")}
 				{...register("villageNeighborhood")}
 			/>
 			<input
 				className={inputClasses}
-				placeholder="Phone Number"
+				placeholder={t("phone")}
 				{...register("phoneNumber")}
 			/>
 
-			<p className="text-center text-xs italic mb-6">
-				Your information will not be shared with the public and will only be
-				used for identification purposes and to contact you if necessary.
-			</p>
+			<p className="text-center text-xs italic mb-6">{t("disclaimer")}</p>
 			<button
 				className="w-full border border-slate-400 rounded leading-10 font-bold"
 				type="submit"
 			>
-				Submit
+				{t("submitButton")}
 			</button>
 		</form>
 	);

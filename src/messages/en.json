@@ -9,11 +9,13 @@
     "lastName": "Family Name",
     "location": "Village / Neighborhood",
     "phone": "Phone Number",
-    "disclaimer": " Your information will not be shared with the public and will only be used for identification purposes and to contact you if necessary."
+    "disclaimer": " Your information will not be shared with the public and will only be used for identification purposes and to contact you if necessary.",
+    "submitButton": "Submit"
   },
   "Proposals": {
     "heading": "Proposed Grants",
-    "nullMessage": "There are currently no proposals or there is a problem with your connection."
+    "nullMessage": "There are currently no proposals or there is a problem with your connection.",
+    "addProposalButton": "Submit Proposal"
   },
   "Create Proposal": {
     "heading1": "Basic Information",
@@ -40,8 +42,8 @@
     "submitButton": "Submit"
   },
   "Navigation": {
-    "proposals": "Proposals",
-    "settings": "Settings"
+    "link1": "Proposals",
+    "link2": "Settings"
   },
   "Settings": {
     "heading": "User Settings",

@@ -26,11 +26,12 @@ export default async function RootLayout({
 	let messages;
 	try {
 		messages = (await import(`../../messages/${locale}.json`)).default;
+		console.log(locale);
 	} catch (error) {
 		notFound();
 	}
 	return (
-		<html lang="{locale}">
+		<html lang={locale}>
 			<body className={inter.className + " p-8 pb-12 pt-28"}>
 				<NextIntlClientProvider messages={messages} locale={locale}>
 					<WagmiProvider>

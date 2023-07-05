@@ -4,48 +4,51 @@
     "disclaimer": "Lorem ipsum dolor kit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
   },
   "Onboarding": {
-    "heading": "Kpe wò nyatakakawo ɖo",
-    "firstName": "Wotsɔ ŋkɔ si wotsɔ na",
-    "lastName": "Wotsɔ ŋkɔ si wotsɔ na",
+    "heading": "Kpe Wò Nyatakakawo Ɖo",
+    "firstName": "Wotsɔ Ŋkɔ Si Wotsɔ Na",
+    "lastName": "Ƒomea ƒe Ŋkɔ",
     "location": "Kɔƒe / Nutome",
-    "phone": "Telefon xexlẽdzesi",
-    "disclaimer": "Womagblɔ wò nyatakakawo na dukɔa o eye ɖeko woazã wo atsɔ ade dzesi wò eye woate ŋu aƒo ka na wò ne ehiã."
+    "phone": "Telefon Xexlẽdzesi",
+    "disclaimer": "Womagblɔ wò nyatakakawo na dukɔa o eye ɖeko woazã wo atsɔ ade dzesi wò eye woate ŋu aƒo ka na wò ne ehiã.",
+    "submitButton": "Tsᴐe Yi"
   },
   "Proposals": {
-    "heading": "Kpekpeɖeŋunaɖoɖo siwo wodo ɖa",
-    "nullMessage": "Fifia la, aɖaŋuɖoɖo aɖeke meli o alo kuxi aɖe le miaƒe kadodoa ŋu."
+    "heading": "Kpekpeɖeŋunaɖoɖo Siwo Wodo Ɖa",
+    "nullMessage": "Fifia la, aɖaŋuɖoɖo aɖeke meli o alo kuxi aɖe le miaƒe kadodoa ŋu.",
+    "addProposalButton": "Ŋlɔ Aɖaŋuɖoɖo"
   },
   "Create Proposal": {
     "heading1": "Nyatakaka Veviwo",
     "title": "Tanya",
     "location": "Teƒe",
-    "addCollaborator": "Tsɔ Collaborator kpe ɖe eŋu",
-    "nextButton": "Esi kplᴐe ɖo",
-    "heading2": "Nyatakaka siwo wona",
+    "addCollaborators": "Tsɔ Dɔwɔhatiwo Kpee",
+    "nextButton": "Esi Kplᴐe Ɖo",
+    "heading2": "Nyatakaka Siwo Wona",
     "descriptionPlaceholder": "Nuɖᴐɖᴐ",
-    "locationsAffectedPlaceholder": "Teƒe siwo wògblẽ nu le",
-    "previousButton": "Si do ŋgᴐ",
-    "heading3": "Nutoa me ƒe kuxi",
-    "communityProblemPlaceholder": "Nutoa me ƒe kuxi si gbɔ woakpɔ",
+    "locationsAffectedPlaceholder": "Teƒe Siwo Wògblẽ Nu Le",
+    "previousButton": "Si Do Ŋgᴐ",
+    "heading3": "Nutoa Me Ƒe Kuxi",
+    "communityProblemPlaceholder": "Nutoa Me Ƒe Kuxi Si Gbɔ Woakpɔ",
     "communityProblemContext": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-    "proposedSolutionPlaceholder": "Egbɔkpɔnu si wodo ɖa",
+    "heading4": "Egbɔkpɔnu Si Wodo Ɖa",
+    "proposedSolutionPlaceholder": "Egbɔkpɔnu Si Wodo Ɖa",
     "proposedSolutionContext": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-    "heading4": "Dɔa ŋuti nyatakakawo",
-    "minimumBudgetPlaceholder": "Gazazã bliboa ƒe suetɔ kekeake",
-    "keyPlayersPlaceholder": "Fefewɔla veviwo (siwo dome nudzralawo hã le)",
-    "timelinePlaceholder": "Ɣeyiɣi ƒe ɖoɖo",
-    "heading5": "Nu vevi siwo wowɔ",
+    "heading5": "Dɔa Ŋuti Nyatakakawo",
+    "minimumBudgetPlaceholder": "Gazazã Bliboa Ƒe Suetɔ Kekeake",
+    "keyPlayersPlaceholder": "Fefewɔla Veviwo (Siwo Dome Nudzralawo Hã Le)",
+    "timelinePlaceholder": "Ɣeyiɣi Ƒe Ɖoɖo",
+    "heading6": "Nu Vevi Siwo Wowɔ",
     "budgetPlaceholder": "Gaɖaŋu",
-    "addMilestoneButton": "Tsɔ nu vevi aɖe kpe ɖe eŋu",
-    "submitButton": "tsᴐe yi"
+    "addMilestoneButton": "Tsɔ Nu Vevi Aɖe Kpe Ɖe Eŋu",
+    "submitButton": "Tsᴐe Yi"
   },
   "Navigation": {
-    "proposals": "Aɖaŋuɖoɖowo",
-    "settings": "Ðoɖowo"
+    "link1": "Aɖaŋuɖoɖowo",
+    "link2": "Ðoɖowo"
   },
   "Settings": {
     "heading": "Zãla ƒe Ðoɖowo",
-    "logoutButton": "Do le eme"
+    "logoutButton": "Do Le Eme"
   },
   "Footer": {
     "message": "Akɔdada ƒe ɣeyiɣia dzea egɔme le 11/11/23 le ŋdɔ ga 2 me"

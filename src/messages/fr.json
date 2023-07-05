@@ -9,11 +9,13 @@
     "lastName": "Nom De Famille",
     "location": "Village / Quartier",
     "phone": "Numéro De Téléphone",
-    "disclaimer": "Vos informations ne seront pas partagées avec le public et ne seront utilisées qu'à des fins d'identification et pour vous contacter si nécessaire."
+    "disclaimer": "Vos informations ne seront pas partagées avec le public et ne seront utilisées qu'à des fins d'identification et pour vous contacter si nécessaire.",
+    "submitButton": "Soumettre"
   },
   "Proposals": {
     "heading": "Subventions Proposées",
-    "nullMessage": "Il n'y a actuellement aucune proposition ou il y a un problème avec votre connexion."
+    "nullMessage": "Il n'y a actuellement aucune proposition ou il y a un problème avec votre connexion.",
+    "addProposalButton": "Ajouter Une Subvention"
   },
   "Create Proposal": {
     "heading1": "Informations De Base",
@@ -40,8 +42,8 @@
     "submitButton": "Soumettre"
   },
   "Navigation": {
-    "proposals": "Les Propositions",
-    "settings": "Paramètres"
+    "link1": "Les Propositions",
+    "link2": "Paramètres"
   },
   "Settings": {
     "heading": "Paramètres Utilisateur",
