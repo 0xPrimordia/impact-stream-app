@@ -6,7 +6,7 @@ import { SelectValue } from "react-tailwindcss-select/dist/components/type";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
-import { supabase } from "../../../../lib/supabase-client";
+import { supabase } from "../../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { Proposal, User } from "@/app/types";
 

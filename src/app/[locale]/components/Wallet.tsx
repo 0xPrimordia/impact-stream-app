@@ -3,7 +3,7 @@
 import { PrivyProvider } from "@privy-io/react-auth";
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
-import { supabase } from "../../../lib/supabase-client";
+import { supabase } from "../../../../lib/supabase-client";
 
 async function supabaseAuth(address: string, userId: string) {
 	await fetch("/api/auth", {
@@ -49,8 +49,8 @@ export function Wallet() {
 	return (
 		<>
 			<p className="text-sm text-center italic my-10">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-				eiusmod tempor incididunt ut labore et.
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+				tempor incididunt ut labore et.
 			</p>
 			<button
 				className="w-full border border-slate-400 rounded leading-10 font-bold"
@@ -60,5 +60,4 @@ export function Wallet() {
 			</button>
 		</>
 	);
-
 }
