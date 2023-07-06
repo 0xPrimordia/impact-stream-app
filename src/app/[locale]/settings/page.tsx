@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../../lib/supabase-client";
-import { User } from "../types";
+import { User } from "@/app/types";
 import { shortenAddress } from "../../utils";
 import { useTranslations } from "next-intl";
 

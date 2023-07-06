@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../../lib/supabase-client";
-import { Proposal } from "../types";
+import { Proposal } from "@/app/types";
 import { usePrivy } from "@privy-io/react-auth";
 import { useTranslations } from "next-intl";
 

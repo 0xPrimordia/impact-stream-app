@@ -21,3 +21,7 @@ export type User = {
 	phone_number: string | null;
 	village_neighborhood: string | null;
 }
+
+export type PrivyUser = {
+	
+}
