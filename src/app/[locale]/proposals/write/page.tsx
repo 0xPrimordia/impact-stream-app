@@ -35,14 +35,14 @@ export default function WriteProposal() {
 	} = useForm<Proposal>({
 		mode: "onBlur",
 		defaultValues: {
-			title: '',
-			location: '',
-			description: '',
-			affected_locations: '',
+			title: "",
+			location: "",
+			description: "",
+			affected_locations: "",
 			minimum_budget: undefined,
-			key_players: '',
-			timeline: ''
-		}
+			key_players: "",
+			timeline: "",
+		},
 	});
 	const { isValid } = formState;
 	const [rows, setRows] = useState([{ key: "default" }]);
@@ -112,7 +112,7 @@ export default function WriteProposal() {
 				throw proposalError;
 			}
 			const { error } = await supabase.from("proposal_collaborators").insert({
-				//proposal_id: proposalData.id, this TS error is back
+				// proposal_id: proposalData.id, this TS error is back
 				collaborator_id: user?.id,
 			});
 			if (error) {
@@ -157,9 +157,9 @@ export default function WriteProposal() {
 					<button
 						className="border border-slate-400 rounded leading-10 font-bold px-10 ml-auto disabled:opacity-50"
 						onClick={() => {
-							setStep("next")
+							setStep("next");
 						}}
-						disabled={isValid?false:true}
+						disabled={isValid ? false : true}
 					>
 						{t("nextButton")}
 					</button>
@@ -219,17 +219,25 @@ export default function WriteProposal() {
 			{currentStep === 1 && (
 				<>
 					<h3 className="font-bold mb-6">{t("heading1")}</h3>
-					<span className="text-red-600 text-xs"> {errors.title && errors.title.message}</span>
+					<span className="text-red-600 text-xs">
+						{" "}
+						{errors.title && errors.title.message}
+					</span>
 					<input
 						className={inputClasses}
 						placeholder="Title"
-						{...register("title", { required: "Please enter Proposal Title." })}
+						{...register("title", { required: t("titleValidationMessage") })}
 					/>
-					<span className="text-red-600 text-xs"> {errors.location && errors.location.message}</span>
+					<span className="text-red-600 text-xs">
+						{" "}
+						{errors.location && errors.location.message}
+					</span>
 					<input
 						className={inputClasses}
 						placeholder={t("location")}
-						{...register("location", { required: "Please enter project location." })}
+						{...register("location", {
+							required: t("locationValidationMessage"),
+						})}
 					/>
 					<h3 className="font-bold mb-6">{t("addCollaborators")}</h3>
 					{selectedUsers.length > 0 &&
@@ -265,17 +273,27 @@ export default function WriteProposal() {
 			{currentStep === 2 && (
 				<>
 					<h3 className="font-bold mb-6">{t("heading2")}</h3>
-					<span className="text-red-600 text-xs"> {errors.description && errors.description.message}</span>
+					<span className="text-red-600 text-xs">
+						{" "}
+						{errors.description && errors.description.message}
+					</span>
 					<textarea
 						className={textareaClasses}
 						placeholder={t("descriptionPlaceholder")}
-						{...register("description", { required: "Please provide description." })}
+						{...register("description", {
+							required: t("descriptionValidationMessage"),
+						})}
 					/>
-					<span className="text-red-600 text-xs"> {errors.affected_locations && errors.affected_locations.message}</span>
+					<span className="text-red-600 text-xs">
+						{" "}
+						{errors.affected_locations && errors.affected_locations.message}
+					</span>
 					<input
 						className={inputClasses}
 						placeholder={t("locationsAffectedPlaceholder")}
-						{...register("affected_locations", { required: "Please provide affected locations." })}
+						{...register("affected_locations", {
+							required: t("locationsAffectedValidationMessage"),
+						})}
 					/>
 					<StepControls />
 				</>
@@ -286,7 +304,9 @@ export default function WriteProposal() {
 					<textarea
 						className={textareaClasses}
 						placeholder={t("communityProblemPlaceholder")}
-						{...register("community_problem", { required: "Please provide community problem." })}
+						{...register("community_problem", {
+							required: t("communityProblemValidationMessage"),
+						})}
 					/>
 					<p className="text-sm center italic">
 						{t("communityProblemContext")}
@@ -300,7 +320,9 @@ export default function WriteProposal() {
 					<textarea
 						className={textareaClasses}
 						placeholder={t("proposedSolutionPlaceholder")}
-						{...register("proposed_solution", { required: "Please provide proposed solution." })}
+						{...register("proposed_solution", {
+							required: t("proposedSolutionValidationMessage"),
+						})}
 					/>
 					<p className="text-sm center italic">
 						{t("proposedSolutionContext")}
@@ -314,17 +336,23 @@ export default function WriteProposal() {
 					<input
 						className={inputClasses}
 						placeholder={t("minimumBudgetPlaceholder")}
-						{...register("minimum_budget", { required: "Please provide minimum budget." })}
+						{...register("minimum_budget", {
+							required: t("minimumBudgetValidationMessage"),
+						})}
 					/>
 					<input
 						className={inputClasses}
 						placeholder={t("keyPlayersPlaceholder")}
-						{...register("key_players", { required: "Please provide key players." })}
+						{...register("key_players", {
+							required: t("keyPlayersValidationMessage"),
+						})}
 					/>
 					<input
 						className={inputClasses}
 						placeholder={t("timelinePlaceholder")}
-						{...register("timeline", { required: "Please provide timeline." })}
+						{...register("timeline", {
+							required: t("timelineValidationMessage"),
+						})}
 					/>
 					<StepControls />
 				</>
