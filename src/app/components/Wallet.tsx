@@ -1,9 +1,8 @@
 "use client";
 
-import { PrivyProvider } from "@privy-io/react-auth";
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
-import { supabase } from "../../../../lib/supabase-client";
+import { supabase } from "../../../lib/supabase-client";
 import { useTranslations } from "next-intl";
 
 async function supabaseAuth(address: string, userId: string) {
