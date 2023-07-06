@@ -1,11 +1,10 @@
-import "./[locale]/globals.css";
+import "./globals.css";
 import { Inter } from "next/font/google";
-import { Navbar } from "./[locale]/components/Navbar";
-import { Footer } from "./[locale]/components/Footer";
-import { WagmiProvider } from "./[locale]/components/WagmiProvider";
+import { Navbar } from "./components/Navbar";
+import { Footer } from "./components/Footer";
+import { WagmiProvider } from "./components/WagmiProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
-
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,8 +24,8 @@ export default async function RootLayout({
 }) {
 	let messages;
 	try {
-		messages = (await import(`../../messages/${locale}.json`)).default;
-		console.log(locale);
+		messages = (await import(`../messages/${locale}.json`)).default;
+		console.log(messages);
 	} catch (error) {
 		notFound();
 	}
