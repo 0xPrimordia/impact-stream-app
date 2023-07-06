@@ -1,7 +1,7 @@
 {
   "Sign-In": {
     "signInButton": "S'identifier",
-    "disclaimer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+    "disclaimer": "Pour vous connecter, entrez votre numéro de téléphone, puis recherchez un message d'Impact Stream (Sandbox) et entrez votre code dans la fenêtre contextuelle."
   },
   "Onboarding": {
     "heading": "Complète Ton Profil",
@@ -15,7 +15,7 @@
   "Proposals": {
     "heading": "Subventions Proposées",
     "nullMessage": "Il n'y a actuellement aucune proposition ou il y a un problème avec votre connexion.",
-    "addProposalButton": "Ajouter Une Subvention"
+    "addProposalButton": "Créer une proposition"
   },
   "Proposal": {
     "breadcrumb": "Subventions Proposéess",
