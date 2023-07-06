@@ -43,7 +43,7 @@ export default function Proposals() {
 						<div className="text-sm align-middle">
 							<MapPinIcon className="h-4 inline-block" /> {grant.location}
 						</div>
-						<p className="text-sm mt-2 mb-1 leading-1">{Str(grant.description).limit(100, '...').get()}</p>
+						<p className="text-sm mt-2 mb-1 leading-1">{Str(grant.description).limit(200, '...').get()}</p>
 						<span className="text-sm">
 							<a className="text-sky-600" href="#">
 								
