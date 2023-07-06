@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../../lib/supabase-client";
-import { Proposal } from "@/app/types";
+import { Proposal, SummaryProposal } from "@/app/types";
 import { usePrivy } from "@privy-io/react-auth";
 import { useTranslations } from "next-intl";
 import { Str } from "@supercharge/strings";
@@ -11,7 +11,7 @@ import { Str } from "@supercharge/strings";
 export default function Proposals() {
   const { user, ready, authenticated } = usePrivy();
   const router = useRouter();
-  const [proposals, setProposals] = useState<Proposal[]>([]);
+  const [proposals, setProposals] = useState<SummaryProposal[]>([]);
   useEffect(() => {
     getProposals();
   }, []);
