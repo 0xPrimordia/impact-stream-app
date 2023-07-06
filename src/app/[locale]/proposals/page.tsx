@@ -51,25 +51,7 @@ export default function Proposals() {
             <span className="text-sm">
               <a className="text-sky-600" href="#"></a>
             </span>
-            {grant.users.map((user, index) => (
-              <>
-                {index + 1 === grant.users.length && (
-                  <span className="text-sm">
-                    <a className="text-sky-600" href="#">
-                      {user.name + " " + user.family_name}
-                    </a>
-                  </span>
-                )}
-                {index + 1 !== grant.users.length && (
-                  <span className="text-sm">
-                    <a className="text-sky-600" href="#">
-                      {user.name + " " + user.family_name}
-                    </a>
-                    ,{" "}
-                  </span>
-                )}
-              </>
-            ))}
+            
           </div>
         ))}
       {proposals.length === 0 && (
