@@ -11,24 +11,24 @@ export interface Database {
     Tables: {
       proposal_collaborators: {
         Row: {
-          collaborator_id: string | null
-          id: string
+          id: Database["public"]["CompositeTypes"]["combined_id"]
           proposal_id: string | null
+          user_id: string | null
         }
         Insert: {
-          collaborator_id?: string | null
-          id?: string
+          id: Database["public"]["CompositeTypes"]["combined_id"]
           proposal_id?: string | null
+          user_id?: string | null
         }
         Update: {
-          collaborator_id?: string | null
-          id?: string
+          id?: Database["public"]["CompositeTypes"]["combined_id"]
           proposal_id?: string | null
+          user_id?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "proposal_collaborators_collaborator_id_fkey"
-            columns: ["collaborator_id"]
+            columns: ["user_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
@@ -139,7 +139,10 @@ export interface Database {
       [_ in never]: never
     }
     CompositeTypes: {
-      [_ in never]: never
+      combined_id: {
+        proposal_id: string
+        user_id: string
+      }
     }
   }
 }
