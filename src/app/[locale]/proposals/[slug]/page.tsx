@@ -64,8 +64,19 @@ export default function Page({ params }: { params: { slug: string } }) {
       <div>
         <span className="text-sm"><UserGroupIcon className="h-4 inline-block" /> list collaborators </span>
         
+        <p className="text-sm leading-1 mt-4">{proposal?.description}</p>
 
-          <p className="text-sm leading-1 mt-2">{proposal?.description}</p>
+        <h3 className="font-bold mt-6 text-sm">Affected Locations</h3>
+        <p className="text-sm leading-1 mt-2">{proposal?.affected_locations}</p>
+
+        <h3 className="font-bold mt-6 text-sm">Community Problem</h3>
+        <p className="text-sm leading-1 mt-2">{proposal?.community_problem}</p>
+
+        <h3 className="font-bold mt-6 text-sm">Proposed Solution</h3>
+        <p className="text-sm leading-1 mt-2">{proposal?.proposed_solution}</p>
+
+        <h3 className="font-bold mt-6 text-sm">Key Players</h3>
+        <p className="text-sm leading-1 mt-2">{proposal?.key_players}</p>
       </div>
       <h3 className="font-bold mt-6 mb-5">Milestones</h3>
       {grant.milestones.map((milestone) => (
