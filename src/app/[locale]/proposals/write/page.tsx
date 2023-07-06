@@ -100,6 +100,7 @@ export default function WriteProposal() {
 					title: formData.title,
 					description: formData.description,
 					timeline: formData.timeline,
+					location: formData.location,
 					affected_locations: formData.affected_locations,
 					community_problem: formData.community_problem,
 					proposed_solution: formData.proposed_solution,
