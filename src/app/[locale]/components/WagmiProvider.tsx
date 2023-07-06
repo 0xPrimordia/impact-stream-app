@@ -1,12 +1,8 @@
 "use client";
 import { PrivyWagmiConnector } from "@privy-io/wagmi-connector";
-import { createConfig, configureChains, mainnet, sepolia } from "wagmi";
+import { configureChains, mainnet, sepolia } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { PrivyProvider } from "@privy-io/react-auth";
-
-const handleLogin = (user) => {
-	console.log(`User ${user.id} logged in!`);
-};
 
 const configureChainsConfig = configureChains(
 	[mainnet, sepolia],
@@ -17,6 +13,10 @@ const configureChainsConfig = configureChains(
 	]
 );
 export function WagmiProvider({ children }: any) {
+	const handleLogin = (user:any) => {
+		console.log(`User ${user.id} logged in!`);
+	};
+
 	return (
 		<PrivyProvider
 			appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID as string}

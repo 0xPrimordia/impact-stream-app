@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { createClient } from "@supabase/supabase-js";
 
 // Create a single supabase client with admin rights
-export const supabaseAdmin = createClient(
+const supabaseAdmin = createClient(
 	process.env.NEXT_PUBLIC_SUPABASE_URL as string,
 	process.env.SUPABASE_SERVICE_ROLE_KEY as string
 );
