@@ -113,17 +113,23 @@ export default function WriteProposal() {
       if (proposalError) {
         throw proposalError;
       }
-      const { error } = await supabase.from("proposal_collaborators").insert({
-        id: {
-          user_id: user?.id as string,
+      let inserts:any = []
+      selectedUsers.map(async (selectedUser) => {
+        inserts.push({
+          id: {
+            user_id: selectedUser?.id as string,
+            proposal_id: proposalData.id,
+          },
           proposal_id: proposalData.id,
-        },
-        proposal_id: proposalData.id,
-        user_id: user?.id,
-      });
-      if (error) {
-        throw error;
-      }
+          user_id: selectedUser?.id,
+        })
+      })
+        const { error } = await supabase.from("proposal_collaborators").insert(inserts);
+        if (error) {
+          throw error;
+        }
+      
+      
       router.push(`/proposals/`);
     } catch (error) {
       console.log(error);
