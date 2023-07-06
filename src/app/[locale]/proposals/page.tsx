@@ -6,6 +6,7 @@ import { supabase } from "../../../../lib/supabase-client";
 import { Proposal } from "@/app/types";
 import { usePrivy } from "@privy-io/react-auth";
 import { useTranslations } from "next-intl";
+import { Str } from '@supercharge/strings'
 
 export default function Proposals() {
 	const { user, ready, authenticated } = usePrivy();
@@ -15,11 +16,14 @@ export default function Proposals() {
 		getProposals();
 	}, []);
 	const t = useTranslations("Proposals");
+
 	async function getProposals() {
-		const { data } = await supabase.from("proposals").select();
+		const { data, error } = await supabase.from("proposals").select();
 		if (data) setProposals(data);
-		console.log(proposals);
+		if(error)
+		console.log(error);
 	}
+
 	if (!ready) return null;
 	if (ready && !authenticated) {
 		router.push("/");
@@ -39,7 +43,12 @@ export default function Proposals() {
 						<div className="text-sm align-middle">
 							<MapPinIcon className="h-4 inline-block" /> {grant.location}
 						</div>
-						<p className="text-sm mt-2 mb-1 leading-1">{grant.description}</p>
+						<p className="text-sm mt-2 mb-1 leading-1">{Str(grant.description).limit(200, '...').get()}</p>
+						<span className="text-sm">
+							<a className="text-sky-600" href="#">
+								
+							</a>
+						</span>
 						{
 							//grant.collaborators.map((user, index) => (
 							<>

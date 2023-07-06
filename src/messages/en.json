@@ -1,7 +1,7 @@
 {
   "Sign-In": {
     "signInButton": "Sign-In",
-    "disclaimer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+    "disclaimer": "To sign-in enter your phone number then check for a message from Impact Stream (Sandbox) and enter your code in the pop-up."
   },
   "Onboarding": {
     "heading": "Complete Your Profile",
@@ -15,7 +15,7 @@
   "Proposals": {
     "heading": "Proposed Grants",
     "nullMessage": "There are currently no proposals or there is a problem with your connection.",
-    "addProposalButton": "Submit Proposal"
+    "addProposalButton": "Create Proposal"
   },
   "Create Proposal": {
     "heading1": "Basic Information",
