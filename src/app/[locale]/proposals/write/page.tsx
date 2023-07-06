@@ -112,7 +112,7 @@ export default function WriteProposal() {
 				throw proposalError;
 			}
 			const { error } = await supabase.from("proposal_collaborators").insert({
-				// proposal_id: proposalData.id, this TS error is back
+				// proposal_id: proposalData.id,
 				collaborator_id: user?.id,
 			});
 			if (error) {
@@ -225,7 +225,7 @@ export default function WriteProposal() {
 					</span>
 					<input
 						className={inputClasses}
-						placeholder="Title"
+						placeholder={t("title")}
 						{...register("title", { required: t("titleValidationMessage") })}
 					/>
 					<span className="text-red-600 text-xs">
@@ -239,7 +239,7 @@ export default function WriteProposal() {
 							required: t("locationValidationMessage"),
 						})}
 					/>
-					<h3 className="font-bold mb-6">{t("addCollaborators")}</h3>
+					<h3 className="font-bold mb-6">{t("collaborators")}</h3>
 					{selectedUsers.length > 0 &&
 						selectedUsers.map((user) => (
 							<div
@@ -262,7 +262,7 @@ export default function WriteProposal() {
 							onChange={selectUser}
 							value={null}
 							isSearchable={true}
-							placeholder="Select Collaborators"
+							placeholder={t("collaboratorsPlaceholder")}
 							options={userOptions}
 						/>
 					)}
