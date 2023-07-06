@@ -45,8 +45,8 @@ importers:
         specifier: 13.4.6
         version: 13.4.6(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)
       next-intl:
-        specifier: 3.0.0-beta.7
-        version: 3.0.0-beta.7(next@13.4.6)(react@18.2.0)
+        specifier: ^2.17.4
+        version: 2.17.4(next@13.4.6)(react@18.2.0)
       postcss:
         specifier: 8.4.24
         version: 8.4.24
@@ -5425,8 +5425,8 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
-  /next-intl@3.0.0-beta.7(next@13.4.6)(react@18.2.0):
-    resolution: {integrity: sha512-EMNBHP/xTni6Y/yT9ACytMU2RNsZkoa8ccEomRrTSWyOmSyYFj1vk7A8oSfecGWm6c0n//qKhfzdXzuik7+taQ==}
+  /next-intl@2.17.4(next@13.4.6)(react@18.2.0):
+    resolution: {integrity: sha512-GlB7mBC/+wsuvEuRqyMxmQi8PBGMSfHUz/RDdqazl8BOFuaNXijJ6btpZ4FAlonJcXMOroONmP/L0/c6zqYZOQ==}
     engines: {node: '>=10'}
     peerDependencies:
       next: ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0
@@ -5436,7 +5436,6 @@ packages:
       negotiator: 0.6.3
       next: 13.4.6(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
-      server-only: 0.0.1
       use-intl: 2.17.4(react@18.2.0)
     dev: false
 
@@ -6405,10 +6404,6 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
-    dev: false
-
-  /server-only@0.0.1:
-    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
     dev: false
 
   /set-blocking@2.0.0:
