@@ -37,22 +37,13 @@ export default function Page({ params }: { params: { slug: string } }) {
       <div className="text-sm mb-4"><UserCircleIcon className="h-4 inline-block" /> {grant.author}</div>
       <div>
         <span className="text-sm"><UserGroupIcon className="h-4 inline-block" /> </span>
-        {grant.collaborators.map((user, index) => (
-            <>
-              {(index+1) === grant.collaborators.length && (
-                <span className="text-sm"><a href="#">{user}</a></span>
-              )}
-              {(index+1) !== grant.collaborators.length && (
-                <span className="text-sm"><a href="#">{user}</a>, </span>
-              )}
-            </>
-          ))}
+        
           <p className="text-sm leading-1 mt-4">{grant.summary}</p>
           <p className="text-sm leading-1 mt-2">{grant.description}</p>
       </div>
       <h3 className="font-bold mt-6 mb-5">Milestones</h3>
       {grant.milestones.map((milestone) => (
-        <div className="mt-3 mb-3">
+        <div key={milestone.id} className="mt-3 mb-3">
           {milestone.title}: ${milestone.budget}
         </div>
       ))}

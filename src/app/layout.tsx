@@ -1,11 +1,11 @@
-import "./globals.css";
+import "./[locale]/globals.css";
 import { Inter } from "next/font/google";
-import { Navbar } from "./components/Navbar";
-import { Footer } from "./components/Footer";
-import { WagmiProvider } from "./components/WagmiProvider";
-
+import { Navbar } from "./[locale]/components/Navbar";
+import { Footer } from "./[locale]/components/Footer";
+import { WagmiProvider } from "./[locale]/components/WagmiProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
