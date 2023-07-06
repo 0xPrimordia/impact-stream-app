@@ -17,6 +17,15 @@
     "nullMessage": "Il n'y a actuellement aucune proposition ou il y a un problème avec votre connexion.",
     "addProposalButton": "Ajouter Une Subvention"
   },
+  "Proposal": {
+    "breadcrumb": "Subventions Proposéess",
+    "affectedLocations": "Emplacements concernés",
+    "communityProblem": "Community Problem",
+    "proposedSolution": "Problème communautaire",
+    "keyPlayers": "Joueurs clés",
+    "milestones": "Jalons",
+    "totalBugdet": "Budget total"
+  },
   "Create Proposal": {
     "heading1": "Informations De Base",
     "title": "Titre",

@@ -17,6 +17,15 @@
     "nullMessage": "There are currently no proposals or there is a problem with your connection.",
     "addProposalButton": "Create Proposal"
   },
+  "Proposal": {
+    "breadcrumb": "Proposed Grants",
+    "affectedLocations": "Affected Locations",
+    "communityProblem": "Community Problem",
+    "proposedSolution": "Proposed Solution",
+    "keyPlayers": "Key Players",
+    "milestones": "Milestones",
+    "totalBugdet": "Total Budget"
+  },
   "Create Proposal": {
     "heading1": "Basic Information",
     "title": "Title",

@@ -17,6 +17,15 @@
     "nullMessage": "Fifia la, aɖaŋuɖoɖo aɖeke meli o alo kuxi aɖe le miaƒe kadodoa ŋu.",
     "addProposalButton": "Ŋlɔ Aɖaŋuɖoɖo"
   },
+  "Proposal": {
+    "breadcrumb": "aɖaŋuɖoɖowo",
+    "affectedLocations": "Teƒe Siwo Ŋu Ŋusẽ Le",
+    "communityProblem": "Nutoa me Kuxi",
+    "proposedSolution": "Egbɔkpɔnu si wodo ɖa",
+    "keyPlayers": "Fefewɔla Veviwo",
+    "milestones": "Nu vevi siwo wowɔ",
+    "totalBugdet": "Gazazã ƒe Gazazãwo Katã"
+  },
   "Create Proposal": {
     "heading1": "Nyatakaka Veviwo",
     "title": "Tanya",
