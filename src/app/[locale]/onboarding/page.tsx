@@ -64,11 +64,6 @@ export default function Onboarding() {
 				placeholder={t("location")}
 				{...register("villageNeighborhood")}
 			/>
-			<input
-				className={inputClasses}
-				placeholder={t("phone")}
-				{...register("phoneNumber")}
-			/>
 
 			<p className="text-center text-xs italic mb-6">{t("disclaimer")}</p>
 			<button
