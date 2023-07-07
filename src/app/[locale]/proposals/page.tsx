@@ -23,7 +23,6 @@ export default function Proposals() {
       .select(`id, title, location, description, users(name, family_name)`);
     if (data) setProposals(data);
     if (error) console.log(error);
-    console.log(data);
   }
 
   if (!ready) return null;
@@ -49,27 +48,24 @@ export default function Proposals() {
               {Str(grant.description).limit(200, "...").get()}
             </p>
             <span className="text-sm">
-              <a className="text-sky-600" href="#"></a>
+              {Array.isArray(grant?.users) ? (
+                grant.users
+                  .map((user) => (
+                    <a
+                      key={user.name + user.family_name}
+                      className="text-sky-600"
+                      href="#"
+                    >
+                      {user.name + " " + user.family_name}
+                    </a>
+                  ))
+                  .join(", ")
+              ) : (
+                <a className="text-sky-600" href="#">
+                  {grant?.users.name + " " + grant?.users.family_name}
+                </a>
+              )}
             </span>
-            {grant.users.map((user, index) => (
-              <>
-                {index + 1 === grant.users.length && (
-                  <span className="text-sm">
-                    <a className="text-sky-600" href="#">
-                      {user.name + " " + user.family_name}
-                    </a>
-                  </span>
-                )}
-                {index + 1 !== grant.users.length && (
-                  <span className="text-sm">
-                    <a className="text-sky-600" href="#">
-                      {user.name + " " + user.family_name}
-                    </a>
-                    ,{" "}
-                  </span>
-                )}
-              </>
-            ))}
           </div>
         ))}
       {proposals.length === 0 && (
