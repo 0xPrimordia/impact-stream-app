@@ -6,7 +6,6 @@ import { supabase } from "../../../../lib/supabase-client";
 import { SummaryProposal } from "@/app/types";
 import { usePrivy } from "@privy-io/react-auth";
 import { useTranslations } from "next-intl";
-import { Str } from "@supercharge/strings";
 
 export default function Proposals() {
 	const { user, ready, authenticated } = usePrivy();
@@ -44,9 +43,7 @@ export default function Proposals() {
 						<div className="text-sm align-middle">
 							<MapPinIcon className="h-4 inline-block" /> {grant.location}
 						</div>
-						<p className="text-sm mt-2 mb-1 leading-1">
-							{Str(grant.description).limit(200, "...").get()}
-						</p>
+						<p className="text-sm mt-2 mb-1 leading-1">{grant.description}</p>
 						<span className="text-sm">
 							{Array.isArray(grant?.users) &&
 								//@ts-ignore

@@ -124,14 +124,14 @@ export default function WriteProposal() {
 				});
 			});
 			/*
-      this is still causing this bug, I suspect the supabase side as the cause:
-      duplicate key value violates unique constraint \"proposal_collaborators_pkey\"
-      const { error } = await supabase
-				.from("proposal_collaborators")
-				.insert(inserts);
-			if (error) {
-				throw error;
-			}*/
+		 this is still causing this bug, I suspect the supabase side as the cause:
+		 duplicate key value violates unique constraint \"proposal_collaborators_pkey\"
+		 const { error } = await supabase
+		 .from("proposal_collaborators")
+		 .insert(inserts);
+		 if (error) {
+		 throw error;
+		 }*/
 
 			router.push(`/proposals/${proposalData.id}`);
 		} catch (error) {
