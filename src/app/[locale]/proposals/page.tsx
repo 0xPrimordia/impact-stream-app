@@ -38,7 +38,7 @@ export default function Proposals() {
 					<div
 						key={grant.id}
 						onClick={() => router.push(`/proposals/${grant.id}`)}
-						className="mb-4"
+						className="mb-6"
 					>
 						<h3 className="font-bold mb-1 text-lg">{grant.title}</h3>
 						<div className="text-sm align-middle">
