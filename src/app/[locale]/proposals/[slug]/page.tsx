@@ -9,12 +9,13 @@ import {
 	UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import { FullProposal } from "@/app/types";
+import { useTranslations } from "next-intl";
 
 export default function Page({ params }: { params: { slug: string } }) {
 	const { ready, authenticated } = usePrivy();
 	const router = useRouter();
 	const [proposal, setProposal] = useState<FullProposal>();
-
+	const t = useTranslations("Proposal Details");
 	useEffect(() => {
 		getProposal();
 	}, []);
@@ -52,7 +53,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 		<div>
 			<div className="font-bold mb-6">
 				<a className="text-sky-600" href="/proposals">
-					Proposed Grants
+					{t("heading")}
 				</a>{" "}
 				/ {proposal?.title}
 			</div>
@@ -81,22 +82,22 @@ export default function Page({ params }: { params: { slug: string } }) {
 						: //@ts-ignore
 						proposal?.users.name + " " + proposal?.users.family_name}
 				</span>
-				<h3 className="font-bold mt-6 text-sm">Description</h3>
+				<h3 className="font-bold mt-6 text-sm">{t("description")}</h3>
 				<p className="text-sm leading-1 mt-4">{proposal?.description}</p>
 
-				<h3 className="font-bold mt-6 text-sm">Affected Locations</h3>
+				<h3 className="font-bold mt-6 text-sm">{t("locationsAffected")}</h3>
 				<p className="text-sm leading-1 mt-2">{proposal?.affected_locations}</p>
 
-				<h3 className="font-bold mt-6 text-sm">Community Problem</h3>
+				<h3 className="font-bold mt-6 text-sm">{t("communityProblem")}</h3>
 				<p className="text-sm leading-1 mt-2">{proposal?.community_problem}</p>
 
-				<h3 className="font-bold mt-6 text-sm">Proposed Solution</h3>
+				<h3 className="font-bold mt-6 text-sm">{t("proposedSolution")}</h3>
 				<p className="text-sm leading-1 mt-2">{proposal?.proposed_solution}</p>
 
-				<h3 className="font-bold mt-6 text-sm">Key Players</h3>
+				<h3 className="font-bold mt-6 text-sm">{t("keyPlayers")}</h3>
 				<p className="text-sm leading-1 mt-2">{proposal?.key_players}</p>
 			</div>
-			<h3 className="font-bold mt-6 mb-5">Milestones</h3>
+			<h3 className="font-bold mt-6 mb-5">{t("milestones")}</h3>
 			{proposal?.project_milestones &&
 				Object.values(proposal.project_milestones).map((milestone) => (
 					<div key={milestone.title} className="mt-3 mb-3">
@@ -104,10 +105,10 @@ export default function Page({ params }: { params: { slug: string } }) {
 					</div>
 				))}
 			<div className="italic mt-6">
-				Minimum Budget: {proposal?.minimum_budget}
+				{t("minimumBudget") + ": " + proposal?.minimum_budget}
 			</div>
 			<div className="italic mt-6">
-				Total Budget: {proposal?.minimum_budget}
+				{t("totalBudget") + ": " + proposal?.minimum_budget}
 			</div>
 		</div>
 	);
