@@ -6,7 +6,6 @@ import { supabase } from "../../../../lib/supabase-client";
 import { SummaryProposal } from "@/app/types";
 import { usePrivy } from "@privy-io/react-auth";
 import { useTranslations } from "next-intl";
-import { Str } from "@supercharge/strings";
 
 export default function Proposals() {
 	const { user, ready, authenticated } = usePrivy();
