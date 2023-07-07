@@ -52,6 +52,17 @@
     "addMilestoneButton": "Tsɔ Nu Vevi Aɖe Kpe Ɖe Eŋu",
     "submitButton": "Tsᴐe Yi"
   },
+  "Proposal Details": {
+    "heading": "Gakpekpeɖeŋunana Siwo Wodo Ŋu",
+    "description": "Nuɖᴐɖᴐ",
+    "locationsAffected": "Teƒe Siwo Ŋu Wògblẽa Nu Le",
+    "communityProblem": "Nutoa Me Ƒe Kuxi",
+    "proposedSolution": "Egbɔkpɔnu Si Wodo Ɖa",
+    "keyPlayers": "Fefewɔla Veviwo",
+    "milestones": "Nu Vevi Siwo Wowɔ",
+    "minimumBudget": "Gazazã Suetɔ Kekeake",
+    "totalBudget": "Gazazã Ƒe Gazazãwo Katã"
+  },
   "Navigation": {
     "link1": "Aɖaŋuɖoɖowo",
     "link2": "Ðoɖowo"
@@ -61,6 +72,6 @@
     "logoutButton": "Do Le Eme"
   },
   "Footer": {
-    "message": "Akɔdada ƒe ɣeyiɣia dzea egɔme le 11/11/23 le ŋdɔ ga 2 me"
+    "message": "Akɔdada ƒe ɣeyiɣia dzea egɔme le 2023/11/11 dɔ ga 2 me"
   }
 }

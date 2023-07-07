@@ -52,6 +52,17 @@
     "addMilestoneButton": "Ajouter Un Jalon",
     "submitButton": "Soumettre"
   },
+  "Proposal Details": {
+    "heading": "Subventions Proposées",
+    "description": "Description",
+    "locationsAffected": "Emplacements Affectés",
+    "communityProblem": "Problème Communautaire",
+    "proposedSolution": "Solution Proposée",
+    "keyPlayers": "Joueurs Clés",
+    "milestones": "Jalons",
+    "minimumBudget": "Budget Minimal",
+    "totalBudget": "Budget Total"
+  },
   "Navigation": {
     "link1": "Les Propositions",
     "link2": "Paramètres"

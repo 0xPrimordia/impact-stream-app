@@ -52,6 +52,17 @@
     "addMilestoneButton": "Add Milestone",
     "submitButton": "Submit"
   },
+  "Proposal Details": {
+    "heading": "Proposed Grants",
+    "description": "Description",
+    "locationsAffected": "Locations Affected",
+    "communityProblem": "Community Problem",
+    "proposedSolution": "Proposed Solution",
+    "keyPlayers": "Key Players",
+    "milestones": "Milestones",
+    "minimumBudget": "Minimum Budget",
+    "totalBudget": "Total Budget"
+  },
   "Navigation": {
     "link1": "Proposals",
     "link2": "Settings"
