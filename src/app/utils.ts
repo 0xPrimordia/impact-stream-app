@@ -4,3 +4,7 @@ export const shortenAddress: (arg0: string) => string = (address) => {
     const end = address.slice(address.length - 4)
     return `${start}...${end}`
 }
+
+export function truncate(str:string, n:number){
+    return (str.length > n) ? str.slice(0, n-1) + '...' : str;
+};
