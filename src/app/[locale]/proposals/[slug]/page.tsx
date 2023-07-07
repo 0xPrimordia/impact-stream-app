@@ -42,6 +42,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 		//@ts-ignore
 		if (data) setProposal(data);
 		if (error) console.log(error);
+		console.log(proposal?.users)
 	}
 
 	if (!ready) return null;
