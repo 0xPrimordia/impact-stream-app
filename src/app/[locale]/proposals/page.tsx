@@ -45,7 +45,7 @@ export default function Proposals() {
 							<MapPinIcon className="h-4 inline-block" /> {grant.location}
 						</div>
 						<p className="text-sm mt-2 mb-1 leading-1">
-							{Str(grant.description).limit(200, "...").get()}
+							{grant.description}
 						</p>
 						<span className="text-sm">
 							{Array.isArray(grant?.users) &&
