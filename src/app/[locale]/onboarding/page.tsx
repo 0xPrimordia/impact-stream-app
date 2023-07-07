@@ -33,7 +33,7 @@ export default function Onboarding() {
           name: data.givenName,
           family_name: data.familyName,
           village_neighborhood: data.villageNeighborhood,
-          phone_number: user?.phone || "",
+          phone_number: user?.phone.number || "",
         })
         .eq("id", user?.id);
       router.push(`/proposals/`);
