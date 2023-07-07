@@ -45,8 +45,8 @@ export default function Proposals() {
 							<MapPinIcon className="h-4 inline-block" /> {grant.location}
 						</div>
 						<p className="text-sm mt-2 mb-1 leading-1">
-							{grant.description ? truncate(grant.description, 200)                                                           : ''}
-						</p>
+							{grant.summary ? truncate(grant.summary, 200)                                                           : ''}
+							{grant.summary ? truncate(grant.summary, 200):''}
 						<span className="text-sm">
 							{Array.isArray(grant?.users) &&
 								//@ts-ignore
