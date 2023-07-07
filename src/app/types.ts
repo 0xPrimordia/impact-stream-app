@@ -2,7 +2,7 @@ export type Proposal = {
 	id: string;
 	title: string | null;
 	location: string | null;
-	description: string | null;
+	summary: string | null;
 	timeline: string | null;
 	affected_locations: string | null;
 	community_problem: string | null;
@@ -15,7 +15,7 @@ export type CreateProposal = {
 	id: string;
 	title: string | null;
 	location: string | null;
-	description: string | null;
+	summary: string | null;
 	timeline: string | null;
 	affected_locations: string | null;
 	community_problem: string | null;
@@ -29,7 +29,7 @@ export type SummaryProposal = {
 	id: string;
 	title: string | null;
 	location: string | null;
-	description: string | null;
+	summary: string | null;
 	users: Collaborator[] | Collaborator | null;
 };
 
@@ -40,7 +40,7 @@ export type FullProposal = {
 		family_name: string | null;
 	};
 	location: string | null;
-	description: string | null;
+	summary: string | null;
 	timeline: string | null;
 	affected_locations: string | null;
 	community_problem: string | null;
