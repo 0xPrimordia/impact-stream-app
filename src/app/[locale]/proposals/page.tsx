@@ -20,7 +20,7 @@ export default function Proposals() {
 	async function getProposals() {
 		const { data, error } = await supabase
 			.from("proposals")
-			.select(`id, title, location, description, users(name, family_name)`);
+			.select(`id, title, location, summary, users(name, family_name)`);
 		if (data) setProposals(data);
 		if (error) console.log(error);
 	}
@@ -45,7 +45,7 @@ export default function Proposals() {
 							<MapPinIcon className="h-4 inline-block" /> {grant.location}
 						</div>
 						<p className="text-sm mt-2 mb-1 leading-1">
-							{grant.description ? truncate(grant.description, 200):''}
+							{grant.description ? truncate(grant.description, 200)                                                           : ''}
 						</p>
 						<span className="text-sm">
 							{Array.isArray(grant?.users) &&
