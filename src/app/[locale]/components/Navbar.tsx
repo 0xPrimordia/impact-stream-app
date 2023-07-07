@@ -13,7 +13,6 @@ export const Navbar = () => {
 				<Image
 					src="/impact-stream-logo.svg"
 					alt="Impact Stream"
-					className="dark:invert"
 					width={114}
 					height={45}
 					priority
