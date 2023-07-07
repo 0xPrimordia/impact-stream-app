@@ -9,7 +9,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { supabase } from "../../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Proposal, User } from "@/app/types";
+import { User, CreateProposal } from "@/app/types";
 
 interface MilestoneProps {
 	index: string;
@@ -32,7 +32,7 @@ export default function WriteProposal() {
 		handleSubmit,
 		trigger,
 		formState: { errors },
-	} = useForm<Proposal>({
+	} = useForm<CreateProposal>({
 		mode: "onBlur",
 		defaultValues: {
 			title: "",
@@ -51,7 +51,6 @@ export default function WriteProposal() {
 	useEffect(() => {
 		getUsers();
 	}, []);
-
 	useEffect(() => {
 		let options: SelectOption[] = [];
 		users.forEach((user) => {
@@ -91,7 +90,7 @@ export default function WriteProposal() {
 		setUserOptions([...userOptions, user]);
 	};
 
-	const onSubmit: SubmitHandler<Proposal> = async (formData) => {
+	const onSubmit: SubmitHandler<CreateProposal> = async (formData) => {
 		try {
 			const { data: proposalData, error: proposalError } = await supabase
 				.from("proposals")
@@ -113,17 +112,24 @@ export default function WriteProposal() {
 			if (proposalError) {
 				throw proposalError;
 			}
-			const { error } = await supabase.from("proposal_collaborators").insert({
-				id: {
-					user_id: user?.id,
+			let inserts: any = [];
+			selectedUsers.map(async (selectedUser) => {
+				inserts.push({
+					id: {
+						user_id: selectedUser?.id as string,
+						proposal_id: proposalData.id,
+					},
 					proposal_id: proposalData.id,
-				},
-				proposal_id: proposalData.id,
-				user_id: user?.id,
+					user_id: selectedUser?.id,
+				});
 			});
+			const { error } = await supabase
+				.from("proposal_collaborators")
+				.insert(inserts);
 			if (error) {
 				throw error;
 			}
+
 			router.push(`/proposals/`);
 		} catch (error) {
 			console.log(error);
@@ -251,7 +257,7 @@ export default function WriteProposal() {
 					{selectedUsers.length > 0 &&
 						selectedUsers.map((user) => (
 							<div
-								key={user}
+								key={user.id}
 								className="border border-slate-400 rounded leading-8 text-xs px-2 font-bold inline-block mb-3"
 							>
 								<input type="hidden" value={selectedUsers} />
