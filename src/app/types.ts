@@ -35,7 +35,7 @@ export type SummaryProposal = {
 
 export type FullProposal = {
 	title: string | null;
-	author: {
+	author_id: {
 		name: string | null;
 		family_name: string | null;
 	};
