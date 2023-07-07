@@ -46,13 +46,13 @@ export interface Database {
           author_id: string | null
           community_problem: string | null
           created_at: string | null
-          description: string | null
           id: string
           key_players: string | null
           location: string | null
           minimum_budget: number | null
           project_milestones: Json | null
           proposed_solution: string | null
+          summary: string | null
           timeline: string | null
           title: string | null
         }
@@ -61,13 +61,13 @@ export interface Database {
           author_id?: string | null
           community_problem?: string | null
           created_at?: string | null
-          description?: string | null
           id?: string
           key_players?: string | null
           location?: string | null
           minimum_budget?: number | null
           project_milestones?: Json | null
           proposed_solution?: string | null
+          summary?: string | null
           timeline?: string | null
           title?: string | null
         }
@@ -76,13 +76,13 @@ export interface Database {
           author_id?: string | null
           community_problem?: string | null
           created_at?: string | null
-          description?: string | null
           id?: string
           key_players?: string | null
           location?: string | null
           minimum_budget?: number | null
           project_milestones?: Json | null
           proposed_solution?: string | null
+          summary?: string | null
           timeline?: string | null
           title?: string | null
         }
