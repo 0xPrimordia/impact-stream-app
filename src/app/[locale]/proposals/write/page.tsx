@@ -15,6 +15,12 @@ interface MilestoneProps {
 	index: string;
 }
 
+interface UserOption {
+	id: string;
+	name: string|null;
+	family_name: string|null;
+}
+
 interface SelectOption {
 	value: string;
 	label: string;
@@ -24,13 +30,12 @@ export default function WriteProposal() {
 	const { user, authenticated, ready } = usePrivy();
 	const [userOptions, setUserOptions] = useState<SelectOption[]>([]);
 	const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
-	const [users, setUsers] = useState<User[]>([]);
+	const [users, setUsers] = useState<UserOption[]>([]);
 	const router = useRouter();
 	const {
 		register,
 		formState,
 		handleSubmit,
-		trigger,
 		formState: { errors },
 	} = useForm<CreateProposal>({
 		mode: "onBlur",
@@ -68,8 +73,9 @@ export default function WriteProposal() {
 	}
 
 	async function getUsers() {
-		const { data } = await supabase.from("users").select();
+		const { data } = await supabase.from("users").select(`id, name, family_name`);
 		if (data) setUsers(data);
+		console.log(data)
 	}
 
 	const selectUser = (user: SelectValue) => {
@@ -116,22 +122,20 @@ export default function WriteProposal() {
 			selectedUsers.map(async (selectedUser) => {
 				inserts.push({
 					id: {
-						user_id: selectedUser?.id as string,
+						user_id: selectedUser?.value as string,
 						proposal_id: proposalData.id,
 					},
 					proposal_id: proposalData.id,
-					user_id: selectedUser?.id,
+					user_id: selectedUser?.value,
 				});
 			});
-			/*
-      this is still causing this bug, I suspect the supabase side as the cause:
-      duplicate key value violates unique constraint \"proposal_collaborators_pkey\"
-      const { error } = await supabase
+
+      		const { error } = await supabase
 				.from("proposal_collaborators")
 				.insert(inserts);
 			if (error) {
 				throw error;
-			}*/
+			}
 
 			router.push(`/proposals/${proposalData.id}`);
 		} catch (error) {
