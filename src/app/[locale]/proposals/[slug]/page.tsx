@@ -25,9 +25,9 @@ export default function Page({ params }: { params: { slug: string } }) {
       .select(
         `title,
         location,
+        author_id(name, family_name),
         description, 
         affected_locations, 
-        author_id(name, family_name), 
         community_problem, 
         proposed_solution, 
         project_milestones, 
@@ -60,19 +60,19 @@ export default function Page({ params }: { params: { slug: string } }) {
         <MapPinIcon className="h-4 inline-block" /> {proposal?.location}
       </div>
       <div className="text-sm mb-4">
-        <UserCircleIcon className="h-4 inline-block" />
+        <UserCircleIcon className="h-4 inline-block" />{" "}
         {proposal?.author_id?.name + " " + proposal?.author_id?.family_name}
       </div>
       <div>
         <span className="text-sm">
           <UserGroupIcon className="h-4 inline-block" />{" "}
-          {Array.isArray(proposal?.users)
-            ? proposal.users
+          {proposal?.users && Array.isArray(proposal?.users)
+            ? proposal?.users
                 .map((user) => user.name + " " + user.family_name)
                 .join(", ")
             : proposal?.users.name + " " + proposal?.users.family_name}
         </span>
-
+        <h3 className="font-bold mt-6 text-sm">Description</h3>
         <p className="text-sm leading-1 mt-4">{proposal?.description}</p>
 
         <h3 className="font-bold mt-6 text-sm">Affected Locations</h3>
