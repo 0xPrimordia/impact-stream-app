@@ -58,15 +58,18 @@ export default function WriteProposal() {
 	}, []);
 	useEffect(() => {
 		let options: SelectOption[] = [];
-		users.forEach((user) => {
-			let userOption = {
-				value: user.id,
-				label: user.name + " " + user.family_name,
-			};
-			options.push(userOption);
+		users.forEach((u) => {
+      if(u.id !== user?.id) {
+        console.log(u.id)
+        let userOption = {
+          value: u.id,
+          label: u.name + " " + u.family_name,
+        };
+        options.push(userOption);
+      }
 		});
 		setUserOptions([...userOptions, ...options]);
-	}, [users]);
+	}, [users,user]);
 	if (!ready) return null;
 	if (ready && !authenticated) {
 		router.push("/");
