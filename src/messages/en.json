@@ -50,7 +50,8 @@
     "heading6": "Milestones",
     "budgetPlaceholder": "Budget",
     "addMilestoneButton": "Add Milestone",
-    "submitButton": "Submit"
+    "submitButton": "Submit",
+    "updateButton": "Update"
   },
   "Proposal Details": {
     "heading": "Proposed Grants",

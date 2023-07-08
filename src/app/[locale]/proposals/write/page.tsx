@@ -109,7 +109,7 @@ export default function WriteProposal() {
 				.insert({
 					author_id: user?.id,
 					title: formData.title,
-					description: formData.summary,
+					summary: formData.summary,
 					timeline: formData.timeline,
 					location: formData.location,
 					affected_locations: formData.affected_locations,

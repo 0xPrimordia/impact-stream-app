@@ -50,7 +50,8 @@
     "heading6": "Jalons",
     "budgetPlaceholder": "Budget",
     "addMilestoneButton": "Ajouter Un Jalon",
-    "submitButton": "Soumettre"
+    "submitButton": "Soumettre",
+    "updateButton": "Mise à jour"
   },
   "Proposal Details": {
     "heading": "Subventions Proposées",

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "../../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import {
   MapPinIcon,
   UserCircleIcon,
@@ -10,15 +11,25 @@ import {
 } from "@heroicons/react/24/outline";
 import { FullProposal } from "@/app/types";
 import { useTranslations } from "next-intl";
+import { EditProposalForm } from "../../components/EditProposalForm";
 
 export default function Page({ params }: { params: { slug: string } }) {
-  const { ready, authenticated } = usePrivy();
+  const { ready, authenticated, user } = usePrivy();
   const router = useRouter();
   const [proposal, setProposal] = useState<FullProposal>();
+  const [isAuthor, setIsAuthor] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const t = useTranslations("Proposal Details");
+  
   useEffect(() => {
     getProposal();
-  }, []);
+  }, [user]);
+
+  useEffect(() => {
+    if(user?.id === proposal?.author_id.id) {
+      setIsAuthor(true)
+    }
+  }, [user, proposal]);
 
   async function getProposal() {
     const { data, error } = await supabase
@@ -26,7 +37,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       .select(
         `title,
         location,
-        author_id(name, family_name),
+        author_id(id, name, family_name),
         summary, 
         affected_locations, 
         community_problem, 
@@ -50,12 +61,22 @@ export default function Page({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <div>
+    <>
+    {isEditing && proposal && (
+      <EditProposalForm setIsEditing={setIsEditing} proposalId={params.slug} proposal={proposal} />
+    )}
+
+    {!isEditing && (
+      <div>
       <div className="font-bold mb-6">
         <a className="text-sky-600" href="/proposals">
           {t("heading")}
         </a>{" "}
-        / {proposal?.title}
+        / {proposal?.title} {isAuthor &&(
+          <>
+            <PencilSquareIcon onClick={() => setIsEditing(true)} className="h-5 inline-block ml-2" />
+          </>
+        )}
       </div>
       <div className="text-sm align-middle mb-4">
         <MapPinIcon className="h-4 inline-block" /> {proposal?.location}
@@ -111,5 +132,8 @@ export default function Page({ params }: { params: { slug: string } }) {
         {t("totalBudget") + ": " + proposal?.minimum_budget}
       </div>
     </div>
+    )}
+      
+    </>
   );
 }
