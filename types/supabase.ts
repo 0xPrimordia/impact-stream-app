@@ -148,12 +148,14 @@ export interface Database {
           minimum_budget: number
           key_players: string
           timeline: string
+          project_milestones: Json
           collaborators: Json[]
         }[]
       }
       get_proposals_with_collaborators: {
         Args: Record<PropertyKey, never>
         Returns: {
+          id: string
           title: string
           location: string
           summary: string
