@@ -42,12 +42,12 @@ export default function WriteProposal() {
 			timeline: "",
 		},
 	});
-  const {
+	const {
 		register,
 		formState,
 		handleSubmit,
 		formState: { errors },
-	} = methods
+	} = methods;
 	const { isValid } = formState;
 	const [currentStep, setCurrentStep] = useState(1);
 	const t = useTranslations("Create Proposal");
@@ -58,7 +58,6 @@ export default function WriteProposal() {
 		let options: SelectOption[] = [];
 		users.forEach((u) => {
 			if (u.id !== user?.id) {
-				console.log(u.id);
 				let userOption = {
 					value: u.id,
 					label: u.name + " " + u.family_name,
@@ -78,7 +77,6 @@ export default function WriteProposal() {
 			.from("users")
 			.select(`id, name, family_name`);
 		if (data) setUsers(data);
-		console.log(data);
 	}
 
 	const selectUser = (user: SelectValue) => {
@@ -149,14 +147,14 @@ export default function WriteProposal() {
 	const textareaClasses =
 		"w-full border border-slate-300 rounded h-20 pl-2 mb-6";
 
-  function setStep(direction: string) {
-    if (direction === "next") {
-      setCurrentStep(currentStep + 1);
-    }
-    if (direction === "previous") {
-      setCurrentStep(currentStep - 1);
-    }
-  }
+	function setStep(direction: string) {
+		if (direction === "next") {
+			setCurrentStep(currentStep + 1);
+		}
+		if (direction === "previous") {
+			setCurrentStep(currentStep - 1);
+		}
+	}
 
 	const StepControls = () => {
 		return (
@@ -185,174 +183,174 @@ export default function WriteProposal() {
 		);
 	};
 
-  return (
-    <FormProvider {...methods}>
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {currentStep === 1 && (
-        <>
-          <h3 className="font-bold mb-6">{t("heading1")}</h3>
-          <span className="text-red-600 text-xs">
-            {" "}
-            {errors.title && errors.title.message}
-          </span>
-          <input
-            className={inputClasses}
-            placeholder={t("title")}
-            {...register("title", { required: t("titleValidationMessage") })}
-          />
-          <span className="text-red-600 text-xs">
-            {" "}
-            {errors.location && errors.location.message}
-          </span>
-          <input
-            className={inputClasses}
-            placeholder={t("location")}
-            {...register("location", {
-              required: t("locationValidationMessage"),
-            })}
-          />
-          <h3 className="font-bold mb-6">{t("collaborators")}</h3>
-          {selectedUsers.length > 0 &&
-            selectedUsers.map((user) => (
-              <div
-                key={user.id}
-                className="border border-slate-400 rounded leading-8 text-xs px-2 font-bold inline-block mb-3"
-              >
-                <input type="hidden" value={selectedUsers} />
-                <div className="flex">
-                  {user?.label}
-                  <XMarkIcon
-                    onClick={() => removeCollaborator(user)}
-                    className="h-3 ml-2 mt-2.5 cursor-pointer"
-                  />
-                </div>
-              </div>
-            ))}
-          {userOptions.length > 0 && (
-            <Select
-              primaryColor={"blue"}
-              onChange={selectUser}
-              value={null}
-              isSearchable={true}
-              placeholder={t("collaboratorsPlaceholder")}
-              options={userOptions}
-            />
-          )}
+	return (
+		<FormProvider {...methods}>
+			<form onSubmit={handleSubmit(onSubmit)}>
+				{currentStep === 1 && (
+					<>
+						<h3 className="font-bold mb-6">{t("heading1")}</h3>
+						<span className="text-red-600 text-xs">
+							{" "}
+							{errors.title && errors.title.message}
+						</span>
+						<input
+							className={inputClasses}
+							placeholder={t("title")}
+							{...register("title", { required: t("titleValidationMessage") })}
+						/>
+						<span className="text-red-600 text-xs">
+							{" "}
+							{errors.location && errors.location.message}
+						</span>
+						<input
+							className={inputClasses}
+							placeholder={t("location")}
+							{...register("location", {
+								required: t("locationValidationMessage"),
+							})}
+						/>
+						<h3 className="font-bold mb-6">{t("collaborators")}</h3>
+						{selectedUsers.length > 0 &&
+							selectedUsers.map((user) => (
+								<div
+									key={user.id}
+									className="border border-slate-400 rounded leading-8 text-xs px-2 font-bold inline-block mb-3"
+								>
+									<input type="hidden" value={selectedUsers} />
+									<div className="flex">
+										{user?.label}
+										<XMarkIcon
+											onClick={() => removeCollaborator(user)}
+											className="h-3 ml-2 mt-2.5 cursor-pointer"
+										/>
+									</div>
+								</div>
+							))}
+						{userOptions.length > 0 && (
+							<Select
+								primaryColor={"blue"}
+								onChange={selectUser}
+								value={null}
+								isSearchable={true}
+								placeholder={t("collaboratorsPlaceholder")}
+								options={userOptions}
+							/>
+						)}
 
-          <StepControls />
-        </>
-      )}
-      {currentStep === 2 && (
-        <>
-          <h3 className="font-bold mb-6">{t("heading2")}</h3>
-          <span className="text-red-600 text-xs">
-            {" "}
-            {errors.summary && errors.summary.message}
-          </span>
-          <textarea
-            className={textareaClasses}
-            placeholder={t("summaryPlaceholder")}
-            maxLength={200}
-            {...register("summary", {
-              required: t("summaryValidationMessage"),
-            })}
-          />
-          <span className="text-red-600 text-xs">
-            {" "}
-            {errors.affected_locations && errors.affected_locations.message}
-          </span>
-          <input
-            className={inputClasses}
-            placeholder={t("locationsAffectedPlaceholder")}
-            {...register("affected_locations", {
-              required: t("locationsAffectedValidationMessage"),
-            })}
-          />
-          <StepControls />
-        </>
-      )}
-      {currentStep === 3 && (
-        <>
-          <h3 className="font-bold mb-6">{t("heading3")}</h3>
-          <textarea
-            className={textareaClasses}
-            placeholder={t("communityProblemPlaceholder")}
-            {...register("community_problem", {
-              required: t("communityProblemValidationMessage"),
-            })}
-          />
-          <p className="text-sm center italic">
-            {t("communityProblemContext")}
-          </p>
-          <StepControls />
-        </>
-      )}
-      {currentStep === 4 && (
-        <>
-          <h3 className="font-bold mb-6">{t("heading4")}</h3>
-          <textarea
-            className={textareaClasses}
-            placeholder={t("proposedSolutionPlaceholder")}
-            {...register("proposed_solution", {
-              required: t("proposedSolutionValidationMessage"),
-            })}
-          />
-          <p className="text-sm center italic">
-            {t("proposedSolutionContext")}
-          </p>
-          <StepControls />
-        </>
-      )}
-      {currentStep === 5 && (
-        <>
-          <h3 className="font-bold mb-6">{t("heading5")}</h3>
-          <input
-            type="number"
-            className={inputClasses}
-            placeholder={t("minimumBudgetPlaceholder")}
-            {...register("minimum_budget", {
-              required: t("minimumBudgetValidationMessage"),
-            })}
-          />
-          <input
-            className={inputClasses}
-            placeholder={t("keyPlayersPlaceholder")}
-            {...register("key_players", {
-              required: t("keyPlayersValidationMessage"),
-            })}
-          />
-          <input
-            className={inputClasses}
-            placeholder={t("timelinePlaceholder")}
-            {...register("timeline", {
-              required: t("timelineValidationMessage"),
-            })}
-          /> 
-          <StepControls />
-        </>
-      )}
-      {currentStep === 6 && (
-        <>
-          <MilestoneForm />
-          <span className="text-red-600 text-xs">
-                {" "}
-                {errors.milestones && errors.milestones.message}
-            </span>
-        <p
-            className="underline mb-8 text-sky-600"
-            onClick={() => setStep("previous")}
-          >
-            {t("previousButton")}
-          </p>
-          <button
-            className="w-full border border-slate-400 rounded leading-10 font-bold"
-            type="submit"
-          >
-            {t("submitButton")}
-          </button>
-        </>
-      )}
-    </form>
-    </FormProvider>
-  );
+						<StepControls />
+					</>
+				)}
+				{currentStep === 2 && (
+					<>
+						<h3 className="font-bold mb-6">{t("heading2")}</h3>
+						<span className="text-red-600 text-xs">
+							{" "}
+							{errors.summary && errors.summary.message}
+						</span>
+						<textarea
+							className={textareaClasses}
+							placeholder={t("summaryPlaceholder")}
+							maxLength={200}
+							{...register("summary", {
+								required: t("summaryValidationMessage"),
+							})}
+						/>
+						<span className="text-red-600 text-xs">
+							{" "}
+							{errors.affected_locations && errors.affected_locations.message}
+						</span>
+						<input
+							className={inputClasses}
+							placeholder={t("locationsAffectedPlaceholder")}
+							{...register("affected_locations", {
+								required: t("locationsAffectedValidationMessage"),
+							})}
+						/>
+						<StepControls />
+					</>
+				)}
+				{currentStep === 3 && (
+					<>
+						<h3 className="font-bold mb-6">{t("heading3")}</h3>
+						<textarea
+							className={textareaClasses}
+							placeholder={t("communityProblemPlaceholder")}
+							{...register("community_problem", {
+								required: t("communityProblemValidationMessage"),
+							})}
+						/>
+						<p className="text-sm center italic">
+							{t("communityProblemContext")}
+						</p>
+						<StepControls />
+					</>
+				)}
+				{currentStep === 4 && (
+					<>
+						<h3 className="font-bold mb-6">{t("heading4")}</h3>
+						<textarea
+							className={textareaClasses}
+							placeholder={t("proposedSolutionPlaceholder")}
+							{...register("proposed_solution", {
+								required: t("proposedSolutionValidationMessage"),
+							})}
+						/>
+						<p className="text-sm center italic">
+							{t("proposedSolutionContext")}
+						</p>
+						<StepControls />
+					</>
+				)}
+				{currentStep === 5 && (
+					<>
+						<h3 className="font-bold mb-6">{t("heading5")}</h3>
+						<input
+							type="number"
+							className={inputClasses}
+							placeholder={t("minimumBudgetPlaceholder")}
+							{...register("minimum_budget", {
+								required: t("minimumBudgetValidationMessage"),
+							})}
+						/>
+						<input
+							className={inputClasses}
+							placeholder={t("keyPlayersPlaceholder")}
+							{...register("key_players", {
+								required: t("keyPlayersValidationMessage"),
+							})}
+						/>
+						<input
+							className={inputClasses}
+							placeholder={t("timelinePlaceholder")}
+							{...register("timeline", {
+								required: t("timelineValidationMessage"),
+							})}
+						/>
+						<StepControls />
+					</>
+				)}
+				{currentStep === 6 && (
+					<>
+						<MilestoneForm />
+						<span className="text-red-600 text-xs">
+							{" "}
+							{errors.milestones && errors.milestones.message}
+						</span>
+						<p
+							className="underline mb-8 text-sky-600"
+							onClick={() => setStep("previous")}
+						>
+							{t("previousButton")}
+						</p>
+						<button
+							className="w-full border border-slate-400 rounded leading-10 font-bold"
+							type="submit"
+						>
+							{t("submitButton")}
+						</button>
+					</>
+				)}
+			</form>
+		</FormProvider>
+	);
 }

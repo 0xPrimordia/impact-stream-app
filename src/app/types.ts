@@ -30,12 +30,12 @@ export type SummaryProposal = {
 	title: string | null;
 	location: string | null;
 	summary: string | null;
-	users: Collaborator[] | Collaborator | null;
+	collaborators: Collaborator[] | null;
 };
 
 export type FullProposal = {
 	title: string | null;
-	author_id: {
+	author: {
 		id: string;
 		name: string | null;
 		family_name: string | null;
@@ -49,7 +49,7 @@ export type FullProposal = {
 	minimum_budget: number | null;
 	key_players: string | null;
 	project_milestones: Milestone[] | null;
-	users: Collaborator[] | Collaborator | null;
+	collaborators: Collaborator[] | null;
 };
 
 type Collaborator = {

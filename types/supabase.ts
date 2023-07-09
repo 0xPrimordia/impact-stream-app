@@ -133,7 +133,33 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_proposal_with_collaborators: {
+        Args: {
+          proposal_id: string
+        }
+        Returns: {
+          title: string
+          author: Json
+          location: string
+          summary: string
+          affected_locations: string
+          community_problem: string
+          proposed_solution: string
+          minimum_budget: number
+          key_players: string
+          timeline: string
+          collaborators: Json[]
+        }[]
+      }
+      get_proposals_with_collaborators: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          title: string
+          location: string
+          summary: string
+          collaborators: Json[]
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
