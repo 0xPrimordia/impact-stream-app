@@ -6,6 +6,7 @@ import { WagmiProvider } from "./components/WagmiProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import {BrowserCheck} from "./components/BrowserCheck";
+import TinybaseWrapper from "./components/TinybaseWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,9 +37,11 @@ export default async function RootLayout({
 			<body className={inter.className + " p-8 pb-12 pt-28"}>
 				<NextIntlClientProvider messages={messages} locale={locale}>
 					<WagmiProvider>
-						<Navbar />
-						{children}
-						<Footer />
+						<TinybaseWrapper>
+							<Navbar />
+							{children}
+							<Footer />
+						</TinybaseWrapper>
 					</WagmiProvider>
 				</NextIntlClientProvider>
 			</body>
