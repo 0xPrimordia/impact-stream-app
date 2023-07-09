@@ -57,7 +57,7 @@ type Collaborator = {
 	family_name: string | null;
 };
 
-type Milestone = {
+export type Milestone = {
 	title: string;
 	budget: number;
 };
