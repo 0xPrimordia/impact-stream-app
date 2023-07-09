@@ -63,7 +63,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   return (
     <>
     {isEditing && proposal && (
-      <EditProposalForm setIsEditing={setIsEditing} proposalId={params.slug} proposal={proposal} />
+      <EditProposalForm reloadData={getProposal} setIsEditing={setIsEditing} proposalId={params.slug} proposal={proposal} />
     )}
 
     {!isEditing && (
