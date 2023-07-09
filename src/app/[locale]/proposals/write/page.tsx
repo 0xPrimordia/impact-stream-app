@@ -4,16 +4,13 @@ import Select from "react-tailwindcss-select";
 import "react-tailwindcss-select/dist/index.css";
 import { SelectValue } from "react-tailwindcss-select/dist/components/type";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
 import { supabase } from "../../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { User, CreateProposal } from "@/app/types";
-
-interface MilestoneProps {
-	index: string;
-}
+import { MilestoneForm } from "../../components/MilestoneForm";
 
 interface UserOption {
 	id: string;
@@ -33,12 +30,7 @@ export default function WriteProposal() {
 	const [users, setUsers] = useState<UserOption[]>([]);
 	const [summaryValue, setSummaryValue] = useState("");
 	const router = useRouter();
-	const {
-		register,
-		formState,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<CreateProposal>({
+	const methods = useForm<CreateProposal>({
 		mode: "onBlur",
 		defaultValues: {
 			title: "",
@@ -50,8 +42,13 @@ export default function WriteProposal() {
 			timeline: "",
 		},
 	});
+  const {
+		register,
+		formState,
+		handleSubmit,
+		formState: { errors },
+	} = methods
 	const { isValid } = formState;
-	const [rows, setRows] = useState([{ key: "default" }]);
 	const [currentStep, setCurrentStep] = useState(1);
 	const t = useTranslations("Create Proposal");
 	useEffect(() => {
@@ -109,7 +106,7 @@ export default function WriteProposal() {
 				.insert({
 					author_id: user?.id,
 					title: formData.title,
-					description: formData.summary,
+					summary: formData.summary,
 					timeline: formData.timeline,
 					location: formData.location,
 					affected_locations: formData.affected_locations,
@@ -152,19 +149,14 @@ export default function WriteProposal() {
 	const textareaClasses =
 		"w-full border border-slate-300 rounded h-20 pl-2 mb-6";
 
-	function removeRow(index: string) {
-		if (index !== "default")
-			setRows((current) => current.filter((_) => _.key !== index));
-	}
-
-	function setStep(direction: string) {
-		if (direction === "next") {
-			setCurrentStep(currentStep + 1);
-		}
-		if (direction === "previous") {
-			setCurrentStep(currentStep - 1);
-		}
-	}
+  function setStep(direction: string) {
+    if (direction === "next") {
+      setCurrentStep(currentStep + 1);
+    }
+    if (direction === "previous") {
+      setCurrentStep(currentStep - 1);
+    }
+  }
 
 	const StepControls = () => {
 		return (
@@ -193,227 +185,174 @@ export default function WriteProposal() {
 		);
 	};
 
-	const MilestoneRow = ({ index, ...props }: MilestoneProps) => {
-		return (
-			<div className="flex mb-2">
-				<input
-					{
-					// @ts-ignore
-					...register(`milestones.${index}.title`)
-					}
-					className="w-1/2 border border-slate-300 rounded h-10 pl-2 mb-2"
-					placeholder="Title"
-				/>
-				{index !== "default" && (
-					<input
-						{
-						// @ts-ignore
-						...register(`milestones.${index}.budget`)
-						}
-						className="w-2/5 border border-slate-300 rounded h-10 pl-2 mb-2 ml-2"
-						placeholder="Budget"
-						type="number"
-					/>
-				)}
-				{index === "default" && (
-					<input
-						{
-						// @ts-ignore
-						...register(`milestones.${index}.budget`)
-						}
-						className="w-1/2 border border-slate-300 rounded h-10 pl-2 mb-2 ml-2"
-						placeholder="Budget"
-						type="number"
-					/>
-				)}
-				{index !== "default" && (
-					<XMarkIcon
-						onClick={() => removeRow(index)}
-						className="h-6 ml-2 mt-2.5"
-					/>
-				)}
-			</div>
-		);
-	};
+  return (
+    <FormProvider {...methods}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {currentStep === 1 && (
+        <>
+          <h3 className="font-bold mb-6">{t("heading1")}</h3>
+          <span className="text-red-600 text-xs">
+            {" "}
+            {errors.title && errors.title.message}
+          </span>
+          <input
+            className={inputClasses}
+            placeholder={t("title")}
+            {...register("title", { required: t("titleValidationMessage") })}
+          />
+          <span className="text-red-600 text-xs">
+            {" "}
+            {errors.location && errors.location.message}
+          </span>
+          <input
+            className={inputClasses}
+            placeholder={t("location")}
+            {...register("location", {
+              required: t("locationValidationMessage"),
+            })}
+          />
+          <h3 className="font-bold mb-6">{t("collaborators")}</h3>
+          {selectedUsers.length > 0 &&
+            selectedUsers.map((user) => (
+              <div
+                key={user.id}
+                className="border border-slate-400 rounded leading-8 text-xs px-2 font-bold inline-block mb-3"
+              >
+                <input type="hidden" value={selectedUsers} />
+                <div className="flex">
+                  {user?.label}
+                  <XMarkIcon
+                    onClick={() => removeCollaborator(user)}
+                    className="h-3 ml-2 mt-2.5 cursor-pointer"
+                  />
+                </div>
+              </div>
+            ))}
+          {userOptions.length > 0 && (
+            <Select
+              primaryColor={"blue"}
+              onChange={selectUser}
+              value={null}
+              isSearchable={true}
+              placeholder={t("collaboratorsPlaceholder")}
+              options={userOptions}
+            />
+          )}
 
-	function addRow() {
-		const key = "milestone-" + (rows.length + 2);
-		setRows([...rows, { key }]);
-	}
-
-	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
-			{currentStep === 1 && (
-				<>
-					<h3 className="font-bold mb-6">{t("heading1")}</h3>
-					<span className="text-red-600 text-xs">
-						{" "}
-						{errors.title && errors.title.message}
-					</span>
-					<input
-						className={inputClasses}
-						placeholder={t("title")}
-						{...register("title", { required: t("titleValidationMessage") })}
-					/>
-					<span className="text-red-600 text-xs">
-						{" "}
-						{errors.location && errors.location.message}
-					</span>
-					<input
-						className={inputClasses}
-						placeholder={t("location")}
-						{...register("location", {
-							required: t("locationValidationMessage"),
-						})}
-					/>
-					<h3 className="font-bold mb-6">{t("collaborators")}</h3>
-					{selectedUsers.length > 0 &&
-						selectedUsers.map((user) => (
-							<div
-								key={user.id}
-								className="border border-slate-400 rounded leading-8 text-xs px-2 font-bold inline-block mb-3"
-							>
-								<input type="hidden" value={selectedUsers} />
-								<div className="flex">
-									{user?.label}
-									<XMarkIcon
-										onClick={() => removeCollaborator(user)}
-										className="h-3 ml-2 mt-2.5 cursor-pointer"
-									/>
-								</div>
-							</div>
-						))}
-					{userOptions.length > 0 && (
-						<Select
-							primaryColor={"blue"}
-							onChange={selectUser}
-							value={null}
-							isSearchable={true}
-							placeholder={t("collaboratorsPlaceholder")}
-							options={userOptions}
-						/>
-					)}
-
-					<StepControls />
-				</>
-			)}
-			{currentStep === 2 && (
-				<>
-					<h3 className="font-bold mb-6">{t("heading2")}</h3>
-					<span className="text-red-600 text-xs">
-						{" "}
-						{errors.summary && errors.summary.message}
-					</span>
-					<textarea
-						className={textareaClasses}
-						placeholder={t("summaryPlaceholder")}
-						onInput={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-							e.target.value = e.target.value.slice(0, 200);
-						}}
-						{...register("summary", {
-							required: t("summaryValidationMessage"),
-							maxLength: 200,
-						})}
-					/>
-					<span className="text-red-600 text-xs">
-						{" "}
-						{errors.affected_locations && errors.affected_locations.message}
-					</span>
-					<input
-						className={inputClasses}
-						placeholder={t("locationsAffectedPlaceholder")}
-						{...register("affected_locations", {
-							required: t("locationsAffectedValidationMessage"),
-						})}
-					/>
-					<StepControls />
-				</>
-			)}
-			{currentStep === 3 && (
-				<>
-					<h3 className="font-bold mb-6">{t("heading3")}</h3>
-					<textarea
-						className={textareaClasses}
-						placeholder={t("communityProblemPlaceholder")}
-						{...register("community_problem", {
-							required: t("communityProblemValidationMessage"),
-						})}
-					/>
-					<p className="text-sm center italic">
-						{t("communityProblemContext")}
-					</p>
-					<StepControls />
-				</>
-			)}
-			{currentStep === 4 && (
-				<>
-					<h3 className="font-bold mb-6">{t("heading4")}</h3>
-					<textarea
-						className={textareaClasses}
-						placeholder={t("proposedSolutionPlaceholder")}
-						{...register("proposed_solution", {
-							required: t("proposedSolutionValidationMessage"),
-						})}
-					/>
-					<p className="text-sm center italic">
-						{t("proposedSolutionContext")}
-					</p>
-					<StepControls />
-				</>
-			)}
-			{currentStep === 5 && (
-				<>
-					<h3 className="font-bold mb-6">{t("heading5")}</h3>
-					<input
-						className={inputClasses}
-						placeholder={t("minimumBudgetPlaceholder")}
-						{...register("minimum_budget", {
-							required: t("minimumBudgetValidationMessage"),
-						})}
-					/>
-					<input
-						className={inputClasses}
-						placeholder={t("keyPlayersPlaceholder")}
-						{...register("key_players", {
-							required: t("keyPlayersValidationMessage"),
-						})}
-					/>
-					<input
-						className={inputClasses}
-						placeholder={t("timelinePlaceholder")}
-						{...register("timeline", {
-							required: t("timelineValidationMessage"),
-						})}
-					/>
-					<StepControls />
-				</>
-			)}
-			{currentStep === 6 && (
-				<>
-					<h3 className="font-bold mb-6">{t("heading6")}</h3>
-					{rows.map((row, index) => (
-						<MilestoneRow key={row.key} index={row.key} />
-					))}
-					<p
-						className="text-right underline mb-8 text-sky-600 mt-2"
-						onClick={addRow}
-					>
-						{t("addMilestoneButton")}
-					</p>
-					<p
-						className="underline mb-8 text-sky-600"
-						onClick={() => setStep("previous")}
-					>
-						{t("previousButton")}
-					</p>
-					<button
-						className="w-full border border-slate-400 rounded leading-10 font-bold"
-						type="submit"
-					>
-						{t("submitButton")}
-					</button>
-				</>
-			)}
-		</form>
-	);
+          <StepControls />
+        </>
+      )}
+      {currentStep === 2 && (
+        <>
+          <h3 className="font-bold mb-6">{t("heading2")}</h3>
+          <span className="text-red-600 text-xs">
+            {" "}
+            {errors.summary && errors.summary.message}
+          </span>
+          <textarea
+            className={textareaClasses}
+            placeholder={t("summaryPlaceholder")}
+            maxLength={200}
+            {...register("summary", {
+              required: t("summaryValidationMessage"),
+            })}
+          />
+          <span className="text-red-600 text-xs">
+            {" "}
+            {errors.affected_locations && errors.affected_locations.message}
+          </span>
+          <input
+            className={inputClasses}
+            placeholder={t("locationsAffectedPlaceholder")}
+            {...register("affected_locations", {
+              required: t("locationsAffectedValidationMessage"),
+            })}
+          />
+          <StepControls />
+        </>
+      )}
+      {currentStep === 3 && (
+        <>
+          <h3 className="font-bold mb-6">{t("heading3")}</h3>
+          <textarea
+            className={textareaClasses}
+            placeholder={t("communityProblemPlaceholder")}
+            {...register("community_problem", {
+              required: t("communityProblemValidationMessage"),
+            })}
+          />
+          <p className="text-sm center italic">
+            {t("communityProblemContext")}
+          </p>
+          <StepControls />
+        </>
+      )}
+      {currentStep === 4 && (
+        <>
+          <h3 className="font-bold mb-6">{t("heading4")}</h3>
+          <textarea
+            className={textareaClasses}
+            placeholder={t("proposedSolutionPlaceholder")}
+            {...register("proposed_solution", {
+              required: t("proposedSolutionValidationMessage"),
+            })}
+          />
+          <p className="text-sm center italic">
+            {t("proposedSolutionContext")}
+          </p>
+          <StepControls />
+        </>
+      )}
+      {currentStep === 5 && (
+        <>
+          <h3 className="font-bold mb-6">{t("heading5")}</h3>
+          <input
+            type="number"
+            className={inputClasses}
+            placeholder={t("minimumBudgetPlaceholder")}
+            {...register("minimum_budget", {
+              required: t("minimumBudgetValidationMessage"),
+            })}
+          />
+          <input
+            className={inputClasses}
+            placeholder={t("keyPlayersPlaceholder")}
+            {...register("key_players", {
+              required: t("keyPlayersValidationMessage"),
+            })}
+          />
+          <input
+            className={inputClasses}
+            placeholder={t("timelinePlaceholder")}
+            {...register("timeline", {
+              required: t("timelineValidationMessage"),
+            })}
+          /> 
+          <StepControls />
+        </>
+      )}
+      {currentStep === 6 && (
+        <>
+          <MilestoneForm />
+          <span className="text-red-600 text-xs">
+                {" "}
+                {errors.milestones && errors.milestones.message}
+            </span>
+        <p
+            className="underline mb-8 text-sky-600"
+            onClick={() => setStep("previous")}
+          >
+            {t("previousButton")}
+          </p>
+          <button
+            className="w-full border border-slate-400 rounded leading-10 font-bold"
+            type="submit"
+          >
+            {t("submitButton")}
+          </button>
+        </>
+      )}
+    </form>
+    </FormProvider>
+  );
 }
