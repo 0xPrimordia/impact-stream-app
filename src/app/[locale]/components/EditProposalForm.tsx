@@ -12,9 +12,11 @@ interface EditProposalProps {
     proposal: FullProposal;
     proposalId: string;
     setIsEditing: Function;
+    reloadData: Function;
 }
 
 export const EditProposalForm = ({
+    reloadData,
     setIsEditing,
     proposal,
     proposalId,
@@ -59,6 +61,7 @@ export const EditProposalForm = ({
                  })
                 .eq('id', proposalId)
                 setIsEditing(false)
+                reloadData()
         } catch (error) {
             console.log(error);
         }
