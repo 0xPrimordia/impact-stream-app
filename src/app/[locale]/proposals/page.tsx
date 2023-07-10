@@ -17,11 +17,32 @@ export default function Proposals() {
 	}, []);
 	const t = useTranslations("Proposals");
 
+	function convertShape(arr: { [key: string]: any }) {
+		return arr.map((proposal: any) => {
+			const convertedProposal = {
+				id: proposal.id || null,
+				title: proposal.title || null,
+				location: proposal.location || null,
+				collaborators: null,
+			};
+
+			if (proposal.collaborators && Array.isArray(proposal.collaborators)) {
+				convertedProposal.collaborators = proposal.collaborators.map(
+					(collaborator: any) => ({
+						name: collaborator.name || null,
+						family_name: collaborator.family_name || null,
+					})
+				);
+			}
+			return convertedProposal;
+		});
+	}
+
 	async function getProposals() {
-		const { data, error } = await supabase
-			.from("proposals")
-			.select(`id, title, location, summary, users(name, family_name)`);
-		if (data) setProposals(data);
+		const { data, error } = await supabase.rpc(
+			"get_proposals_with_collaborators"
+		);
+		if (data) setProposals(convertShape(data));
 		if (error) console.log(error);
 	}
 
@@ -34,34 +55,24 @@ export default function Proposals() {
 		<div className="mb-14">
 			<h3 className="font-bold mb-6">{t("heading")}</h3>
 			{proposals &&
-				proposals.map((grant) => (
+				proposals.map((proposal) => (
 					<div
-						key={grant.id}
-						onClick={() => router.push(`/proposals/${grant.id}`)}
+						key={proposal.id}
+						onClick={() => router.push(`/proposals/${proposal.id}`)}
 						className="mb-6"
 					>
-						<h3 className="font-bold mb-1 text-lg">{grant.title}</h3>
+						<h3 className="font-bold mb-1 text-lg">{proposal.title}</h3>
 						<div className="text-sm align-middle">
-							<MapPinIcon className="h-4 inline-block" /> {grant.location}
+							<MapPinIcon className="h-4 inline-block" /> {proposal.location}
 						</div>
 						<p className="text-sm mt-2 mb-1 leading-1">
-							{grant.summary ? truncate(grant.summary, 200):''}
+							{proposal.summary ? truncate(proposal.summary, 200) : ""}
 						</p>
 						<span className="text-sm">
-							{Array.isArray(grant?.users) &&
-								//@ts-ignore
-								grant?.users.name &&
-								//@ts-ignore
-								grant?.users.family_name
-								? grant.users
-									.map(
-										(user) =>
-											//@ts-ignore
-											user.name + " " + user.family_name
-									)
-									.join(", ")
-								: //@ts-ignore
-								grant?.users.name + " " + grant?.users.family_name}
+							{proposal?.collaborators &&
+								proposal?.collaborators
+									.map((user) => user.name + " " + user.family_name)
+									.join(", ")}
 						</span>
 					</div>
 				))}

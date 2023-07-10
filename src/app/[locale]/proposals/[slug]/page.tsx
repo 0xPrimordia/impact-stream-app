@@ -9,7 +9,7 @@ import {
   UserCircleIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
-import { FullProposal } from "@/app/types";
+import { FullProposal, Milestone } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { EditProposalForm } from "../../components/EditProposalForm";
 
@@ -20,38 +20,54 @@ export default function Page({ params }: { params: { slug: string } }) {
   const [isAuthor, setIsAuthor] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const t = useTranslations("Proposal Details");
-  
+
   useEffect(() => {
     getProposal();
   }, [user]);
 
   useEffect(() => {
-    if(user?.id === proposal?.author_id.id) {
-      setIsAuthor(true)
+    if (user?.id === proposal?.author?.id) {
+      setIsAuthor(true);
     }
   }, [user, proposal]);
 
+  function convertShape(obj: any) {
+    const convertedObj = {
+      title: obj.title || null,
+      author: {
+        id: obj.author.id || null,
+        name: obj.author.name || null,
+        family_name: obj.author.family_name || null,
+      },
+      location: obj.location || null,
+      summary: obj.summary || null,
+      timeline: obj.timeline || null,
+      affected_locations: obj.affected_locations || null,
+      community_problem: obj.community_problem || null,
+      proposed_solution: obj.proposed_solution || null,
+      minimum_budget: obj.minimum_budget || null,
+      key_players: obj.key_players || null,
+      project_milestones: obj.project_milestones || null,
+      collaborators: null,
+    };
+
+    if (obj.collaborators && Array.isArray(obj.collaborators)) {
+      convertedObj.collaborators = obj.collaborators.map(
+        (collaborator: any) => ({
+          name: collaborator.name || null,
+          family_name: collaborator.name || null,
+        })
+      );
+    }
+
+    return convertedObj;
+  }
   async function getProposal() {
     const { data, error } = await supabase
-      .from("proposals")
-      .select(
-        `title,
-        location,
-        author_id(id, name, family_name),
-        summary, 
-        affected_locations, 
-        community_problem, 
-        proposed_solution, 
-        project_milestones, 
-        key_players, 
-        minimum_budget, 
-        timeline, 
-        users(name, family_name)`
-      )
-      .eq("id", params.slug)
+      .rpc("get_proposal_with_collaborators", { proposal_id: params.slug })
       .single();
-    //@ts-ignore
-    if (data) setProposal(data);
+    //ts-ignore
+    if (data) setProposal(convertShape(data));
     if (error) console.log(error);
   }
 
@@ -59,85 +75,93 @@ export default function Page({ params }: { params: { slug: string } }) {
   if (ready && !authenticated) {
     router.push("/");
   }
-
   return (
     <>
-    {isEditing && proposal && (
-      <EditProposalForm reloadData={getProposal} setIsEditing={setIsEditing} proposalId={params.slug} proposal={proposal} />
-    )}
+      {isEditing && proposal && (
+        <EditProposalForm
+          reloadData={getProposal}
+          setIsEditing={setIsEditing}
+          proposalId={params.slug}
+          proposal={proposal}
+        />
+      )}
 
-    {!isEditing && (
-      <div>
-      <div className="font-bold mb-6">
-        <a className="text-sky-600" href="/proposals">
-          {t("heading")}
-        </a>{" "}
-        / {proposal?.title} {isAuthor &&(
-          <>
-            <PencilSquareIcon onClick={() => setIsEditing(true)} className="h-5 inline-block ml-2" />
-          </>
-        )}
-      </div>
-      <div className="text-sm align-middle mb-4">
-        <MapPinIcon className="h-4 inline-block" /> {proposal?.location}
-      </div>
-      <div className="text-sm mb-4">
-        <UserCircleIcon className="h-4 inline-block" />{" "}
-        {proposal?.author_id?.name + " " + proposal?.author_id?.family_name}
-      </div>
-      <div>
-        <span className="text-sm">
-          <UserGroupIcon className="h-4 inline-block" />{" "}
-          {Array.isArray(proposal?.users) &&
-          //@ts-ignore
-          proposal?.users.name &&
-          //@ts-ignore
-          proposal?.users.family_name
-            ? proposal.users
-                .map(
-                  (user) =>
-                    //@ts-ignore
-                    user.name + " " + user.family_name
-                )
-                .join(", ")
-            : //@ts-ignore
-              proposal?.users.name + " " + proposal?.users.family_name}
-        </span>
-        <h3 className="font-bold mt-6 text-sm">{t("summary")}</h3>
-        <p className="text-sm leading-1 mt-4">{proposal?.summary}</p>
+      {!isEditing && (
+        <div>
+          <div className="font-bold mb-6">
+            <a className="text-sky-600" href="/proposals">
+              {t("heading")}
+            </a>{" "}
+            / {proposal?.title}{" "}
+            {isAuthor && (
+              <>
+                <PencilSquareIcon
+                  onClick={() => setIsEditing(true)}
+                  className="h-5 inline-block ml-2"
+                />
+              </>
+            )}
+          </div>
+          <div className="text-sm align-middle mb-4">
+            <MapPinIcon className="h-4 inline-block" /> {proposal?.location}
+          </div>
+          <div className="text-sm mb-4">
+            <UserCircleIcon className="h-4 inline-block" />{" "}
+            {proposal?.author?.name + " " + proposal?.author?.family_name}
+          </div>
+          <div>
+            <span className="text-sm">
+              {proposal?.collaborators &&
+                proposal?.collaborators.length !== 0 && (
+                  <UserGroupIcon className="h-4 inline-block" />
+                )}{" "}
+              {proposal?.collaborators &&
+                proposal?.collaborators
+                  .map((user) => user.name + " " + user.family_name)
+                  .join(", ")}
+            </span>
+            <h3 className="font-bold mt-6 text-sm">{t("summary")}</h3>
+            <p className="text-sm leading-1 mt-4">{proposal?.summary}</p>
 
-        <h3 className="font-bold mt-6 text-sm">{t("locationsAffected")}</h3>
-        <p className="text-sm leading-1 mt-2">{proposal?.affected_locations}</p>
+            <h3 className="font-bold mt-6 text-sm">{t("locationsAffected")}</h3>
+            <p className="text-sm leading-1 mt-2">
+              {proposal?.affected_locations}
+            </p>
 
-        <h3 className="font-bold mt-6 text-sm">{t("communityProblem")}</h3>
-        <p className="text-sm leading-1 mt-2">{proposal?.community_problem}</p>
+            <h3 className="font-bold mt-6 text-sm">{t("communityProblem")}</h3>
+            <p className="text-sm leading-1 mt-2">
+              {proposal?.community_problem}
+            </p>
 
-        <h3 className="font-bold mt-6 text-sm">{t("proposedSolution")}</h3>
-        <p className="text-sm leading-1 mt-2">{proposal?.proposed_solution}</p>
+            <h3 className="font-bold mt-6 text-sm">{t("proposedSolution")}</h3>
+            <p className="text-sm leading-1 mt-2">
+              {proposal?.proposed_solution}
+            </p>
 
-        <h3 className="font-bold mt-6 text-sm">{t("keyPlayers")}</h3>
-        <p className="text-sm leading-1 mt-2">{proposal?.key_players}</p>
-      </div>
-      <h3 className="font-bold mt-6 mb-5">{t("milestones")}</h3>
-      {proposal?.project_milestones &&
-        Object.values(proposal.project_milestones).map((milestone) => (
-          <>
-          {milestone.title && (
-            <div key={milestone.title} className="mt-3 mb-3">
-              {milestone.title}: ${milestone.budget}
-            </div>
-          )}
-          </>
-        ))}
-      <div className="italic mt-6">
-        {t("minimumBudget") + ": " + proposal?.minimum_budget}
-      </div>
-      <div className="italic mt-6">
-        {t("totalBudget") + ": " + proposal?.minimum_budget}
-      </div>
-    </div>
-    )}
-      
+            <h3 className="font-bold mt-6 text-sm">{t("keyPlayers")}</h3>
+            <p className="text-sm leading-1 mt-2">{proposal?.key_players}</p>
+          </div>
+          <h3 className="font-bold mt-6 mb-5">{t("milestones")}</h3>
+          {proposal?.project_milestones &&
+            Object.values(proposal.project_milestones).map(
+              (milestone: Milestone) => (
+                <>
+                  {milestone.title && (
+                    <div key={milestone.title} className="mt-3 mb-3">
+                      {milestone.title}: ${milestone.budget}
+                    </div>
+                  )}
+                </>
+              )
+            )}
+          <div className="italic mt-6">
+            {t("minimumBudget") + ": " + proposal?.minimum_budget}
+          </div>
+          <div className="italic mt-6">
+            {t("totalBudget") + ": " + proposal?.minimum_budget}
+          </div>
+        </div>
+      )}
     </>
   );
 }
