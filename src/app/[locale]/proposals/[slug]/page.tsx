@@ -9,7 +9,7 @@ import {
   UserCircleIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
-import { FullProposal } from "@/app/types";
+import { FullProposal, Milestone } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { EditProposalForm } from "../../components/EditProposalForm";
 
@@ -31,11 +31,43 @@ export default function Page({ params }: { params: { slug: string } }) {
     }
   }, [user, proposal]);
 
+  function convertShape(obj: any) {
+    const convertedObj = {
+      title: obj.title || null,
+      author: {
+        id: obj.author.id || null,
+        name: obj.author.name || null,
+        family_name: obj.author.family_name || null,
+      },
+      location: obj.location || null,
+      summary: obj.summary || null,
+      timeline: obj.timeline || null,
+      affected_locations: obj.affected_locations || null,
+      community_problem: obj.community_problem || null,
+      proposed_solution: obj.proposed_solution || null,
+      minimum_budget: obj.minimum_budget || null,
+      key_players: obj.key_players || null,
+      project_milestones: obj.project_milestones || null,
+      collaborators: null,
+    };
+
+    if (obj.collaborators && Array.isArray(obj.collaborators)) {
+      convertedObj.collaborators = obj.collaborators.map(
+        (collaborator: any) => ({
+          name: collaborator.name || null,
+          family_name: collaborator.name || null,
+        })
+      );
+    }
+
+    return convertedObj;
+  }
   async function getProposal() {
     const { data, error } = await supabase
       .rpc("get_proposal_with_collaborators", { proposal_id: params.slug })
       .single();
-    if (data) setProposal(data);
+    //ts-ignore
+    if (data) setProposal(convertShape(data));
     if (error) console.log(error);
   }
 
@@ -79,9 +111,10 @@ export default function Page({ params }: { params: { slug: string } }) {
           </div>
           <div>
             <span className="text-sm">
-              {proposal?.collaborators.length > 0 && (
-                <UserGroupIcon className="h-4 inline-block" />
-              )}{" "}
+              {proposal?.collaborators &&
+                proposal?.collaborators.length !== 0 && (
+                  <UserGroupIcon className="h-4 inline-block" />
+                )}{" "}
               {proposal?.collaborators &&
                 proposal?.collaborators
                   .map((user) => user.name + " " + user.family_name)
@@ -110,15 +143,17 @@ export default function Page({ params }: { params: { slug: string } }) {
           </div>
           <h3 className="font-bold mt-6 mb-5">{t("milestones")}</h3>
           {proposal?.project_milestones &&
-            Object.values(proposal.project_milestones).map((milestone) => (
-              <>
-                {milestone.title && (
-                  <div key={milestone.title} className="mt-3 mb-3">
-                    {milestone.title}: ${milestone.budget}
-                  </div>
-                )}
-              </>
-            ))}
+            Object.values(proposal.project_milestones).map(
+              (milestone: Milestone) => (
+                <>
+                  {milestone.title && (
+                    <div key={milestone.title} className="mt-3 mb-3">
+                      {milestone.title}: ${milestone.budget}
+                    </div>
+                  )}
+                </>
+              )
+            )}
           <div className="italic mt-6">
             {t("minimumBudget") + ": " + proposal?.minimum_budget}
           </div>
