@@ -4,6 +4,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { supabase } from "../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { isValidEmail } from "@/app/utils";
 
 type User = {
 	id: string;
@@ -19,13 +20,22 @@ export default function Onboarding() {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isSubmitting, isSubmitted },
-	} = useForm<User>();
+		formState: { errors, isSubmitting, isSubmitted, isValid },
+	} = useForm<User>({
+		mode: "onBlur",
+		defaultValues: {
+			givenName: "",
+			familyName: "",
+			villageNeighborhood: "",
+			email: ""
+		},
+	});
 	const t = useTranslations("Onboarding");
 	if (!ready) return null;
 	if (ready && !authenticated) {
 		router.push("/");
 	}
+
 	const onSubmit: SubmitHandler<User> = async (data) => {
 		try {
 			const { error } = await supabase
@@ -51,30 +61,48 @@ export default function Onboarding() {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<h3 className="font-bold mb-6">{t("heading")}</h3>
+			<span className="text-red-600 text-xs">
+				{" "}
+				{errors.givenName && errors.givenName.message}
+			</span>
 			<input
 				className={inputClasses}
 				placeholder={t("firstName")}
-				{...register("givenName", { required: true })}
+				{...register("givenName", { required: "Given Name required" })}
 			/>
+			<span className="text-red-600 text-xs">
+				{" "}
+				{errors.familyName && errors.familyName.message}
+			</span>
 			<input
 				className={inputClasses}
 				placeholder={t("lastName")}
-				{...register("familyName", { required: true })}
+				{...register("familyName", { required: "Last Name required" })}
 			/>
+			<span className="text-red-600 text-xs">
+				{" "}
+				{errors.villageNeighborhood && errors.villageNeighborhood.message}
+			</span>
 			<input
 				className={inputClasses}
 				placeholder={t("location")}
-				{...register("villageNeighborhood", { required: true })}
+				{...register("villageNeighborhood", { required: "Village or Neighborhood is required" })}
 			/>
+			<span className="text-red-600 text-xs">
+				{" "}
+				{errors.email && errors.email.message}
+			</span>
 			<input
+				type="email"
 				className={inputClasses}
 				placeholder={t("email")}
 				{...register("email")}
 			/>
 			<p className="text-center text-xs italic mb-6">{t("disclaimer")}</p>
 			<button
-				className="w-full border border-slate-400 rounded leading-10 font-bold"
+				className="w-full border border-slate-400 rounded leading-10 font-bold disabled:opacity-50"
 				type="submit"
+				disabled={!isValid}
 			>
 				{t("submitButton")}
 				{isSubmitting || isSubmitted && (

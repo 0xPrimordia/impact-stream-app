@@ -6,10 +6,13 @@
   "Onboarding": {
     "heading": "Kpe Wò Nyatakakawo Ɖo",
     "firstName": "Wotsɔ Ŋkɔ Si Wotsɔ Na",
+    "firstNameValidation": "Wobia Ŋkɔ si Wona",
     "lastName": "Ƒomea ƒe Ŋkɔ",
+    "lastNameValidation": "Wobia Ŋkɔ Mlɔetɔ",
     "location": "Kɔƒe / Nutome",
-    "phone": "Telefon Xexlẽdzesi",
+    "locationValidation": "Kɔƒe / Nuto si hiã",
     "email": "Email Dzi",
+    "emailValidation": "Email si sɔ hiã",
     "disclaimer": "Womagblɔ wò nyatakakawo na dukɔa o eye ɖeko woazã wo atsɔ ade dzesi wò eye woate ŋu aƒo ka na wò ne ehiã.",
     "submitButton": "Tsᴐe Yi"
   },

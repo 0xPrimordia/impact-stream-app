@@ -276,6 +276,10 @@ export default function WriteProposal() {
 				{currentStep === 3 && (
 					<>
 						<h3 className="font-bold mb-6">{t("heading3")}</h3>
+						<span className="text-red-600 text-xs">
+							{" "}
+							{errors.community_problem && errors.community_problem.message}
+						</span>
 						<textarea
 							className={textareaClasses}
 							placeholder={t("communityProblemPlaceholder")}
@@ -292,6 +296,10 @@ export default function WriteProposal() {
 				{currentStep === 4 && (
 					<>
 						<h3 className="font-bold mb-6">{t("heading4")}</h3>
+						<span className="text-red-600 text-xs">
+							{" "}
+							{errors.proposed_solution && errors.proposed_solution.message}
+						</span>
 						<textarea
 							className={textareaClasses}
 							placeholder={t("proposedSolutionPlaceholder")}
@@ -308,6 +316,10 @@ export default function WriteProposal() {
 				{currentStep === 5 && (
 					<>
 						<h3 className="font-bold mb-6">{t("heading5")}</h3>
+						<span className="text-red-600 text-xs">
+							{" "}
+							{errors.minimum_budget && errors.minimum_budget.message}
+						</span>
 						<input
 							type="number"
 							className={inputClasses}
@@ -316,6 +328,10 @@ export default function WriteProposal() {
 								required: t("minimumBudgetValidationMessage"),
 							})}
 						/>
+						<span className="text-red-600 text-xs">
+							{" "}
+							{errors.key_players && errors.key_players.message}
+						</span>
 						<input
 							className={inputClasses}
 							placeholder={t("keyPlayersPlaceholder")}
@@ -323,6 +339,10 @@ export default function WriteProposal() {
 								required: t("keyPlayersValidationMessage"),
 							})}
 						/>
+						<span className="text-red-600 text-xs">
+							{" "}
+							{errors.timeline && errors.timeline.message}
+						</span>
 						<input
 							className={inputClasses}
 							placeholder={t("timelinePlaceholder")}
@@ -344,7 +364,7 @@ export default function WriteProposal() {
 							{t("previousButton")}
 						</p>
 						<button
-							className="w-full border border-slate-400 rounded leading-10 font-bold relative"
+							className="w-full border border-slate-400 rounded leading-10 font-bold relative disabled:opacity-50"
 							type="submit"
 						>
 							{t("submitButton")}
