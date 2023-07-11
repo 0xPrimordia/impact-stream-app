@@ -6,10 +6,13 @@
   "Onboarding": {
     "heading": "Complete Your Profile",
     "firstName": "Given Name",
+    "firstNameValidation": "Given Name required",
     "lastName": "Family Name",
+    "lastNameValidation": "Last Name required",
     "location": "Village / Neighborhood",
-    "phone": "Phone Number",
+    "locationValidation": "Village / Neighborhood required",
     "email": "Email",
+    "emailValidation": "Valid email required",
     "disclaimer": " Your information will not be shared with the public and will only be used for identification purposes and to contact you if necessary.",
     "submitButton": "Submit"
   },
