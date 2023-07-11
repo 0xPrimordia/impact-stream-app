@@ -10,6 +10,7 @@ type User = {
 	givenName: string;
 	familyName: string;
 	villageNeighborhood: string;
+	email?: string;
 };
 
 export default function Onboarding() {
@@ -34,6 +35,7 @@ export default function Onboarding() {
 					family_name: data.familyName,
 					village_neighborhood: data.villageNeighborhood,
 					phone_number: user?.phone?.number,
+					email: data.email,
 					onboarded: true,
 				})
 				.eq("id", user?.id);
@@ -52,17 +54,22 @@ export default function Onboarding() {
 			<input
 				className={inputClasses}
 				placeholder={t("firstName")}
-				{...register("givenName")}
+				{...register("givenName", { required: true })}
 			/>
 			<input
 				className={inputClasses}
 				placeholder={t("lastName")}
-				{...register("familyName")}
+				{...register("familyName", { required: true })}
 			/>
 			<input
 				className={inputClasses}
 				placeholder={t("location")}
-				{...register("villageNeighborhood")}
+				{...register("villageNeighborhood", { required: true })}
+			/>
+			<input
+				className={inputClasses}
+				placeholder={t("email")}
+				{...register("email")}
 			/>
 			<p className="text-center text-xs italic mb-6">{t("disclaimer")}</p>
 			<button
