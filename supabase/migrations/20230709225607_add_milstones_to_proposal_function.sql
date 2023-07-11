@@ -1,3 +1,4 @@
+DROP FUNCTION IF EXISTS get_proposal_with_collaborators(uuid) CASCADE;
 create or replace function get_proposal_with_collaborators(proposal_id uuid)
 returns table (
   title text,
