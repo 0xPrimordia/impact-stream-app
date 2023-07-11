@@ -60,7 +60,7 @@ export const MilestoneForm = ({milestones, ...props}: MilestoneProps) => {
                     <input
                         {
                         // @ts-ignore
-                        ...register(`milestones.${row.key}.title`, {required: "Milestone title required."})
+                        ...register(`milestones.${row.key}.title`)
                         }
                         className="w-1/2 border border-slate-300 rounded h-10 pl-2 mb-2"
                         placeholder="Title"
@@ -69,7 +69,7 @@ export const MilestoneForm = ({milestones, ...props}: MilestoneProps) => {
                         <input
                         {
                             // @ts-ignore
-                            ...register(`milestones.${row.key}.budget`, {required: "Milestone budget required."})
+                            ...register(`milestones.${row.key}.budget`)
                         }
                         className="w-2/5 border border-slate-300 rounded h-10 pl-2 mb-2 ml-2"
                         placeholder="Budget"
@@ -80,7 +80,7 @@ export const MilestoneForm = ({milestones, ...props}: MilestoneProps) => {
                         <input
                         {
                             // @ts-ignore
-                            ...register(`milestones.${row.key}.budget`, {required: "Milestone budget required."})
+                            ...register(`milestones.${row.key}.budget`)
                         }
                         className="w-1/2 border border-slate-300 rounded h-10 pl-2 mb-2 ml-2"
                         placeholder="Budget"
