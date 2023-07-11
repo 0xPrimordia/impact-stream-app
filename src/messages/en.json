@@ -25,6 +25,7 @@
     "locationValidationMessage": "Please enter project location.",
     "collaborators": "Add Collaborators",
     "collaboratorsPlaceholder": "Select Collaborators",
+    "collaboratorsContext": "If you are collaborating with other people on this application to make this proposal, search for them and add them here.",
     "nextButton": "Next",
     "heading2": "Grant Information",
     "summaryPlaceholder": "Summary",

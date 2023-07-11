@@ -25,6 +25,7 @@
     "locationValidationMessage": "Veuillez entrer l'emplacement du projet.",
     "collaborators": "Ajouter Des Collaborateurs",
     "collaboratorsPlaceholder": "Sélectionnez Les Collaborateurs",
+    "collaboratorsContext": "Si vous collaborez avec d'autres personnes sur cette application pour faire cette proposition, recherchez-les et ajoutez-les ici.",
     "nextButton": "Suivant",
     "heading2": "Informations Sur Votre Subvention",
     "summaryPlaceholder": "Résumé",
