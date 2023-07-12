@@ -99,6 +99,7 @@ export interface Database {
         Row: {
           address: string | null
           created_at: string | null
+          email: string | null
           family_name: string | null
           id: string
           name: string | null
@@ -109,6 +110,7 @@ export interface Database {
         Insert: {
           address?: string | null
           created_at?: string | null
+          email?: string | null
           family_name?: string | null
           id: string
           name?: string | null
@@ -119,6 +121,7 @@ export interface Database {
         Update: {
           address?: string | null
           created_at?: string | null
+          email?: string | null
           family_name?: string | null
           id?: string
           name?: string | null

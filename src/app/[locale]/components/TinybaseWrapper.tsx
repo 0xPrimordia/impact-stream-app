@@ -32,6 +32,7 @@ export default function TinybaseWrapper({
 				village_neighborhood: { type: "string" },
 				created_at: { type: "string" },
 				phone_number: { type: "string" },
+				email: { type: "string" },
 				onboarded: { type: "boolean", default: false },
 			},
 			proposal_collaborators: {
