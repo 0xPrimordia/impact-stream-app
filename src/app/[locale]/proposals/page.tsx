@@ -7,43 +7,64 @@ import { SummaryProposal } from "@/app/types";
 import { usePrivy } from "@privy-io/react-auth";
 import { useTranslations } from "next-intl";
 import { truncate } from "@/app/utils";
+import { useStore, useCreatePersister } from "tinybase/ui-react";
+import { createCustomPersister } from "tinybase";
+import { createLocalPersister } from "tinybase/persisters/persister-browser";
 
 export default function Proposals() {
 	const { user, ready, authenticated } = usePrivy();
 	const router = useRouter();
-	const [proposals, setProposals] = useState<SummaryProposal[]>([]);
+	// const [proposals, setProposals] = useState<SummaryProposal[]>([]);
 	useEffect(() => {
 		getProposals();
 	}, []);
 	const t = useTranslations("Proposals");
 
-	function convertShape(arr: { [key: string]: any }) {
-		return arr.map((proposal: any) => {
-			const convertedProposal = {
-				id: proposal.id || null,
-				title: proposal.title || null,
-				location: proposal.location || null,
-				collaborators: null,
-			};
-
-			if (proposal.collaborators && Array.isArray(proposal.collaborators)) {
-				convertedProposal.collaborators = proposal.collaborators.map(
-					(collaborator: any) => ({
-						name: collaborator.name || null,
-						family_name: collaborator.family_name || null,
-					})
+	// function convertShape(arr: { [key: string]: any }) {
+	// 	return arr.map((proposal: any) => {
+	// 		const convertedProposal = {
+	// 			id: proposal.id || null,
+	// 			title: proposal.title || null,
+	// 			location: proposal.location || null,
+	// 			collaborators: null,
+	// 		};
+	//
+	// 		if (proposal.collaborators && Array.isArray(proposal.collaborators)) {
+	// 			convertedProposal.collaborators = proposal.collaborators.map(
+	// 				(collaborator: any) => ({
+	// 					name: collaborator.name || null,
+	// 					family_name: collaborator.family_name || null,
+	// 				})
+	// 			);
+	// 		}
+	// 		return convertedProposal;
+	// 	});
+	// }
+	const store = useStore();
+	const localPersister = useCreatePersister(store!, (store) => {
+		return createLocalPersister(store, "users");
+	});
+	const remotePersister = useCreatePersister(store!, (store) => {
+		return createCustomPersister(
+			store,
+			async () => {
+				const { data, error } = await supabase.rpc(
+					"get_proposals_with_collaborators"
 				);
-			}
-			return convertedProposal;
-		});
-	}
+				if (error) console.log(error);
+				return data;
+			},
+			async (getContent) => {
+				console.log("Remote save called");
+				const store = getContent();
+			},
+			(listener) => setInterval(listener, 1000),
+			(listener: any) => clearInterval(listener)
+		);
+	});
 
 	async function getProposals() {
-		const { data, error } = await supabase.rpc(
-			"get_proposals_with_collaborators"
-		);
-		if (data) setProposals(convertShape(data));
-		if (error) console.log(error);
+		// if (data) setProposals(convertShape(data));
 	}
 
 	if (!ready) return null;
