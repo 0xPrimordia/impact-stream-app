@@ -68,7 +68,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 			convertedObj.collaborators = obj.collaborators.map(
 				(collaborator: any) => ({
 					name: collaborator.name || null,
-					family_name: collaborator.name || null,
+					family_name: collaborator.family_name || null,
 				})
 			);
 		}
