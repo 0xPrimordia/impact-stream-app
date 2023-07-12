@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
 import { supabase } from "../../../../lib/supabase-client";
@@ -29,7 +30,13 @@ export default function Onboarding() {
   } = useForm<User>();
   const t = useTranslations("Onboarding");
   const store = useStore();
-  const localPersister = useCreatePersister(store, (store) => {
+  const [userId, setUserId] = useState<string>("");
+  useEffect(() => {
+    if (ready) {
+      setUserId(user?.id);
+    }
+  }, [ready, user]);
+  const localPersister = useCreatePersister(store!, (store) => {
     return createLocalPersister(store, "users");
   });
   const remotePersister = useCreatePersister(store!, (store) => {
@@ -41,27 +48,47 @@ export default function Onboarding() {
           .select(
             "name, family_name, village_neighborhood, phone_number, email, onboarded"
           )
-          .eq("id", user?.id)
+          .eq("id", userId)
           .single();
         if (error) {
           throw error;
         }
-        return [{ users: { [user?.id as string]: data } }, {}];
+        return [
+          {
+            users: {
+              [userId as string]: {
+                name: data?.name,
+                family_name: data?.family_name,
+                village_neighborhood: data?.village_neighborhood,
+                phone_number: data?.phone_number,
+                email: data?.email,
+                onboarded: data?.onboarded,
+              },
+            },
+          },
+          {},
+        ];
       },
       async (getContent) => {
-        const storeJson = getContent();
+        console.log("Remote save called");
+        const store = getContent();
+
+        //NOTE: workaround due to scope loss
+        const userId = Object.keys(store[0]["users"])[0];
+
+        if (!userId) throw new Error("No user id");
+        const userData = store[0]["users"][userId];
         const { error } = await supabase
           .from("users")
           .update({
-            name: storeJson.users[user?.id]?.name,
-            family_name: storeJson.users[user?.id]?.family_name,
-            village_neighborhood:
-              storeJson.users[user?.id]?.village_neighborhood,
-            phone_number: storeJson.users[user?.id]?.phone_number,
-            email: storeJson.users[user?.id]?.email,
-            onboarded: storeJson.users[user?.id]?.onboarded,
+            name: userData.name as string,
+            family_name: userData.family_name as string,
+            village_neighborhood: userData.village_neighborhood as string,
+            phone_number: userData.phone_number as string,
+            email: userData.email ?? null,
+            onboarded: userData.onboarded as boolean,
           })
-          .eq("id", user?.id);
+          .eq("id", userId);
         if (error) {
           throw error;
         }
@@ -77,18 +104,18 @@ export default function Onboarding() {
   const onSubmit: SubmitHandler<User> = async (data) => {
     try {
       await localPersister.load();
-      store!.setPartialRow("users", user?.id, {
+      store!.setPartialRow("users", userId, {
         name: data.givenName,
         family_name: data.familyName,
         village_neighborhood: data.villageNeighborhood,
-        phone_number: user?.phone?.number,
-        email: data.email,
+        phone_number: user.phone?.number as string,
+        email: data.email ?? "",
         onboarded: true,
       });
       await localPersister.save();
       await remotePersister.save();
-      // localPersister.destroy();
-      // remotePersister.destroy();
+      localPersister.destroy();
+      remotePersister.destroy();
       router.push(`/proposals/`);
     } catch (error) {
       console.log(error);
