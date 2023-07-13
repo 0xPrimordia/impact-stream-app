@@ -5,7 +5,7 @@ import { Footer } from "./components/Footer";
 import { WagmiProvider } from "./components/WagmiProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
-import BrowserCheck from "./components/BrowserCheck";
+import {BrowserCheck} from "./components/BrowserCheck";
 
 const inter = Inter({ subsets: ["latin"] });
 
