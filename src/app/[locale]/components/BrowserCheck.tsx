@@ -6,7 +6,6 @@ interface BrowserCheckProps {
 }
 
 export const BrowserCheck: React.FC<BrowserCheckProps> = ({ children }) => {
-debugger
 	useEffect(() => {
 		let userAgent = window.navigator.userAgent;
 		let browserName, browserVersion;
