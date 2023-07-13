@@ -6,13 +6,9 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useStore } from "tinybase/ui-react";
 import withTinyBase from "../components/withTinyBase";
+import { WithTinyBaseProps } from "../components/withTinyBase";
 
-type WithTinyBaseProps = {
-  localUserPersister: any;
-  remoteUserPersister: any;
-  getPersisted: Function;
-  setPersisted: Function;
-}
+
 
 type User = {
   id: string;
