@@ -5,6 +5,7 @@ import { Footer } from "./components/Footer";
 import { WagmiProvider } from "./components/WagmiProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
+import BrowserCheck from "./components/BrowserCheck";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,7 @@ export default async function RootLayout({
 		notFound();
 	}
 	return (
+	  <BrowserCheck>
 		<html lang={locale}>
 			<body className={inter.className + " p-8 pb-12 pt-28"}>
 				<NextIntlClientProvider messages={messages} locale={locale}>
@@ -41,5 +43,6 @@ export default async function RootLayout({
 				</NextIntlClientProvider>
 			</body>
 		</html>
+		</BrowserCheck>
 	);
 }
