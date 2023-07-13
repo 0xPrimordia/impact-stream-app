@@ -10,7 +10,7 @@ export default function GlobalError({
   return (
     <html>
       <body>
-        <h2>{error.message}</h2>
+        <h2>{error.message = "crypto.randomUUID is not a function" ? "Unsupported browser version. Please use modern versions of Chrome or Safari.": error.message}</h2>
         <button onClick={() => reset()}>Try again</button>
       </body>
     </html>
