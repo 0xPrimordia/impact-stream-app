@@ -7,30 +7,23 @@ import { useTranslations } from "next-intl";
 import { useStore } from "tinybase/ui-react";
 import withTinyBase from "../components/withTinyBase";
 import { WithTinyBaseProps } from "../components/withTinyBase";
+import { PrivyUser } from "@/app/types";
 
-
-
-type User = {
-  id: string;
-  givenName: string;
-  familyName: string;
-  villageNeighborhood: string;
-  email?: string;
-};
+type Props = PrivyUser & WithTinyBaseProps
 
 function OnboardingComponent({
   localUserPersister,
   remoteUserPersister,
   getPersisted,
   setPersisted
-}:WithTinyBaseProps) {
+}:Props) {
   const { user, ready, authenticated } = usePrivy();
   const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isSubmitted, isValid },
-  } = useForm<User>();
+  } = useForm<PrivyUser>();
   const t = useTranslations("Onboarding");
   const store = useStore();
  
@@ -38,7 +31,7 @@ function OnboardingComponent({
   if (ready && !authenticated) {
     router.push("/");
   }
-  const onSubmit: SubmitHandler<User> = async (data) => {
+  const onSubmit: SubmitHandler<PrivyUser> = async (data) => {
     try {
       await localUserPersister.load();
       if(user)
