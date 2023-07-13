@@ -1,7 +1,10 @@
 "use client";
 
+interface BrowserCheckProps {
+	children: React.ReactNode;
+}
 
-export default function BrowserCheck({ children }: React.ReactNode) {
+export const BrowserCheck: React.FC<BrowserCheckProps> = ({ children }) =>{
 
 var userAgent = navigator.userAgent;
 var browserName, browserVersion;
