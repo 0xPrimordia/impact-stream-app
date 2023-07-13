@@ -1,15 +1,18 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { createContext } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
-import { supabase } from "../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useStore, useCreatePersister } from "tinybase/ui-react";
-import { createCustomPersister } from "tinybase";
-import {
-  createLocalPersister,
-} from "tinybase/persisters/persister-browser";
+import { useStore } from "tinybase/ui-react";
+import withTinyBase from "../components/withTinyBase";
+
+type WithTinyBaseProps = {
+  localUserPersister: any;
+  remoteUserPersister: any;
+  getPersisted: Function;
+  setPersisted: Function;
+}
 
 type User = {
   id: string;
@@ -19,7 +22,12 @@ type User = {
   email?: string;
 };
 
-export default function Onboarding() {
+function OnboardingComponent({
+  localUserPersister,
+  remoteUserPersister,
+  getPersisted,
+  setPersisted
+}:WithTinyBaseProps) {
   const { user, ready, authenticated } = usePrivy();
   const router = useRouter();
   const {
@@ -29,81 +37,16 @@ export default function Onboarding() {
   } = useForm<User>();
   const t = useTranslations("Onboarding");
   const store = useStore();
-  const [userId, setUserId] = useState<string>("");
-  useEffect(() => {
-    if (ready && user) {
-      setUserId(user?.id);
-    }
-  }, [ready, user]);
-  const localPersister = useCreatePersister(store!, (store) => {
-    return createLocalPersister(store, "users");
-  });
-  const remotePersister = useCreatePersister(store!, (store) => {
-    return createCustomPersister(
-      store,
-      async () => {
-        const { data, error } = await supabase
-          .from("users")
-          .select(
-            "name, family_name, village_neighborhood, phone_number, email, onboarded"
-          )
-          .eq("id", userId)
-          .single();
-        if (error) {
-          throw error;
-        }
-        return [
-          {
-            users: {
-              [userId as string]: {
-                name: data?.name,
-                family_name: data?.family_name,
-                village_neighborhood: data?.village_neighborhood,
-                phone_number: data?.phone_number,
-                email: data?.email,
-                onboarded: data?.onboarded,
-              },
-            },
-          },
-          {},
-        ];
-      },
-      async (getContent) => {
-        console.log("Remote save called");
-        const store = getContent();
-
-        //NOTE: workaround due to scope loss
-        const userId = Object.keys(store[0]["users"])[0];
-
-        if (!userId) throw new Error("No user id");
-        const userData = store[0]["users"][userId];
-        const { error } = await supabase
-          .from("users")
-          .update({
-            name: userData.name as string,
-            family_name: userData.family_name as string,
-            village_neighborhood: userData.village_neighborhood as string,
-            phone_number: userData.phone_number as string,
-            email: userData.email as string,
-            onboarded: userData.onboarded as boolean,
-          })
-          .eq("id", userId);
-        if (error) {
-          throw error;
-        }
-      },
-      (listener) => setInterval(listener, 1000),
-      (listener: any) => clearInterval(listener)
-    );
-  });
+ 
   if (!ready) return null;
   if (ready && !authenticated) {
     router.push("/");
   }
   const onSubmit: SubmitHandler<User> = async (data) => {
     try {
-      await localPersister.load();
-      store!.setPartialRow("users", userId, {
+      await localUserPersister.load();
+      if(user)
+      store!.setPartialRow("users", user?.id, {
         name: data.givenName,
         family_name: data.familyName,
         village_neighborhood: data.villageNeighborhood,
@@ -111,10 +54,10 @@ export default function Onboarding() {
         email: data.email ?? "",
         onboarded: true,
       });
-      await localPersister.save();
-      await remotePersister.save();
-      localPersister.destroy();
-      remotePersister.destroy();
+      await localUserPersister.save();
+      await remoteUserPersister.save();
+      localUserPersister.destroy();
+      remoteUserPersister.destroy();
       router.push(`/proposals/`);
     } catch (error) {
       console.log(error);
@@ -179,3 +122,7 @@ export default function Onboarding() {
     </form>
   );
 }
+
+const Onboarding = withTinyBase(OnboardingComponent)
+
+export default Onboarding
