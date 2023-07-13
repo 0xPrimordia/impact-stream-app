@@ -9,7 +9,6 @@ import { useStore, useCreatePersister } from "tinybase/ui-react";
 import { createCustomPersister } from "tinybase";
 import {
   createLocalPersister,
-  Persister,
 } from "tinybase/persisters/persister-browser";
 
 type User = {
@@ -32,7 +31,7 @@ export default function Onboarding() {
   const store = useStore();
   const [userId, setUserId] = useState<string>("");
   useEffect(() => {
-    if (ready) {
+    if (ready && user) {
       setUserId(user?.id);
     }
   }, [ready, user]);
@@ -85,7 +84,7 @@ export default function Onboarding() {
             family_name: userData.family_name as string,
             village_neighborhood: userData.village_neighborhood as string,
             phone_number: userData.phone_number as string,
-            email: userData.email ?? null,
+            email: userData.email as string,
             onboarded: userData.onboarded as boolean,
           })
           .eq("id", userId);
@@ -108,7 +107,7 @@ export default function Onboarding() {
         name: data.givenName,
         family_name: data.familyName,
         village_neighborhood: data.villageNeighborhood,
-        phone_number: user.phone?.number as string,
+        phone_number: user?.phone?.number as string,
         email: data.email ?? "",
         onboarded: true,
       });

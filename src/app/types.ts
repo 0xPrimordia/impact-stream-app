@@ -13,6 +13,14 @@ export type Proposal = {
   key_players: string | null;
 };
 
+export type PrivyUser = {
+  id: string;
+  givenName: string;
+  familyName: string;
+  villageNeighborhood: string;
+  email?: string;
+};
+
 export type CreateProposal = {
   id: string;
   title: string | null;
@@ -74,5 +82,3 @@ export type User = {
   phone_number: string | null;
   village_neighborhood: string | null;
 };
-
-export type PrivyUser = {};
