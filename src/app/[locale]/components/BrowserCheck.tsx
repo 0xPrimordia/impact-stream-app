@@ -4,12 +4,12 @@ interface BrowserCheckProps {
 	children: React.ReactNode;
 }
 
-export const BrowserCheck: React.FC<BrowserCheckProps> = ({ children }) =>{
+export const BrowserCheck: React.FC<BrowserCheckProps> = ({ children }) => {
 
-var userAgent = navigator.userAgent;
-var browserName, browserVersion;
+let userAgent = navigator.userAgent;
+let browserName, browserVersion;
 
-} else if (userAgent.indexOf("Chrome") > -1) {
+if (userAgent.indexOf("Chrome") > -1) {
   browserName = "Google Chrome";
   browserVersion = userAgent.split("Chrome/")[1].split(" ")[0];
   if (browserVersion < 103) {
