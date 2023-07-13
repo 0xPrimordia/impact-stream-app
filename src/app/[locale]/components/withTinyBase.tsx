@@ -7,6 +7,13 @@ import {
     createLocalPersister,
   } from "tinybase/persisters/persister-browser";
 
+export interface WithTinyBaseProps {
+    localUserPersister: any;
+    remoteUserPersister: any;
+    getPersisted: Function;
+    setPersisted: Function;
+}
+
 const withTinyBase = (WrappedComponent:any) => {
 
     return (props: any) => {
@@ -48,4 +55,4 @@ const withTinyBase = (WrappedComponent:any) => {
     }
 }
 
-export default withTinyBase
+export default withTinyBase 
