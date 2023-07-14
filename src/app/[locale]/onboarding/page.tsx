@@ -7,15 +7,13 @@ import { useTranslations } from "next-intl";
 import { useStore } from "tinybase/ui-react";
 import withTinyBase from "../components/withTinyBase";
 import { WithTinyBaseProps } from "../components/withTinyBase";
-import { PrivyUser } from "@/app/types";
+import { User}  from "../../types";
 
-type Props = PrivyUser & WithTinyBaseProps
+type Props = User & WithTinyBaseProps
 
 function OnboardingComponent({
-  localUserPersister,
-  remoteUserPersister,
-  getPersisted,
-  setPersisted
+  localUsersPersister,
+  remoteUsersPersister,
 }:Props) {
   const { user, ready, authenticated } = usePrivy();
   const router = useRouter();
@@ -23,7 +21,7 @@ function OnboardingComponent({
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isSubmitted, isValid },
-  } = useForm<PrivyUser>();
+  } = useForm<User>();
   const t = useTranslations("Onboarding");
   const store = useStore();
  
@@ -31,9 +29,9 @@ function OnboardingComponent({
   if (ready && !authenticated) {
     router.push("/");
   }
-  const onSubmit: SubmitHandler<PrivyUser> = async (data) => {
+  const onSubmit: SubmitHandler<User> = async (data) => {
     try {
-      await localUserPersister.load();
+      await localUsersPersister.load();
       if(user)
       store!.setPartialRow("users", user?.id, {
         name: data.givenName,
@@ -43,11 +41,11 @@ function OnboardingComponent({
         email: data.email ?? "",
         onboarded: true,
       });
-      await localUserPersister.save();
-      await remoteUserPersister.save();
-      localUserPersister.destroy();
-      remoteUserPersister.destroy();
-      router.push(`/proposals/`);
+      await localUsersPersister.save();
+      await remoteUsersPersister.save();
+      localUsersPersister.destroy();
+      remoteUsersPersister.destroy();
+      // router.push(`/proposals/`);
     } catch (error) {
       console.log(error);
     }

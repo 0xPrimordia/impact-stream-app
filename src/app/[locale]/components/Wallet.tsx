@@ -4,13 +4,10 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../../lib/supabase-client";
 import { useTranslations } from "next-intl";
+import {withTinyBaseProps} from "./components/withTinyBase";
 import {
- useStore,
- useCreateQueries,
- useCreatePersister,
+	useStore,
 } from "tinybase/ui-react";
-import { Persister } from "tinybase";
-import { createLocalPersister } from "tinybase/persisters/persister-browser";
 
 async function supabaseAuth(address: string, userId: string) {
  await fetch("/api/auth", {
@@ -39,15 +36,37 @@ async function checkOnboardingStatus(userId: string) {
 }
 
 async function persistDataLocally(local: Persister) {
- await local.save();
- console.log("Data persisted!");
+	await local.save();
 }
 
-export function Wallet() {
- const router = useRouter();
- const { login, authenticated, user, ready } = usePrivy();
- const t = useTranslations("Sign-In");
+async function syncDataFromRemote(local: Persister, remote: Persister) {
+	await remote.load()
+  await local.save();
+}
+
+export function Wallet({localUsersPersister}: withTinyBaseProps) {
+
+	const router = useRouter();
+	const { login, authenticated, user, ready } = usePrivy();
+	const t = useTranslations("Sign-In");
  const [isLoggingIn, setIsLoggingIn] = useState(false);
+	const store = useStore();
+	if (ready && authenticated && user && user.wallet?.address) {
+		checkOnboardingStatus(user.id).then((onboarded) => {
+			if (!onboarded) {
+				supabaseAuth(user.wallet?.address as string, user.id);
+				store!.setPartialRow("users", user.id, {
+					address: user.wallet?.address as string,
+				});
+				console.log(store!.getTables());
+				persistDataLocally(localUsersPersister);
+				localUsersPersister.destroy();
+				router.push(`/onboarding/`);
+			} else {
+				router.push(`/proposals/`);
+			}
+		});
+	}
 
  const startLogin = () => {
   setIsLoggingIn(true);
