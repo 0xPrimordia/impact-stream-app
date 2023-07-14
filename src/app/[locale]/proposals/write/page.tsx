@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { User, CreateProposal } from "@/app/types";
 import { MilestoneForm } from "../../components/MilestoneForm";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface UserOption {
  id: string;
@@ -22,6 +24,14 @@ interface SelectOption {
  value: string;
  label: string;
 }
+
+const schema = yup.object().shape({
+ minimum_budget: yup
+  .number()
+  .nullable()
+  .min(1)
+  .max(12000000, "Budget must be less than 12,000,000 CFM"),
+});
 
 export default function WriteProposal() {
  const { user, authenticated, ready } = usePrivy();
@@ -36,13 +46,14 @@ export default function WriteProposal() {
    location: "",
    summary: "",
    affected_locations: "",
-   minimum_budget: undefined,
+   minimum_budget: 1,
    key_players: "",
    timeline: "",
    proposed_solution: "",
    sustainability: "",
    community_problem: "",
   },
+  resolver: yupResolver(schema),
  });
  const {
   register,
@@ -352,8 +363,6 @@ export default function WriteProposal() {
        placeholder={t("minimumBudgetPlaceholder")}
        {...register("minimum_budget", {
         required: t("minimumBudgetValidationMessage"),
-        min: 1,
-				max: 12000000
        })}
       />
       <span className="text-red-600 text-xs">
