@@ -9,7 +9,7 @@ export const BrowserCheck: React.FC<BrowserCheckProps> = ({ children }) => {
 	useEffect(() => {
 		let userAgent = window.navigator.userAgent;
 		let browserName, browserVersion;
-
+/*
 		if (userAgent.indexOf("Chrome") > -1) {
 			browserName = "Google Chrome";
 			browserVersion = parseInt(userAgent.split("Chrome/")[1].split(" ")[0]);
@@ -30,8 +30,8 @@ export const BrowserCheck: React.FC<BrowserCheckProps> = ({ children }) => {
 			throw new Error(
 				"Unsupported browser. Please use modern versions of Chrome or Safari."
 			);
-		}
+		} */
 
-	}, []);
+	}, []); 
 	return <>{children}</>;
 };

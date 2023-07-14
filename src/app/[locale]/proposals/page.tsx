@@ -17,32 +17,11 @@ export default function Proposals() {
 	}, []);
 	const t = useTranslations("Proposals");
 
-	function convertShape(arr: { [key: string]: any }) {
-		return arr.map((proposal: any) => {
-			const convertedProposal = {
-				id: proposal.id || null,
-				title: proposal.title || null,
-				location: proposal.location || null,
-				collaborators: null,
-			};
-
-			if (proposal.collaborators && Array.isArray(proposal.collaborators)) {
-				convertedProposal.collaborators = proposal.collaborators.map(
-					(collaborator: any) => ({
-						name: collaborator.name || null,
-						family_name: collaborator.family_name || null,
-					})
-				);
-			}
-			return convertedProposal;
-		});
-	}
-
 	async function getProposals() {
 		const { data, error } = await supabase.rpc(
 			"get_proposals_with_collaborators"
 		);
-		if (data) setProposals(convertShape(data));
+		if (data) setProposals(data);
 		if (error) console.log(error);
 	}
 
@@ -71,7 +50,8 @@ export default function Proposals() {
 						<span className="text-sm">
 							{proposal?.collaborators &&
 								proposal?.collaborators
-									.map((user) => user.name + " " + user.family_name)
+								// @ts-ignore
+									.map((user) => user?.name + " " + user?.family_name)
 									.join(", ")}
 						</span>
 					</div>

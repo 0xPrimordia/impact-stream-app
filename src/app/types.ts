@@ -1,3 +1,5 @@
+import { Json } from "../../types/supabase";
+
 export type Proposal = {
   id: string;
   title: string | null;
@@ -30,7 +32,7 @@ export type SummaryProposal = {
   title: string | null;
   location: string | null;
   summary: string | null;
-  collaborators: Collaborator[] | null;
+  collaborators: Json[] | null;
 };
 
 export type FullProposal = {
