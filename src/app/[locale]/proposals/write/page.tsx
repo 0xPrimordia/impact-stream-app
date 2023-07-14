@@ -30,13 +30,13 @@ export default function WriteProposal() {
 	const [users, setUsers] = useState<UserOption[]>([]);
 	const router = useRouter();
 	const methods = useForm<CreateProposal>({
-		mode: "onBlur",
+		mode: "all",
 		defaultValues: {
 			title: "",
 			location: "",
 			summary: "",
 			affected_locations: "",
-			minimum_budget: undefined,
+			minimum_budget: 0,
 			key_players: "",
 			timeline: "",
 		},
@@ -329,6 +329,8 @@ export default function WriteProposal() {
 							placeholder={t("minimumBudgetPlaceholder")}
 							{...register("minimum_budget", {
 								required: t("minimumBudgetValidationMessage"),
+								min: 1,
+								max: 12000000
 							})}
 						/>
 						<span className="text-red-600 text-xs">
