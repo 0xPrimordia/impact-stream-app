@@ -1,10 +1,10 @@
 "use client";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
 import { supabase } from "../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { isValidEmail } from "@/app/utils";
+import { ImageUploader } from "../components/ImageUploader";
 
 type User = {
 	id: string;
@@ -12,24 +12,28 @@ type User = {
 	familyName: string;
 	villageNeighborhood: string;
 	email?: string;
+	avatar?:string;
 };
 
 export default function Onboarding() {
 	const { user, ready, authenticated } = usePrivy();
 	const router = useRouter();
-	const {
-		register,
-		handleSubmit,
-		formState: { errors, isSubmitting, isSubmitted, isValid },
-	} = useForm<User>({
+	const methods = useForm<User>({
 		mode: "onBlur",
 		defaultValues: {
 			givenName: "",
 			familyName: "",
 			villageNeighborhood: "",
-			email: ""
+			email: "",
+			avatar: ""
 		},
 	});
+	const {
+		register,
+		handleSubmit,
+		formState: { errors, isSubmitting, isSubmitted, isValid },
+	} = methods
+
 	const t = useTranslations("Onboarding");
 	if (!ready) return null;
 	if (ready && !authenticated) {
@@ -59,8 +63,11 @@ export default function Onboarding() {
 	};
 	const inputClasses = "w-full border border-slate-300 rounded h-10 pl-2 mb-6";
 	return (
+		<FormProvider {...methods}>
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<h3 className="font-bold mb-6">{t("heading")}</h3>
+			<h3 className="font-bold text-sm mb-2">Profile Image</h3>
+			<ImageUploader />
 			<span className="text-red-600 text-xs">
 				{" "}
 				{errors.givenName && errors.givenName.message}
@@ -113,5 +120,6 @@ export default function Onboarding() {
 				)}
 			</button>
 		</form>
+		</FormProvider>
 	);
 }
