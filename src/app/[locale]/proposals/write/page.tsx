@@ -244,7 +244,6 @@ export default function WriteProposal() {
         </p>
        </>
       )}
-
       <StepControls />
      </>
     )}
@@ -353,6 +352,8 @@ export default function WriteProposal() {
        placeholder={t("minimumBudgetPlaceholder")}
        {...register("minimum_budget", {
         required: t("minimumBudgetValidationMessage"),
+        min: 1,
+				max: 12000000
        })}
       />
       <span className="text-red-600 text-xs">
@@ -383,7 +384,6 @@ export default function WriteProposal() {
     {currentStep === 7 && (
      <>
       <MilestoneForm />
-
       <p
        className="underline mb-8 text-sky-600"
        onClick={() => setStep("previous")}
