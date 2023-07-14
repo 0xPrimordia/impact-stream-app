@@ -26,7 +26,7 @@ const withTinyBase = (WrappedComponent: any) => {
    if (error) {
     throw error;
    }
-   let result = {};
+   let result: { [id: string]: any } = {};
    if (data) {
     for (let i = 0; i < data.length; i++) {
      const { id, ...userFields } = data[i];
@@ -62,7 +62,7 @@ const withTinyBase = (WrappedComponent: any) => {
    if (error) {
     throw error;
    }
-   let result: Table = {};
+   let result: { [id: string]: any } = {};
    if (data) {
     for (let i = 0; i < data.length; i++) {
      const { id, ...proposalFields } = data[i];
@@ -95,7 +95,7 @@ const withTinyBase = (WrappedComponent: any) => {
    if (error) {
     throw error;
    }
-   let result: Table = {};
+   let result: { [id: string]: any } = {};
    if (data) {
     for (let i = 0; i < data.length; i++) {
      const { id, ...collaboratorFields } = data[i];
