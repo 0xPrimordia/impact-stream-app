@@ -270,6 +270,9 @@ export default function WriteProposal() {
 								required: t("locationsAffectedValidationMessage"),
 							})}
 						/>
+						<p className="text-sm center italic mt-6">
+									{t("grantInformationContext")}
+						</p>
 						<StepControls />
 					</>
 				)}
