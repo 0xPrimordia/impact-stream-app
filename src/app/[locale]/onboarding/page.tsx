@@ -42,6 +42,8 @@ function OnboardingComponent({
       });
       await localPersister.save();
       await remoteUsersPersister.save();
+			await remoteUsersPersister.load();
+			console.log(store!.getTables());
       localPersister.destroy();
       remoteUsersPersister.destroy();
       // router.push(`/proposals/`);
