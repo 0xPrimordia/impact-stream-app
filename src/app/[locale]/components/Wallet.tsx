@@ -4,9 +4,9 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../../lib/supabase-client";
 import { useTranslations } from "next-intl";
-import {withTinyBaseProps} from "./components/withTinyBase";
+import { WithTinyBaseProps, Persister } from "./withTinyBase";
 import {
-	useStore,
+ useStore,
 } from "tinybase/ui-react";
 
 async function supabaseAuth(address: string, userId: string) {
@@ -36,37 +36,41 @@ async function checkOnboardingStatus(userId: string) {
 }
 
 async function persistDataLocally(local: Persister) {
-	await local.save();
+ await local.save();
 }
 
 async function syncDataFromRemote(local: Persister, remote: Persister) {
-	await remote.load()
-  await local.save();
+ await remote.load()
+ await local.save();
 }
 
-export function Wallet({localUsersPersister}: withTinyBaseProps) {
+export function Wallet({
+ localPersister,
+ remoteUsersPersister,
+}: WithTinyBaseProps) {
 
-	const router = useRouter();
-	const { login, authenticated, user, ready } = usePrivy();
-	const t = useTranslations("Sign-In");
+ const router = useRouter();
+ const { login, authenticated, user, ready } = usePrivy();
+ const t = useTranslations("Sign-In");
  const [isLoggingIn, setIsLoggingIn] = useState(false);
-	const store = useStore();
-	if (ready && authenticated && user && user.wallet?.address) {
-		checkOnboardingStatus(user.id).then((onboarded) => {
-			if (!onboarded) {
-				supabaseAuth(user.wallet?.address as string, user.id);
-				store!.setPartialRow("users", user.id, {
-					address: user.wallet?.address as string,
-				});
-				console.log(store!.getTables());
-				persistDataLocally(localUsersPersister);
-				localUsersPersister.destroy();
-				router.push(`/onboarding/`);
-			} else {
-				router.push(`/proposals/`);
-			}
-		});
-	}
+ const store = useStore();
+ if (ready && authenticated && user && user.wallet?.address) {
+  checkOnboardingStatus(user.id).then((onboarded) => {
+   if (!onboarded) {
+    supabaseAuth(user.wallet?.address as string, user.id);
+    store!.setPartialRow("users", user.id, {
+     address: user.wallet?.address as string,
+    });
+    console.log(store!.getTables());
+    persistDataLocally(localPersister);
+    syncDataFromRemote(localPersister, remoteUsersPersister);
+    localPersister.destroy();
+    router.push(`/onboarding/`);
+   } else {
+    router.push(`/proposals/`);
+   }
+  });
+ }
 
  const startLogin = () => {
   setIsLoggingIn(true);
@@ -79,26 +83,6 @@ export function Wallet({localUsersPersister}: withTinyBaseProps) {
   }
  };
 
- const store = useStore();
- const localPersister = useCreatePersister(store!, (store) => {
-  return createLocalPersister(store, "users");
- });
- if (ready && authenticated && user && user.wallet?.address) {
-  checkOnboardingStatus(user.id).then((onboarded) => {
-   if (!onboarded) {
-    supabaseAuth(user.wallet?.address as string, user.id);
-    store!.setPartialRow("users", user.id, {
-     address: user.wallet?.address as string,
-    });
-    console.log(store!.getTables());
-    persistDataLocally(localPersister);
-    localPersister.destroy();
-    router.push(`/onboarding/`);
-   } else {
-    router.push(`/proposals/`);
-   }
-  });
- }
 
  return (
   <>
@@ -106,10 +90,10 @@ export function Wallet({localUsersPersister}: withTinyBaseProps) {
    <button
     className="w-full border border-slate-400 rounded leading-10 font-bold disabled:opacity-50 relative"
     onClick={startLogin}
-    disabled={isLogingIn}
+    disabled={isLoggingIn}
    >
     {t("signInButton")}
-    {isLogingIn && (
+    {isLoggingIn && (
      <svg
       aria-hidden="true"
       className="absolute right-0 top-1 w-8 h-8 mr-2 text-gray-200 animate-spin fill-blue-600"

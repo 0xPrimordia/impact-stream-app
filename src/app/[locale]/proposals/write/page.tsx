@@ -9,8 +9,14 @@ import { usePrivy } from "@privy-io/react-auth";
 import { supabase } from "../../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import withTinyBase from "../components/withTinyBase";
+import { WithTinyBaseProps } from "../components/withTinyBase";
 import { User, CreateProposal } from "@/app/types";
 import { MilestoneForm } from "../../components/MilestoneForm";
+import {useStore} from "tinybase/ui-react";
+import { v4 as uuidv4 } from 'uuid';
+
+type Props = User & CreateProposal & WithTinyBaseProps;
 
 interface UserOption {
 	id: string;
@@ -22,9 +28,10 @@ interface SelectOption {
 	value: string;
 	label: string;
 }
-
-export default function WriteProposal() {
+const Props
+function WriteProposalComponent({localPersister, remoteProposalPersister, remoteCollaboratorsPersister}: Props) {
 	const { user, authenticated, ready } = usePrivy();
+	const store = useStore();
 	const [userOptions, setUserOptions] = useState<SelectOption[]>([]);
 	const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
 	const [users, setUsers] = useState<UserOption[]>([]);
@@ -98,45 +105,32 @@ export default function WriteProposal() {
 
 	const onSubmit: SubmitHandler<CreateProposal> = async (formData) => {
 		try {
-			const { data: proposalData, error: proposalError } = await supabase
-				.from("proposals")
-				.insert({
-					author_id: user?.id,
-					title: formData.title,
-					summary: formData.summary,
-					timeline: formData.timeline,
-					location: formData.location,
-					affected_locations: formData.affected_locations,
-					community_problem: formData.community_problem,
-					proposed_solution: formData.proposed_solution,
-					minimum_budget: formData.minimum_budget,
-					key_players: formData.key_players,
-					project_milestones: formData.milestones,
-				})
-				.select()
-				.single();
-			if (proposalError) {
-				throw proposalError;
-			}
-			let inserts: any = [];
-			selectedUsers.map(async (selectedUser) => {
-				inserts.push({
-					id: {
-						user_id: selectedUser?.value as string,
-						proposal_id: proposalData.id,
-					},
-					proposal_id: proposalData.id,
-					user_id: selectedUser?.value,
+			store!.setRow("proposals", uuidv4(), {
+				author_id : user?.id,
+				title: formData.title,
+				summary: formData.summary,
+				timeline: formData.timeline,
+				location: formData.location,
+				affected_locations: formData.affected_locations,
+				community_problem: formData.community_problem,
+				proposed_solution: formData.proposed_solution,
+				minimum_budget: formData.minimum_budget,
+				key_players: formData.key_players,
+				project_milestones: formData.milestones,
 				});
-			});
+      const inserts = selectedUsers.reduce((users, selectedUser) => {
+       const id = `(${selectedUser.value as string}, ${proposalData.id})`;
+			   result[id] = {
+					proposal_id: proposalData.id,
+					user_id: selectedUser.value,
+				 };
+				 return result;
+      }, {});
+			store!.setTable("collaborators", inserts);
+				await localPersister.save();
+				await remoteProposalPersister.save();
 
-			const { error } = await supabase
-				.from("proposal_collaborators")
-				.insert(inserts);
-			if (error) {
-				throw error;
-			}
-
+		});
 			router.push(`/proposals/${proposalData.id}`);
 		} catch (error) {
 			console.log(error);
@@ -397,3 +391,6 @@ export default function WriteProposal() {
 		</FormProvider>
 	);
 }
+
+const ProposalWrite = withTinyBase(ProposalWritePage);
+export default ProposalWrite;

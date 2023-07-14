@@ -12,7 +12,7 @@ import { User}  from "../../types";
 type Props = User & WithTinyBaseProps
 
 function OnboardingComponent({
-  localUsersPersister,
+  localPersister,
   remoteUsersPersister,
 }:Props) {
   const { user, ready, authenticated } = usePrivy();
@@ -31,7 +31,6 @@ function OnboardingComponent({
   }
   const onSubmit: SubmitHandler<User> = async (data) => {
     try {
-      await localUsersPersister.load();
       if(user)
       store!.setPartialRow("users", user?.id, {
         name: data.givenName,
@@ -41,9 +40,9 @@ function OnboardingComponent({
         email: data.email ?? "",
         onboarded: true,
       });
-      await localUsersPersister.save();
+      await localPersister.save();
       await remoteUsersPersister.save();
-      localUsersPersister.destroy();
+      localPersister.destroy();
       remoteUsersPersister.destroy();
       // router.push(`/proposals/`);
     } catch (error) {
