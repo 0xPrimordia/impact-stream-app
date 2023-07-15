@@ -77,6 +77,12 @@
     "minimumBudget": "Budget Minimal",
     "totalBudget": "Budget Total"
   },
+  "Donate": {
+    "heading": "Donner",
+    "copied": "Adresse copiée!",
+    "disclaimer": "Si vous n'avez pas de portefeuille crypto, ",
+    "link": "faire un don sur ce lien."
+  },
   "Navigation": {
     "link1": "Les Propositions",
     "link2": "Paramètres"

@@ -77,6 +77,12 @@
     "minimumBudget": "Gazazã Suetɔ Kekeake",
     "totalBudget": "Gazazã Ƒe Gazazãwo Katã"
   },
+  "Donate": {
+    "heading": "Donate",
+    "button": "Adrɛs si wogbugbɔ ŋlɔ!",
+    "disclaimer": "Ne crypto gakotoku mele asiwò o la, ",
+    "link": "dzɔ nu le kadodo sia dzi."
+  },
   "Navigation": {
     "link1": "Aɖaŋuɖoɖowo",
     "link2": "Ðoɖowo"
