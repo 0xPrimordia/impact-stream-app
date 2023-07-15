@@ -29,6 +29,8 @@ export const ImageUploader = () => {
 
     function makeStorageClient () {
         const token = getAccessToken()
+        console.log("token")
+        console.log(token)
         if(token)
         return new Web3Storage({ token: token })
     }
