@@ -31,7 +31,7 @@ export async function storeImage(imageFile:any, caption:string) {
     caption
   })
 
-  const token = process.env.WEB3_STORAGE_TOKEN
+  const token = process.env.NEXT_WEB3_STORAGE_TOKEN
 
   if (!token) {
     showMessage('> ❗️ no API token found for Web3.Storage. You can add one in the settings page!')
