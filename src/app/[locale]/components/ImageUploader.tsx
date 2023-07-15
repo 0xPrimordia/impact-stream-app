@@ -1,8 +1,15 @@
-import { Web3Storage } from 'web3.storage';
+"use client";
+import React, { useState, useEffect } from "react";
+import { Web3Storage, CIDString, Web3File } from 'web3.storage';
 import { useFormContext } from "react-hook-form";
+import { storeImage } from "./ImageGallery";
 
 export const ImageUploader = () => {
     const { register, formState: { errors } } = useFormContext();
+    const [files, setFiles] = useState<CIDString>();
+    const [storageClient, setStorageClient] = useState<Web3Storage>();
+    const [storedFiles, setStoredFiles] = useState<Web3File>();
+
     function getAccessToken () {
     // If you're just testing, you can paste in a token
     // and uncomment the following line:
@@ -15,10 +22,14 @@ export const ImageUploader = () => {
     return process.env.WEB3_STORAGE_TOKEN
     }
 
+    useEffect(() => {
+		setClient();
+	}, []);
+
     function makeStorageClient () {
         const token = getAccessToken()
         if(token)
-    return new Web3Storage({ token: token })
+        return new Web3Storage({ token: token })
     }
 
     function getFiles () {
@@ -26,18 +37,24 @@ export const ImageUploader = () => {
         return fileInput?.files
     }
 
-    async function storeFiles (files:any) {
-        let client
+    async function setClient() {
+        let client;
         try {
             client = await makeStorageClient()
         } catch (error) {
             console.log(error)
         }
-        if(client) {
-            const cid = await client.put(files)
+        setStorageClient(client)
+    }
+
+    async function storeFiles (files:any) {
+        if(storageClient) {
+            //const cid = await storageClient.put(files)
+            const Image = await storeImage(files, "avatar")
             // store CID in DB then display image 
-            console.log('stored files with cid:', cid)
-            return cid
+            console.log('stored files with cid:', Image?.cid)
+            setFiles(Image?.imageGatewayURL)
+            return Image
         }
         
     }
@@ -53,8 +70,15 @@ export const ImageUploader = () => {
 
     return (
         <>
-            <input {...register("avatar")} className="text-sm italic mt-2" type='file' />
-            <button className="border border-slate-400 rounded py-1 px-2 text-sm font-bold relative disabled:opacity-50 mt-4 mb-6" type='button' onClick={uploadFiles}>Upload</button>
+        {files && (
+            <img src={files} />
+        )}
+        {!storedFiles && (
+            <>
+                <input {...register("avatar")} className="text-sm italic mt-2" type='file' />
+                <button className="border border-slate-400 rounded py-1 px-2 text-sm font-bold relative disabled:opacity-50 mt-4 mb-6" type='button' onClick={uploadFiles}>Upload</button>
+            </>
+        )}
         </>
     )
 }
