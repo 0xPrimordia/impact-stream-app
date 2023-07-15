@@ -59,7 +59,7 @@ export const ImageUploader = () => {
                 const { error } = await supabase
                     .from("users")
                     .update({
-                        image_url: Image?.imageGatewayURL
+                        profile_image_url: Image?.imageGatewayURL
                     })
                     .eq("id", user?.id);
                 if (error) {
