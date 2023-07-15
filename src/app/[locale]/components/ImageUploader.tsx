@@ -20,7 +20,7 @@ export const ImageUploader = () => {
     // environement variable or other configuration that's kept outside of
     // your code base. For this to work, you need to set the
     // WEB3STORAGE_TOKEN environment variable before you run your code.
-    return process.env.WEB3_STORAGE_TOKEN
+    return process.env.NEXT_WEB3_STORAGE_TOKEN
     }
 
     useEffect(() => {
@@ -87,7 +87,7 @@ export const ImageUploader = () => {
         {files && (
             <img src={files} />
         )}
-        {!storedFiles && (
+        {!files && (
             <>
                 <input className="text-sm italic mt-2" type='file' />
                 <button className="border border-slate-400 rounded py-1 px-2 text-sm font-bold relative disabled:opacity-50 mt-4 mb-6" type='button' onClick={uploadFiles}>Upload</button>
