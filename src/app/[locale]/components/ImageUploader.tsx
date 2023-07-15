@@ -1,11 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { usePrivy } from "@privy-io/react-auth";
+import { supabase } from "../../../../lib/supabase-client";
 import { Web3Storage, CIDString, Web3File } from 'web3.storage';
-import { useFormContext } from "react-hook-form";
 import { storeImage } from "./ImageGallery";
 
 export const ImageUploader = () => {
-    const { register, formState: { errors } } = useFormContext();
+    const { user } = usePrivy();
     const [files, setFiles] = useState<CIDString>();
     const [storageClient, setStorageClient] = useState<Web3Storage>();
     const [storedFiles, setStoredFiles] = useState<Web3File>();
@@ -54,6 +55,19 @@ export const ImageUploader = () => {
             // store CID in DB then display image 
             console.log('stored files with cid:', Image?.cid)
             setFiles(Image?.imageGatewayURL)
+            try {
+                const { error } = await supabase
+                    .from("users")
+                    .update({
+                        profile_image_url: Image?.imageGatewayURL
+                    })
+                    .eq("id", user?.id);
+                if (error) {
+                    throw error;
+                }
+            } catch (error) {
+                console.log(error);
+            }
             return Image
         }
         
@@ -75,7 +89,7 @@ export const ImageUploader = () => {
         )}
         {!storedFiles && (
             <>
-                <input {...register("avatar")} className="text-sm italic mt-2" type='file' />
+                <input className="text-sm italic mt-2" type='file' />
                 <button className="border border-slate-400 rounded py-1 px-2 text-sm font-bold relative disabled:opacity-50 mt-4 mb-6" type='button' onClick={uploadFiles}>Upload</button>
             </>
         )}
