@@ -4,7 +4,7 @@
  * Display a message to the user in the output area.
  * @param {string} text 
  */
-export function showMessage(text) {
+export function showMessage(text:string) {
     const output = document.getElementById('output')
     if (!output) {
       return
@@ -18,7 +18,7 @@ export function showMessage(text) {
    * Display a URL in the output area as a clickable link.
    * @param {string} url 
    */
-  export function showLink(url) {
+  export function showLink(url:string) {
     const output = document.getElementById('output')
     if (!output) {
       return
@@ -38,7 +38,7 @@ export function showMessage(text) {
    * @param {string} labelText
    * @returns {HTMLDivElement}
    */
-  export function iconLabel(iconClass, labelText) {
+  export function iconLabel(iconClass:string, labelText:string) {
     const label = document.createElement('span')
     label.textContent = labelText
     const icon = document.createElement('span')
@@ -53,7 +53,7 @@ export function showMessage(text) {
    * Sets window location to the given path, if we're not already there.
    * @param {string} path 
    */
-  export function navToPath(path) {
+  export function navToPath(path:string) {
     if (window.location.pathname !== path) {
       window.location.pathname = path
     }
@@ -72,7 +72,7 @@ export function showMessage(text) {
    * @param {string} path 
    * @returns {string}
    */
-  export function makeGatewayURL(cid, path) {
+  export function makeGatewayURL(cid:string, path:string) {
     return `https://${cid}.ipfs.dweb.link/${encodeURIComponent(path)}`
   }
   
@@ -82,7 +82,7 @@ export function showMessage(text) {
    * @param {object} obj a JSON-serializable object
    * @returns {File}
    */
-  export function jsonFile(filename, obj) {
+  export function jsonFile(filename:string, obj:object) {
     return new File([JSON.stringify(obj)], filename)
   }
   
@@ -97,7 +97,7 @@ export function showMessage(text) {
    * Saves the given token to local storage
    * @param {string} token 
    */
-  export function saveToken(token) {
+  export function saveToken(token:string) {
     localStorage.setItem('w3storage-token', token)
   }
   
@@ -113,7 +113,7 @@ export function showMessage(text) {
    * which sets 'display: none'
    * @param {HTMLElement} el 
    */
-  export function hideElement(el) {
+  export function hideElement(el:any) {
     el.classList.add('hidden')
   }
   
@@ -121,7 +121,7 @@ export function showMessage(text) {
    * Removes the 'hidden' class from the given DOM element.
    * @param {HTMLElement} el 
    */
-  export function showElement(el) {
+  export function showElement(el:any) {
     el.classList.remove('hidden')
   }
   
@@ -135,7 +135,7 @@ export function showMessage(text) {
   /**
    * @param {string} value value you want to set location.hash to (without the leading '#')
    */
-  export function setLocationHash(value) {
+  export function setLocationHash(value:any) {
     location.hash = '#' + value
   }
   
@@ -144,7 +144,7 @@ export function showMessage(text) {
    * @param {string} url 
    * @returns {HTMLAnchorElement}
    */
-  export function makeShareLink(url) {
+  export function makeShareLink(url:string) {
     const a = document.createElement('a')
     a.target = '_external'
     a.className = 'share-link'
@@ -161,7 +161,7 @@ export function showMessage(text) {
    * @param {string} url 
    * @returns {HTMLButtonElement}
    */
-  export function makeClipboardButton(url) {
+  export function makeClipboardButton(url:string) {
     const button = document.createElement('button')
     button.onclick = e => {
       e.preventDefault()
@@ -178,13 +178,14 @@ export function showMessage(text) {
    * Copies the given string to the user's clipboard.
    * @param {string} str 
    */
-  export function copyStringToClipboard (str) {
+  export function copyStringToClipboard (str:string) {
     // Create new element
     var el = document.createElement('textarea');
     // Set value (string to be copied)
     el.value = str;
     // Set non-editable to avoid focus and move outside of view
     el.setAttribute('readonly', '');
+    //@ts-ignore
     el.style = {position: 'absolute', left: '-9999px'};
     document.body.appendChild(el);
     // Select text inside element
@@ -199,7 +200,7 @@ export function showMessage(text) {
    * Shows a message to the user in a small popup box that fades away after a few seconds.
    * @param {string} message message to display
    */
-  export function showPopupMessage(message) {
+  export function showPopupMessage(message:string) {
     const snackbar = document.getElementById('snackbar')
     if (!snackbar) {
       return
