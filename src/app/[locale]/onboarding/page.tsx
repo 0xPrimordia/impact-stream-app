@@ -42,7 +42,7 @@ export default function Onboarding() {
 
  const onSubmit: SubmitHandler<User> = async (data) => {
   try {
-	 const supabase = await getSupabaseClient();
+	 const supabase = await getSupabaseClient(user?.wallet?.address, user?.id);
    const { error } = await supabase
     .from("users")
     .update({

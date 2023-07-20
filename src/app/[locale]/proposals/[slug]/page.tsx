@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { supabase } from "../../../../../lib/supabase-client";
+import { getSupabaseClient } from "../../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
@@ -77,6 +77,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   return convertedObj;
  }
  async function getProposal() {
+	const supabase = await getSupabaseClient();
   const { data, error } = await supabase
    .rpc("get_proposal_with_collaborators", { proposal_id: params.slug })
    .single();

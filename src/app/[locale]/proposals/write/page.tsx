@@ -6,7 +6,7 @@ import { SelectValue } from "react-tailwindcss-select/dist/components/type";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
-import { supabase } from "../../../../../lib/supabase-client";
+import { getSupabaseClient } from "../../../../../lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { User, CreateProposal } from "@/app/types";
@@ -75,6 +75,7 @@ export default function WriteProposal() {
  }
 
  async function getUsers() {
+	const supabase = await getSupabaseClient(user?.wallet?.address, user?.id);
   const { data } = await supabase
    .from("users")
    .select(`id, name, family_name`);
@@ -101,6 +102,7 @@ export default function WriteProposal() {
 
  const onSubmit: SubmitHandler<CreateProposal> = async (formData) => {
   try {
+	 const supabase = await getSupabaseClient(user?.wallet?.address, user?.id);
    const { data: proposalData, error: proposalError } = await supabase
     .from("proposals")
     .insert({
