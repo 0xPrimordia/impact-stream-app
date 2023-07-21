@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { usePrivy } from "@privy-io/react-auth";
-import { supabase } from "../../../../lib/supabase-client";
+import { getSupabaseClient } from "../../../../lib/supabase-client";
 import { Web3Storage, CIDString, Web3File } from 'web3.storage';
 import { storeImage } from "./ImageGallery";
 
@@ -58,6 +58,7 @@ export const ImageUploader = () => {
             console.log('stored files with cid:', Image?.cid)
             setFiles(Image?.imageGatewayURL)
             try {
+		            const supabase = await getSupabaseClient()
                 const { error } = await supabase
                     .from("users")
                     .update({
