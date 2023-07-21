@@ -22,7 +22,7 @@ export const generateRefreshToken = async (address: string, userId: string) => {
   })
   .setJti(nanoid())
   .setIssuedAt()
-  .setExpirationTime("90d")
+  .setExpirationTime("30d")
   .sign(
    new TextEncoder().encode(
     process.env.SUPABASE_REFRESH_TOKEN_SECRET as string
