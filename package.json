@@ -38,6 +38,6 @@
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/jsonwebtoken": "^9.0.2",
-    "supabase": "^1.68.6"
+    "supabase": "^1.77.9"
   }
 }

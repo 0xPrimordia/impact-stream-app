@@ -88,8 +88,8 @@ importers:
         specifier: ^9.0.2
         version: 9.0.2
       supabase:
-        specifier: ^1.68.6
-        version: 1.68.6
+        specifier: ^1.77.9
+        version: 1.77.9
 
 packages:
 
@@ -7709,8 +7709,8 @@ packages:
       ts-interface-checker: 0.1.13
     dev: false
 
-  /supabase@1.68.6:
-    resolution: {integrity: sha512-3+0SBoY4oRZ1GkDUkMaUfsIAk0ofhw0EntJJo+GZNrciXE0lDZ7AX31g63AyJ1yfNxElbYBcrWIMtsZgeDG35w==}
+  /supabase@1.77.9:
+    resolution: {integrity: sha512-AyMaMsb+QpUMTE1XfV8Vhl/9G+Hkzk61RXf/JP5uyxc256hcb3N3FQoW2bi+A/BodJ/rfZOPE7vv+xtfVf6vyQ==}
     engines: {npm: '>=8'}
     hasBin: true
     requiresBuild: true
