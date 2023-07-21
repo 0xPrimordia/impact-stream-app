@@ -38,11 +38,12 @@ export async function POST(request: Request) {
 
  response.headers.set(
   "set-cookie",
-  `supabase-access-token=${accessToken}; Secure; Path=/;`
+  `supabase-access-token=${accessToken}; Max-Age=${120}; Secure; Path=/; Secure; Path=/;`
  );
  response.headers.append(
   "set-cookie",
-  `supabase-refresh-token=${refreshToken}; Secure; Path=/;`
+  `supabase-refresh-token=${refreshToken}; Max-Age = ${86400 * 30
+  }; Secure; Path=/;`
  );
  return response;
 }
