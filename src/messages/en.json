@@ -77,6 +77,12 @@
     "minimumBudget": "Minimum Budget",
     "totalBudget": "Total Budget"
   },
+  "Donate": {
+    "heading": "Donate",
+    "copied": "Address copied!",
+    "disclaimer": "If you don't have a crypto wallet, ",
+    "link": "donate at this link."
+  },
   "Navigation": {
     "link1": "Proposals",
     "link2": "Settings"
