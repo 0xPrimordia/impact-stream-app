@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { getSupabaseClient } from "../../../../lib/supabase-client";
+import { getSupabaseClient } from "../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { FullProposal } from "@/app/types";

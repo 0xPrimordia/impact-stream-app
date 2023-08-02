@@ -1,6 +1,7 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "../types/supabase";
-import { getCookie } from "cookies-next";
+import { getCookie, deleteCookie } from "cookies-next";
+
 let supabase: SupabaseClient | null = null;
 
 export const getSupabaseClient = async () => {
@@ -17,4 +18,9 @@ export const getSupabaseClient = async () => {
   }
  );
  return supabase;
+};
+
+export const logoutSupabase = () => {
+ deleteCookie("supabase-access-token");
+ deleteCookie("supabase-refresh-token");
 };

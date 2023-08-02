@@ -2,18 +2,15 @@
 import React, { useState, useEffect } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
-import { getSupabaseClient } from "../../../../lib/supabase-client";
+import { getSupabaseClient, logoutSupabase } from "../../../../lib/supabase";
 import { User } from "@/app/types";
 import { shortenAddress } from "../../utils";
 import { useTranslations } from "next-intl";
-import { deleteCookie } from "cookies-next";
+import useCheckTokens from "../hooks/useCheckTokens";
 
-const logoutSupabase = () => {
- deleteCookie("supabase-access-token");
- deleteCookie("supabase-refresh-token");
-}
 export default function Settings() {
- const { logout, user } = usePrivy();
+ const { logout, user, ready, authenticated } = usePrivy();
+ const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
  const router = useRouter();
  const t = useTranslations("Settings");
  const handleDisconnect = () => {
@@ -24,8 +21,8 @@ export default function Settings() {
  const [currentUser, setCurrentUser] = useState<User>();
 
  useEffect(() => {
-  getUser();
- }, [user]);
+  if (isAccessTokenValid) getUser();
+ }, [user, isAccessTokenValid]);
 
  async function getUser() {
   if (!user) return;
@@ -36,6 +33,17 @@ export default function Settings() {
    .eq("id", user.id);
   if (data) setCurrentUser(data[0]);
  }
+
+ if (!ready) return null;
+ if (ready && !authenticated) {
+  router.push("/");
+ }
+ if (!isRefreshTokenValid) {
+  logoutSupabase();
+  logout();
+  router.push("/");
+ }
+
 
  return (
   <>

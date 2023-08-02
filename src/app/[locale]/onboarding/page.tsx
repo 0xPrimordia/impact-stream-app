@@ -1,10 +1,11 @@
 "use client";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
-import { getSupabaseClient } from "../../../../lib/supabase-client";
+import { getSupabaseClient, logoutSupabase } from "../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ImageUploader } from "../components/ImageUploader";
+import useCheckTokens from "../hooks/useCheckTokens";
 
 type User = {
  id: string;
@@ -16,7 +17,8 @@ type User = {
 };
 
 export default function Onboarding() {
- const { user, ready, authenticated } = usePrivy();
+ const { user, ready, authenticated, logout } = usePrivy();
+ const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
  const router = useRouter();
  const methods = useForm<User>({
   mode: "onBlur",
@@ -39,24 +41,31 @@ export default function Onboarding() {
  if (ready && !authenticated) {
   router.push("/");
  }
+ if (!isRefreshTokenValid) {
+	logoutSupabase();
+	logout();
+  router.push("/");
+ }
 
  const onSubmit: SubmitHandler<User> = async (data) => {
   try {
-   const supabase = await getSupabaseClient();
-   const { error } = await supabase
-    .from("users")
-    .update({
-     name: data.givenName,
-     family_name: data.familyName,
-     village_neighborhood: data.villageNeighborhood,
-     phone_number: user?.phone?.number,
-     email: data.email,
-     onboarded: true,
-    })
-    .eq("id", user?.id);
-   router.push(`/proposals/`);
-   if (error) {
-    throw error;
+   if (isAccessTokenValid) {
+    const supabase = await getSupabaseClient();
+    const { error } = await supabase
+     .from("users")
+     .update({
+      name: data.givenName,
+      family_name: data.familyName,
+      village_neighborhood: data.villageNeighborhood,
+      phone_number: user?.phone?.number,
+      email: data.email,
+      onboarded: true,
+     })
+     .eq("id", user?.id);
+    router.push(`/proposals/`);
+    if (error) {
+     throw error;
+    }
    }
   } catch (error) {
    console.log(error);
