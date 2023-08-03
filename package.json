@@ -21,6 +21,7 @@
     "autoprefixer": "10.4.14",
     "clipboard-copy": "^4.0.1",
     "cookies-next": "^2.1.2",
+    "dexie": "^3.2.4",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.6",
     "jose": "^4.14.4",

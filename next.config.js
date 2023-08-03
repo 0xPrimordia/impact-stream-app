@@ -8,7 +8,8 @@ const cacheRules = require("./cache");
 
 const withPWA = require("@imbios/next-pwa")({
   dest: "public",
-  runtimeCaching: cacheRules,
+  register: true,
+  skipWaiting: true,
 });
 
 module.exports = withPWA(nextConfig);
