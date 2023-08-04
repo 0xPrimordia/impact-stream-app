@@ -43,7 +43,7 @@ export default function Proposals() {
    {proposals &&
     proposals.map((proposal) => (
      <ProposalCard className="mb-6" key={proposal.id} proposal={proposal} 
-     onClick={() => router.push(`/proposals/${proposal.id}`)}/>
+     />
     ))}
    {proposals.length === 0 && (
     <p className="text-sm text-center italic my-10">{t("nullMessage")}</p>
