@@ -11,7 +11,7 @@ import useCheckTokens from "../hooks/useCheckTokens";
 
 export default function Proposals() {
  const { user, ready, authenticated, logout } = usePrivy();
- const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
+ const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens(); 
  const router = useRouter();
  const [proposals, setProposals] = useState<SummaryProposal[]>([]);
  useEffect(() => {
@@ -56,6 +56,7 @@ export default function Proposals() {
        {proposal.summary ? truncate(proposal.summary, 200) : ""}
       </p>
       <span className="text-sm">
+        { `${proposal?.author.name} ${proposal?.author.family_name},` }
        {proposal?.collaborators &&
         proposal?.collaborators
          // @ts-ignore

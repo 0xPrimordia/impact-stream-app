@@ -31,6 +31,11 @@ export type CreateProposal = {
 export type SummaryProposal = {
  id: string;
  title: string | null;
+ author: {
+  id: string;
+  name: string | null;
+  family_name: string | null;
+ };
  location: string | null;
  summary: string | null;
  collaborators: Json[] | null;
