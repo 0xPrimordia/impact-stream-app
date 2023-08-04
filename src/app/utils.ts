@@ -15,3 +15,13 @@ export function isValidEmail(email: string) {
   email
  );
 }
+
+export function userFullName(user: { name: string, family_name: string}){
+  return (user?.name + " " + user?.family_name).replaceAll("null", "")
+}
+
+export function collaborator_names_with_author(collaborators: Array<object>, author: { name: string, family_name: string}){
+  const collaborator_names = collaborators.map((user) => userFullName(user))
+  collaborator_names.push(userFullName(author))
+  return collaborator_names.join(", ")
+}

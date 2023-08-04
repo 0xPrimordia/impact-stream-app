@@ -1,8 +1,8 @@
 import React from "react";
-import { truncate } from "@/app/utils";
+import { collaborator_names_with_author, truncate } from "@/app/utils";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 
-function ProposalCard({proposal}) {
+function ProposalCard({ proposal }) {
   return (
     <div>
       <h3 className="font-bold mb-1 text-lg">{proposal.title}</h3>
@@ -13,12 +13,8 @@ function ProposalCard({proposal}) {
        {proposal.summary ? truncate(proposal.summary, 200) : ""}
       </p>
       <span className="text-sm">
-        { `${proposal?.author.name} ${proposal?.author.family_name},` }
        {proposal?.collaborators &&
-        proposal?.collaborators
-         // @ts-ignore
-         .map((user) => user?.name + " " + user?.family_name)
-         .join(", ")}
+        collaborator_names_with_author(proposal?.collaborators, proposal?.author)}
       </span>
     </div>
   );

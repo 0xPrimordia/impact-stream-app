@@ -42,7 +42,8 @@ export default function Proposals() {
    <h3 className="font-bold mb-6">{t("heading")}</h3>
    {proposals &&
     proposals.map((proposal) => (
-     <ProposalCard className="mb-6" key={proposal.id} proposal={proposal} onClick={() => router.push(`/proposals/${proposal.id}`)}/>
+     <ProposalCard className="mb-6" key={proposal.id} proposal={proposal} 
+     onClick={() => router.push(`/proposals/${proposal.id}`)}/>
     ))}
    {proposals.length === 0 && (
     <p className="text-sm text-center italic my-10">{t("nullMessage")}</p>
