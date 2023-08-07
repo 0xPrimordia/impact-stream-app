@@ -3,8 +3,9 @@ import React from "react";
 import { collaborator_names_with_author, truncate } from "@/app/utils";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
+import { FullProposal } from "@/app/types";
 
-function ProposalCard({ proposal }) {
+function ProposalCard({ proposal }: { proposal: FullProposal}) {
   const router = useRouter();
   return (
     <div onClick={() => router.push(`/proposals/${proposal.id}`)}>

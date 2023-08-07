@@ -16,12 +16,12 @@ export function isValidEmail(email: string) {
  );
 }
 
-export function userFullName(user: { name: string, family_name: string}){
+export function userFullName(user: {id: string, name: string | null, family_name: string | null }){
   return (user?.name + " " + user?.family_name).replaceAll("null", "")
 }
 
-export function collaborator_names_with_author(collaborators: Array<object>, author: { name: string, family_name: string}){
-  const collaborator_names = collaborators.map((user) => userFullName(user))
+export function collaborator_names_with_author(collaborators: Array<object>, author: {id: string, name: string | null, family_name: string | null}){
+  const collaborator_names = collaborators.map((user: any) => userFullName(user))
   collaborator_names.push(userFullName(author))
   return collaborator_names.join(", ")
 }

@@ -42,6 +42,7 @@ export type SummaryProposal = {
 };
 
 export type FullProposal = {
+ id: string;
  title: string | null;
  author: {
   id: string;
