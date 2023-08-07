@@ -26,6 +26,24 @@ interface SelectOption {
 }
 
 const schema = yup.object().shape({
+ id: yup.string().required(),
+ title: yup.string().nullable(),
+ location: yup.string().nullable(),
+ summary: yup.string().nullable(),
+ affected_locations: yup.string().nullable(),
+ key_players: yup.string().nullable(),
+ timeline: yup.string().nullable(),
+ proposed_solution: yup.string().nullable(),
+ sustainability: yup.string().nullable(),
+ milestones: yup
+  .array()
+  .of(
+   yup.object().shape({
+    title: yup.string(),
+    budget: yup.number(),
+   })
+  )
+  .nullable(),
  minimum_budget: yup
   .number()
   .nullable()
