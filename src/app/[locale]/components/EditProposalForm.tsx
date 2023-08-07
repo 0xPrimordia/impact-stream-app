@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { supabase } from "../../../../lib/supabase-client";
+import { getSupabaseClient } from "../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { FullProposal } from "@/app/types";
@@ -50,6 +50,7 @@ export const EditProposalForm = ({
 
 	const onSubmit: SubmitHandler<CreateProposal> = async (formData) => {
 		try {
+			const supabase = await getSupabaseClient();
 			const { error } = await supabase
 				.from("proposals")
 				.update({

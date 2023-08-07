@@ -1,5 +1,4 @@
-drop function if exists get_proposal_with_collaborators(uuid);
-
+DROP FUNCTION IF EXISTS get_proposal_with_collaborators(uuid) CASCADE;
 create or replace function get_proposal_with_collaborators(proposal_id uuid)
 returns table (
   title text,
@@ -29,4 +28,4 @@ begin
       group by p.title, a.id, a.name, a.family_name, p.location, p.summary, p.affected_locations, p.community_problem, p.proposed_solution, p.minimum_budget, p.key_players, p.project_milestones, p.timeline'
     using proposal_id;
 end;
-$$
+$$;

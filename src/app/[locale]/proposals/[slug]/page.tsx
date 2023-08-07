@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { supabase } from "../../../../../lib/supabase-client";
+import { getSupabaseClient, logoutSupabase } from "../../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
@@ -12,9 +12,11 @@ import {
 import { FullProposal, Milestone } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { EditProposalForm } from "../../components/EditProposalForm";
+import useCheckTokens from "../../hooks/useCheckTokens";
 
 export default function Page({ params }: { params: { slug: string } }) {
- const { ready, authenticated, user } = usePrivy();
+ const { ready, authenticated, user, logout } = usePrivy();
+ const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
  const router = useRouter();
  const [proposal, setProposal] = useState<FullProposal>();
  const [isAuthor, setIsAuthor] = useState<boolean>(false);
@@ -23,8 +25,8 @@ export default function Page({ params }: { params: { slug: string } }) {
  const t = useTranslations("Proposal Details");
 
  useEffect(() => {
-  getProposal();
- }, [user]);
+  if (isAccessTokenValid) getProposal();
+ }, [user, isAccessTokenValid]);
 
  useEffect(() => {
   if (user?.id === proposal?.author?.id) {
@@ -77,6 +79,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   return convertedObj;
  }
  async function getProposal() {
+  const supabase = await getSupabaseClient();
   const { data, error } = await supabase
    .rpc("get_proposal_with_collaborators", { proposal_id: params.slug })
    .single();
@@ -89,6 +92,12 @@ export default function Page({ params }: { params: { slug: string } }) {
  if (ready && !authenticated) {
   router.push("/");
  }
+ if (!isRefreshTokenValid) {
+  logoutSupabase();
+  logout();
+  router.push("/");
+ }
+
  return (
   <>
    {isEditing && proposal && (

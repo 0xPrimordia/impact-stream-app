@@ -6,13 +6,14 @@ import { SelectValue } from "react-tailwindcss-select/dist/components/type";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
-import { supabase } from "../../../../../lib/supabase-client";
+import { getSupabaseClient, logoutSupabase } from "../../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { User, CreateProposal } from "@/app/types";
 import { MilestoneForm } from "../../components/MilestoneForm";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useCheckTokens from "../../hooks/useCheckTokens";
 
 interface UserOption {
  id: string;
@@ -52,7 +53,8 @@ const schema = yup.object().shape({
 });
 
 export default function WriteProposal() {
- const { user, authenticated, ready } = usePrivy();
+ const { user, authenticated, ready, logout } = usePrivy();
+ const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
  const [userOptions, setUserOptions] = useState<SelectOption[]>([]);
  const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
  const [users, setUsers] = useState<UserOption[]>([]);
@@ -83,8 +85,8 @@ export default function WriteProposal() {
  const [currentStep, setCurrentStep] = useState(1);
  const t = useTranslations("Create Proposal");
  useEffect(() => {
-  getUsers();
- }, []);
+  if (isAccessTokenValid) getUsers();
+ }, [isAccessTokenValid]);
  useEffect(() => {
   let options: SelectOption[] = [];
   users.forEach((u) => {
@@ -102,8 +104,14 @@ export default function WriteProposal() {
  if (ready && !authenticated) {
   router.push("/");
  }
+ if (!isRefreshTokenValid) {
+  logoutSupabase();
+  logout();
+  router.push("/");
+ }
 
  async function getUsers() {
+  const supabase = await getSupabaseClient();
   const { data } = await supabase
    .from("users")
    .select(`id, name, family_name`);
@@ -130,6 +138,7 @@ export default function WriteProposal() {
 
  const onSubmit: SubmitHandler<CreateProposal> = async (formData) => {
   try {
+   const supabase = await getSupabaseClient();
    const { data: proposalData, error: proposalError } = await supabase
     .from("proposals")
     .insert({
@@ -381,6 +390,8 @@ export default function WriteProposal() {
        placeholder={t("minimumBudgetPlaceholder")}
        {...register("minimum_budget", {
         required: t("minimumBudgetValidationMessage"),
+        min: 1,
+        max: 12000000,
        })}
       />
       <span className="text-red-600 text-xs">

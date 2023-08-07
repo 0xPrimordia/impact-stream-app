@@ -9,6 +9,31 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      gallery_images: {
+        Row: {
+          id: string
+          image_url: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          image_url: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          image_url?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fkey_user_id"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       proposal_collaborators: {
         Row: {
           id: Database["public"]["CompositeTypes"]["combined_id"]
@@ -53,6 +78,7 @@ export interface Database {
           project_milestones: Json | null
           proposed_solution: string | null
           summary: string | null
+          sustainability: string | null
           timeline: string | null
           title: string | null
         }
@@ -68,6 +94,7 @@ export interface Database {
           project_milestones?: Json | null
           proposed_solution?: string | null
           summary?: string | null
+          sustainability?: string | null
           timeline?: string | null
           title?: string | null
         }
@@ -83,6 +110,7 @@ export interface Database {
           project_milestones?: Json | null
           proposed_solution?: string | null
           summary?: string | null
+          sustainability?: string | null
           timeline?: string | null
           title?: string | null
         }
@@ -99,31 +127,37 @@ export interface Database {
         Row: {
           address: string | null
           created_at: string | null
+          email: string | null
           family_name: string | null
           id: string
           name: string | null
           onboarded: boolean | null
           phone_number: string | null
+          profile_image_url: string | null
           village_neighborhood: string | null
         }
         Insert: {
           address?: string | null
           created_at?: string | null
+          email?: string | null
           family_name?: string | null
           id: string
           name?: string | null
           onboarded?: boolean | null
           phone_number?: string | null
+          profile_image_url?: string | null
           village_neighborhood?: string | null
         }
         Update: {
           address?: string | null
           created_at?: string | null
+          email?: string | null
           family_name?: string | null
           id?: string
           name?: string | null
           onboarded?: boolean | null
           phone_number?: string | null
+          profile_image_url?: string | null
           village_neighborhood?: string | null
         }
         Relationships: []
@@ -145,10 +179,10 @@ export interface Database {
           affected_locations: string
           community_problem: string
           proposed_solution: string
+          sustainability: string
           minimum_budget: number
           key_players: string
           timeline: string
-          project_milestones: Json
           collaborators: Json[]
         }[]
       }
