@@ -38,11 +38,10 @@ export type SummaryProposal = {
  };
  location: string | null;
  summary: string | null;
- collaborators: Json[] | null;
+ collaborators: Collaborator[] | null;
 };
 
 export type FullProposal = {
- id: string;
  title: string | null;
  author: {
   id: string;

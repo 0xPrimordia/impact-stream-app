@@ -42,7 +42,7 @@ export default function Proposals() {
    <h3 className="font-bold mb-6">{t("heading")}</h3>
    {proposals &&
     proposals.map((proposal) => (
-     <ProposalCard className="mb-6" key={proposal.id} proposal={proposal} 
+     <ProposalCard key={proposal.id} proposal={proposal} 
      />
     ))}
    {proposals.length === 0 && (
