@@ -1,17 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { MapPinIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { getSupabaseClient, logoutSupabase } from "../../../../lib/supabase";
 import { SummaryProposal } from "@/app/types";
 import { usePrivy } from "@privy-io/react-auth";
 import { useTranslations } from "next-intl";
-import { truncate } from "@/app/utils";
 import useCheckTokens from "../hooks/useCheckTokens";
+import ProposalCard from "./components/proposalCard";
 
 export default function Proposals() {
  const { user, ready, authenticated, logout } = usePrivy();
- const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
+ const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens(); 
  const router = useRouter();
  const [proposals, setProposals] = useState<SummaryProposal[]>([]);
  useEffect(() => {
@@ -43,26 +42,8 @@ export default function Proposals() {
    <h3 className="font-bold mb-6">{t("heading")}</h3>
    {proposals &&
     proposals.map((proposal) => (
-     <div
-      key={proposal.id}
-      onClick={() => router.push(`/proposals/${proposal.id}`)}
-      className="mb-6"
-     >
-      <h3 className="font-bold mb-1 text-lg">{proposal.title}</h3>
-      <div className="text-sm align-middle">
-       <MapPinIcon className="h-4 inline-block" /> {proposal.location}
-      </div>
-      <p className="text-sm mt-2 mb-1 leading-1">
-       {proposal.summary ? truncate(proposal.summary, 200) : ""}
-      </p>
-      <span className="text-sm">
-       {proposal?.collaborators &&
-        proposal?.collaborators
-         // @ts-ignore
-         .map((user) => user?.name + " " + user?.family_name)
-         .join(", ")}
-      </span>
-     </div>
+     <ProposalCard key={proposal.id} proposal={proposal} 
+     />
     ))}
    {proposals.length === 0 && (
     <p className="text-sm text-center italic my-10">{t("nullMessage")}</p>
