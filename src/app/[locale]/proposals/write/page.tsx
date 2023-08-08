@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { User, CreateProposal } from "@/app/types";
 import { MilestoneForm } from "../../components/MilestoneForm";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import useCheckTokens from "../../hooks/useCheckTokens";
 
 interface UserOption {
@@ -23,6 +25,32 @@ interface SelectOption {
  value: string;
  label: string;
 }
+
+const schema = yup.object().shape({
+ id: yup.string().required(),
+ title: yup.string().nullable(),
+ location: yup.string().nullable(),
+ summary: yup.string().nullable(),
+ affected_locations: yup.string().nullable(),
+ key_players: yup.string().nullable(),
+ timeline: yup.string().nullable(),
+ proposed_solution: yup.string().nullable(),
+ sustainability: yup.string().nullable(),
+ milestones: yup
+  .array()
+  .of(
+   yup.object().shape({
+    title: yup.string(),
+    budget: yup.number(),
+   })
+  )
+  .nullable(),
+ minimum_budget: yup
+  .number()
+  .nullable()
+  .min(1)
+  .max(12000000, "Budget must be less than 12,000,000 CFM"),
+});
 
 export default function WriteProposal() {
  const { user, authenticated, ready, logout } = usePrivy();
@@ -38,13 +66,14 @@ export default function WriteProposal() {
    location: "",
    summary: "",
    affected_locations: "",
-   minimum_budget: undefined,
+   minimum_budget: 1,
    key_players: "",
    timeline: "",
    proposed_solution: "",
    sustainability: "",
    community_problem: "",
   },
+  resolver: yupResolver(schema),
  });
  const {
   register,
