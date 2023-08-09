@@ -78,6 +78,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   return convertedObj;
  }
+
  async function getProposal() {
   const supabase = await getSupabaseClient();
   const { data, error } = await supabase
