@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Select from "react-tailwindcss-select";
-import { MilestoneForm } from "../../components/MilestoneForm.tsx";
+import { MilestoneForm } from "../../components/MilestoneForm";
 import "react-tailwindcss-select/dist/index.css";
 import { SelectValue } from "react-tailwindcss-select/dist/components/type";
 import { XMarkIcon } from "@heroicons/react/24/outline";
