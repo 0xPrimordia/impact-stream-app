@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
-import { getSupabaseClient } from "../../../../lib/supabase-client";
+import { getSupabaseClient } from "../../../../lib/supabase";
 import { useTranslations } from "next-intl";
 import { getCookie } from "cookies-next";
 

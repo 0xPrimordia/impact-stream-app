@@ -1,16 +1,17 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Select from "react-tailwindcss-select";
+import { MilestoneForm } from "../../components/MilestoneForm";
 import "react-tailwindcss-select/dist/index.css";
 import { SelectValue } from "react-tailwindcss-select/dist/components/type";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
-import { getSupabaseClient } from "../../../../../lib/supabase-client";
+import { getSupabaseClient, logoutSupabase } from "../../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { User, CreateProposal } from "@/app/types";
-import { MilestoneForm } from "../../components/MilestoneForm";
+import useCheckTokens from "../../hooks/useCheckTokens";
 
 interface UserOption {
   id: string;
@@ -24,7 +25,8 @@ interface SelectOption {
 }
 
 export default function WriteProposal() {
-  const { user, authenticated, ready } = usePrivy();
+  const { user, authenticated, ready, logout } = usePrivy();
+  const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
   const [userOptions, setUserOptions] = useState<SelectOption[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
   const [users, setUsers] = useState<UserOption[]>([]);
@@ -36,7 +38,7 @@ export default function WriteProposal() {
       location: "",
       summary: "",
       affected_locations: "",
-      minimum_budget: undefined,
+      minimum_budget: 1,
       key_players: "",
       timeline: "",
       proposed_solution: "",
@@ -54,8 +56,8 @@ export default function WriteProposal() {
   const [currentStep, setCurrentStep] = useState(1);
   const t = useTranslations("Create Proposal");
   useEffect(() => {
-    getUsers();
-  }, []);
+    if (isAccessTokenValid) getUsers();
+  }, [isAccessTokenValid]);
   useEffect(() => {
     let options: SelectOption[] = [];
     users.forEach((u) => {
@@ -71,6 +73,11 @@ export default function WriteProposal() {
   }, [users, user]);
   if (!ready) return null;
   if (ready && !authenticated) {
+    router.push("/");
+  }
+  if (!isRefreshTokenValid) {
+    logoutSupabase();
+    logout();
     router.push("/");
   }
 
