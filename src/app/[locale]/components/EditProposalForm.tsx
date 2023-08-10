@@ -7,7 +7,6 @@ import { FullProposal } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { CreateProposal } from "@/app/types";
 import { MilestoneForm } from "./MilestoneForm";
-import Link from 'next/link'
 
 interface EditProposalProps {
 	proposal: FullProposal;

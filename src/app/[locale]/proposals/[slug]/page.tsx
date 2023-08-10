@@ -13,6 +13,7 @@ import { FullProposal, Milestone } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { EditProposalForm } from "../../components/EditProposalForm";
 import useCheckTokens from "../../hooks/useCheckTokens";
+import Link from 'next/link'
 
 export default function Page({ params }: { params: { slug: string } }) {
  const { ready, authenticated, user, logout } = usePrivy();
@@ -113,9 +114,9 @@ export default function Page({ params }: { params: { slug: string } }) {
    {!isEditing && (
     <div>
      <div className="font-bold mb-6">
-      <a className="text-sky-600" href="/proposals">
+      <Link className="text-sky-600" href="/proposals">
        {t("heading")}
-      </a>{" "}
+      </Link>{" "}
       / {proposal?.title}{" "}
       {isAuthor && (
        <>
