@@ -1,12 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import Link from 'next/link'
+
 
 export const Navbar = () => {
 	const [overlay, setOverlay] = useState(false);
 	const t = useTranslations("Navigation");
+
 	return (
 		<div className="fixed top-0 left-0 right-0 bg-white p-8 pb-4 z-50">
 			<div className="z-50 relative inline-block">
@@ -22,10 +25,10 @@ export const Navbar = () => {
 				<nav className="brand-bg-color text-3xl font-bold fixed top-0 bottom-0 right-0 left-0 p-10 pt-28 z-40">
 					<ul>
 						<li className="mb-6">
-							<a href="/proposals">{t("link1")}</a>
+              <Link href="/proposals">{t("link1")}</Link>
 						</li>
 						<li className="mb-6">
-							<a href="/settings">{t("link2")}</a>
+              <Link href="/settings">{t("link2")}</Link>
 						</li>
 					</ul>
 					<XMarkIcon
