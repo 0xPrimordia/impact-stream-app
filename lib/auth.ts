@@ -37,9 +37,9 @@ export const verifyAccessToken = async (token: string) => {
     process.env.NEXT_PUBLIC_SUPABASE_ACCESS_TOKEN_SECRET as string
    )
   );
-  return verified.payload as JWTPayload;
+  return { data: verified.payload as JWTPayload, error: null };
  } catch (error) {
-  console.log(error);
+  return { data: null, error };
  }
 };
 
@@ -51,8 +51,8 @@ export const verifyRefreshToken = async (token: string) => {
     process.env.NEXT_PUBLIC_SUPABASE_REFRESH_TOKEN_SECRET as string
    )
   );
-  return verified.payload as JWTPayload;
+  return { data: verified.payload as JWTPayload, error: null };
  } catch (error) {
-  console.log(error);
+  return { data: null, error };
  }
 };
