@@ -6,10 +6,24 @@ const nextConfig = {
 };
 const cacheRules = require("./cache");
 
-const withPWA = require("@imbios/next-pwa")({
+const withPWA = require("@ducanh2912/next-pwa").default({
   dest: "public",
-  register: true,
-  skipWaiting: true,
+  extendDefaultRuntimeCaching: true,
+  workboxOptions: {
+    runtimeCaching: [
+      {
+        urlPattern: "https://auth.privy.io/api/v1/sessions",
+        handler: "StaleWhileRevalidate",
+        options: {
+          cacheName: "privy-session",
+          expiration: {
+            maxEntries: 1,
+            maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          },
+        },
+      },
+    ],
+  },
 });
 
 module.exports = withPWA(nextConfig);

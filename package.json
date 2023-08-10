@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^9.4.0",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.1.1",
     "@privy-io/react-auth": "^1.27.0",
@@ -39,9 +40,5 @@
     "wagmi": "^0.12.13",
     "web3.storage": "^4.5.4",
     "yup": "^1.2.0"
-  },
-  "devDependencies": {
-    "@types/cors": "^2.8.13",
-    "@types/jsonwebtoken": "^9.0.2"
   }
 }
