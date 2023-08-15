@@ -13,7 +13,6 @@ import { FullProposal, Milestone } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { EditProposalForm } from "../../components/EditProposalForm";
 import useCheckTokens from "../../hooks/useCheckTokens";
-import Link from 'next/link'
 
 export default function Page({ params }: { params: { slug: string } }) {
  const { ready, authenticated, user, logout } = usePrivy();
@@ -79,7 +78,6 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   return convertedObj;
  }
-
  async function getProposal() {
   const supabase = await getSupabaseClient();
   const { data, error } = await supabase
@@ -114,9 +112,9 @@ export default function Page({ params }: { params: { slug: string } }) {
    {!isEditing && (
     <div>
      <div className="font-bold mb-6">
-      <Link className="text-sky-600" href="/proposals">
+      <a className="text-sky-600" href="/proposals">
        {t("heading")}
-      </Link>{" "}
+      </a>{" "}
       / {proposal?.title}{" "}
       {isAuthor && (
        <>

@@ -77,9 +77,9 @@ export const EditProposalForm = ({
 		<FormProvider {...methods}>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div className="font-bold mb-4">
-					<span className="text-sky-600" onClick={()=>setIsEditing(false)}>
+					<a className="text-sky-600" href={`/proposals/${proposalId}`}>
 						Cancel Edit
-					</span>
+					</a>
 					<input
 						{...register("title", { required: t("titleValidationMessage") })}
 						className="w-full border border-slate-300 rounded h-10 pl-2 mt-4"

@@ -38,5 +38,9 @@
     "wagmi": "^0.12.13",
     "web3.storage": "^4.5.4",
     "yup": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/jsonwebtoken": "^9.0.2"
   }
 }
