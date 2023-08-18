@@ -7,7 +7,8 @@ returns table (
   author json,
   location text,
   summary text,
-  collaborators json[]
+  collaborators json[],
+  approved boolean
 )
  language plpgsql
 as $$
@@ -22,20 +23,20 @@ begin
    case 
 		when count(pc.user_id) > 0 then array_agg(json_build_object('name', u.name, 'family_name', u.family_name)) 
     else array[]::json[]
-   end as collaborators
+   end as collaborators,
+   p.approved
   from 
    proposals p
    left join proposal_collaborators pc on p.id = pc.proposal_id
    left join users u on u.id = pc.user_id
    inner join users a on p.author_id = a.id
-	where 
-   p.approved = true
   group by 
    p.id,
    p.title,
    a.id,
    a.name, 
    a.family_name,
-   p.summary;
+   p.summary,
+	 p.approved;
 end;
 $$;
