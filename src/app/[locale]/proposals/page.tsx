@@ -42,8 +42,11 @@ export default function Proposals() {
    <h3 className="font-bold mb-6">{t("heading")}</h3>
    {proposals &&
     proposals.map((proposal) => (
-     <ProposalCard key={proposal.id} proposal={proposal} 
-     />
+        <>
+            {proposal.approved || user?.id === proposal.author.id && (
+                <ProposalCard key={proposal.id} proposal={proposal} />
+            )}
+        </>
     ))}
    {proposals.length === 0 && (
     <p className="text-sm text-center italic my-10">{t("nullMessage")}</p>

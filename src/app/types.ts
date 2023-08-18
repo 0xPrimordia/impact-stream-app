@@ -30,6 +30,7 @@ export type CreateProposal = {
 
 export type SummaryProposal = {
  id: string;
+ approved: boolean;
  title: string | null;
  author: {
   id: string;
