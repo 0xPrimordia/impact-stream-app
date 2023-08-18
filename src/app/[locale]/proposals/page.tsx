@@ -43,7 +43,7 @@ export default function Proposals() {
    {proposals &&
     proposals.map((proposal) => (
         <>
-            {proposal.approved || user?.id === proposal.author.id && (
+            {user?.id === proposal.author.id || proposal.approved === true && (
                 <ProposalCard key={proposal.id} proposal={proposal} />
             )}
         </>
