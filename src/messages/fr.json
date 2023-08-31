@@ -14,7 +14,8 @@
     "email": "Email",
     "emailValidation": "Courriel valide requis",
     "disclaimer": "Vos informations ne seront pas partagées avec le public et ne seront utilisées qu'à des fins d'identification et pour vous contacter si nécessaire.",
-    "submitButton": "Soumettre"
+    "submitButton": "Soumettre",
+    "profileImage": "Image de profil"
   },
   "Proposals": {
     "heading": "Subventions Proposées",
