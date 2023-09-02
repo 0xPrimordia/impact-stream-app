@@ -86,6 +86,9 @@ export const ImageUploader = () => {
     setIsUploading(false);
   };
 
+ const t = useTranslations("Onboarding");
+
+
   return (
     <>
       {files && <Image className="pb-4" alt="uploaded image" src={files} />}
