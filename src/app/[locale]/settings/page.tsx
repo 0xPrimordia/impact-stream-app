@@ -22,7 +22,6 @@ export default function Settings() {
  const [currentUser, setCurrentUser] = useState<User>();
 
  useEffect(() => {
-  console.log("privy user", user)
   if (isAccessTokenValid) getUser();
  }, [user, isAccessTokenValid]);
 
