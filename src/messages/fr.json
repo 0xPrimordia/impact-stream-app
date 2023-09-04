@@ -58,7 +58,6 @@
     "keyPlayersValidationMessage": "Veuillez indiquer les personnes et les fournisseurs concernés.",
     "timelinePlaceholder": "Ligne Du Temps",
     "timelineValidationMessage": "Veuillez fournir la ligne du temps.",
-    "heading6": "Jalons",
     "budgetPlaceholder": "Budget",
     "addMilestoneButton": "Ajouter Un Jalon",
     "milestoneContext": "Divisez votre plan en étapes. Montrez-nous ce que coûtera chaque étape du chemin.",
@@ -92,6 +91,6 @@
     "logoutButton": "Se Déconnecter"
   },
   "Footer": {
-    "message": "Le tour de scrutin commence le 01-09-2023"
+    "message": "La phase de vote a été prolongée jusqu'à la mi-octobre. Date exacte à annoncer."
   }
 }

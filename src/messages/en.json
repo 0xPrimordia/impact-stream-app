@@ -58,7 +58,6 @@
     "keyPlayersValidationMessage": "Please provide people and venders involved.",
     "timelinePlaceholder": "Timeline",
     "timelineValidationMessage": "Please provide timeline.",
-    "heading6": "Milestones",
     "budgetPlaceholder": "Budget",
     "addMilestoneButton": "Add Milestone",
     "milestoneContext": "Break your plan into steps. Show us what each step along the way will cost.",
@@ -92,6 +91,6 @@
     "logoutButton": "Logout"
   },
   "Footer": {
-    "message": "Voting round begins 2023-09-01"
+    "message": "The voting phase has been extended to mid-October. Exact date to be announced."
   }
 }
