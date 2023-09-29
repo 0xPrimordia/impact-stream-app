@@ -83,8 +83,12 @@
     "link": "donate at this link."
   },
   "Navigation": {
-    "link1": "Proposals",
-    "link2": "Settings"
+    "link1": "Votes",
+    "link2": "Grants",
+    "link3": "Proposals",
+    "link4": "Donate",
+    "link5": "Cart",
+    "link6": "Settings"
   },
   "Settings": {
     "heading": "User Settings",

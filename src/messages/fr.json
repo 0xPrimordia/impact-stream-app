@@ -83,8 +83,12 @@
     "link": "faire un don sur ce lien."
   },
   "Navigation": {
-    "link1": "Les Propositions",
-    "link2": "Paramètres"
+    "link1": "Votes",
+    "link2": "Subventions",
+    "link3": "Les Propositions",
+    "link4": "Faire un don",
+    "link5": "Chariot",
+    "link6": "Paramètres"
   },
   "Settings": {
     "heading": "Paramètres Utilisateur",
