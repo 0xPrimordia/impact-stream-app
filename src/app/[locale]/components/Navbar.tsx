@@ -56,6 +56,11 @@ export const Navbar = () => {
                 {t("link6")}
               </NavbarLink>
             </li>
+			<li>
+				<NavbarLink setOverlay={setOverlay} path={"/about"}>
+					{t("link7")}
+				</NavbarLink>
+			</li>
           </ul>
           <XMarkIcon
             onClick={() => setOverlay(false)}
