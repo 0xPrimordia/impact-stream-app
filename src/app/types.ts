@@ -29,37 +29,37 @@ export type CreateProposal = {
 };
 
 export type SummaryProposal = {
- id: string;
- approved: boolean;
- title: string | null;
- author: {
   id: string;
-  name: string | null;
-  family_name: string | null;
- };
- location: string | null;
- summary: string | null;
- collaborators: Collaborator[] | null;
+  approved: boolean;
+  title: string | null;
+  author: {
+    id: string;
+    name: string | null;
+    family_name: string | null;
+  };
+  location: string | null;
+  summary: string | null;
+  collaborators: Collaborator[] | null;
 };
 
 export type FullProposal = {
- title: string | null;
- author: {
-  id: string;
-  name: string | null;
-  family_name: string | null;
- };
- location: string | null;
- summary: string | null;
- timeline: string | null;
- affected_locations: string | null;
- community_problem: string | null;
- proposed_solution: string | null;
- sustainability: string | null;
- minimum_budget: number | null;
- key_players: string | null;
- project_milestones: Milestone[] | null;
- collaborators: Collaborator[] | null;
+  title: string | null;
+  author: {
+    id: string;
+    name: string | null;
+    family_name: string | null;
+  };
+  location: string | null;
+  summary: string | null;
+  timeline: string | null;
+  affected_locations: string | null;
+  community_problem: string | null;
+  proposed_solution: string | null;
+  sustainability: string | null;
+  minimum_budget: number | null;
+  key_players: string | null;
+  project_milestones: Milestone[] | null;
+  collaborators: Collaborator[] | null;
 };
 
 type Collaborator = {
@@ -84,3 +84,11 @@ export type User = {
 };
 
 export type PrivyUser = {};
+
+export type ContractDetails = {
+  [key: number]: {
+    proxy: `0x${string}`;
+    implementation: `0x${string}`;
+    abi: any;
+  };
+};

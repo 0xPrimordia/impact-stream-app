@@ -1,29 +1,78 @@
+import { alloContractDetails } from "../config/allo.config";
 import { ViemClient } from "../utils/client";
 
-export const useAlloContract = async () => {
-  const client = ViemClient;
+export type PoolData = {};
 
+const client = ViemClient;
+const alloContract = alloContractDetails();
+
+export const useAlloContract = async (poolData: PoolData) => {
+  const network = await client.getChainId();
   const blockNumber = await client.getBlockNumber();
 
-  console.log(blockNumber.toString());
+  console.log({
+    blockNumber: blockNumber.toString(),
+    network,
+    allo: alloContract[network]?.proxy,
+  });
 
   const alloAddress = getAllo();
 
+  getStrategy(0, network);
+
   return {
     alloAddress,
+    poolId: 0,
   };
 };
 
-function getAllo() {
+function getAllo(): `0x${string}` {
   return "0xWAGMI";
 }
 
-function getStrategy() {}
+async function getStrategy(
+  poolId: number,
+  networkId: number
+): Promise<`0x${string}`> {
+  const alloAddress = alloContract[networkId]?.proxy;
+  const data = await client.readContract({
+    address: alloAddress,
+    abi: alloContract[networkId]?.abi,
+    functionName: "getStrategy",
+    args: [poolId],
+  });
 
-function createPool() {}
+  console.log("DATA ********************", `0x${data.toString()}`);
 
-function allocate() {}
+  return `0x${data.toString()}`;
+}
 
-function setPayouts() {}
+// Todo:
+type PoolInitData = {};
 
-function distribute() {}
+function createPool(networkId: number): number {
+  const alloAddress = alloContract[networkId]?.proxy;
+  // create a new pool
+  const poolInitData: PoolInitData = {};
+
+  // alloContract.createPool(poolInitData);
+
+  // return the pool ID
+  return 0;
+}
+
+function allocate(networkId: number) {
+  const alloAddress = alloContract[networkId]?.proxy;
+
+  // allocate votes to a recipient
+}
+
+function setPayouts(networkId: number) {
+  const alloAddress = alloContract[networkId]?.proxy;
+  // set the payouts for the pool
+}
+
+function distribute(networkId: number) {
+  const alloAddress = alloContract[networkId]?.proxy;
+  // distribute the payouts
+}

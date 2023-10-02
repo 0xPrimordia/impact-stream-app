@@ -2,8 +2,10 @@
 
 import { useAlloContract } from "../../hooks/useAlloContract";
 
-const Vote = () => {
-  const votes = useAlloContract();
+const Vote = async () => {
+  const votes = await useAlloContract({});
+
+  console.log("Votes **************************", votes);
 
   return (
     <div>
