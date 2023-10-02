@@ -47,20 +47,6 @@ async function getStrategy(
   return `0x${data.toString()}`;
 }
 
-// Todo:
-type PoolInitData = {};
-
-function createPool(networkId: number): number {
-  const alloAddress = alloContract[networkId]?.proxy;
-  // create a new pool
-  const poolInitData: PoolInitData = {};
-
-  // alloContract.createPool(poolInitData);
-
-  // return the pool ID
-  return 0;
-}
-
 function allocate(networkId: number) {
   const alloAddress = alloContract[networkId]?.proxy;
 

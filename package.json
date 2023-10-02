@@ -23,6 +23,7 @@
     "cookies-next": "^2.1.2",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.6",
+    "@headlessui/react": "1.7.17",
     "jose": "^4.14.4",
     "nanoid": "^4.0.2",
     "next": "13.4.6",

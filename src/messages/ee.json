@@ -84,8 +84,8 @@
     "link": "dzɔ nu le kadodo sia dzi."
   },
   "Navigation": {
-    "link1": "Akɔdadawo",
-    "link2": "Gakpekpeɖeŋunana",
+    "link1": "Nye Akɔdadawo",
+    "link2": "Nye Gakpekpeɖeŋunana",
     "link3": "Aɖaŋuɖoɖowo",
     "link4": "Na nu",
     "link5": "Tasiaɖam",
@@ -98,5 +98,24 @@
   },
   "Footer": {
     "message": "Wokeke akɔdada ƒe akpaa ɖe enu va ɖo October ƒe domedome. Ɣletiŋkeke si tututu woaɖe gbeƒãe."
+  },
+  "Tasiaɖam": {
+    "tanya": "Nye Keke",
+    "nullMessage": "Nu aɖeke mele wò kekea me fifia o.",
+    "checkoutButton": "Nukpɔkpɔ"
+  },
+  "Adzɔxexe": {
+    "tanya": "Xɔxexe",
+    "disclaimer": "Taflatse lé ŋku ɖe wò kekea ŋu eye nàɖo kpe wò nudzɔdzɔa dzi.",
+    "confirmButton": "Ðo kpe edzi"
+  },
+  "Nye Nunanawo": {
+    "tanya": "Nye Gakpekpeɖeŋunana",
+    "nullMessage": "Fifia la, kpekpeɖeŋunana aɖeke meli o alo kuxi aɖe le wò kadodoa ŋu.",
+    "addGrantButton": "Wɔ Kpekpeɖeŋunana"
+  },
+  "Nye Akɔdadawo": {
+    "tanya": "Nye Akɔdadawo",
+    "nullMessage": "Fifia la, akɔdada aɖeke meli o alo kuxi aɖe le wò kadodoa ŋu."
   }
 }

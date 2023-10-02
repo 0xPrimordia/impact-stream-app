@@ -68,7 +68,7 @@ const Onboarding = () => {
   const inputClasses = "w-full border border-slate-300 rounded h-10 pl-2 mb-2";
 
   return (
-    <div className="border p-2 rounded-md">
+    <div className="border p-2 rounded-md shadow-sm">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <h2 className="font-bold mb-6 text-center">{t("heading")}</h2>

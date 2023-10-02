@@ -83,8 +83,8 @@
     "link": "donate at this link."
   },
   "Navigation": {
-    "link1": "Votes",
-    "link2": "Grants",
+    "link1": "My Votes",
+    "link2": "My Grants",
     "link3": "Proposals",
     "link4": "Donate",
     "link5": "Cart",
@@ -97,5 +97,24 @@
   },
   "Footer": {
     "message": "The voting phase has been extended to mid-October. Exact date to be announced."
+  },
+  "Cart": {
+    "heading": "My Cart",
+    "nullMessage": "There are currently no items in your cart.",
+    "checkoutButton": "Checkout"
+  },
+  "Checkout": {
+    "heading": "Checkout",
+    "disclaimer": "Please review your cart and confirm your donation.",
+    "confirmButton": "Confirm"
+  },
+  "My Grants": {
+    "heading": "My Grants",
+    "nullMessage": "There are currently no grants or there is a problem with your connection.",
+    "addGrantButton": "Create Grant"
+  },
+  "My Votes": {
+    "heading": "My Votes",
+    "nullMessage": "There are currently no votes or there is a problem with your connection."
   }
 }
