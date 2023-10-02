@@ -1,26 +1,40 @@
 "use client";
 
 import React from "react";
-import { collaborator_names_with_author, truncate } from "@/app/utils";
+import {
+  collaborator_names_with_author,
+  truncate,
+  truncateDescription,
+} from "@/app/utils";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { FullProposal, SummaryProposal } from "@/app/types";
 
-function ProposalCard({ proposal }: { proposal: SummaryProposal}) {
+function ProposalCard({ proposal }: { proposal: SummaryProposal }) {
   const router = useRouter();
 
   return (
-    <div className="mb-4" onClick={() => router.push(`/proposals/${proposal.id}`)}>
-      <h3 className="font-bold mb-1 text-lg">{proposal.title}</h3>
-      <div className="text-sm align-middle">
-       <MapPinIcon className="h-4 inline-block" /> {proposal.location}
+    <div
+      className="flex flex-col gap-x-4 bg-gray-50 p-2"
+      onClick={() => router.push(`/proposals/${proposal.id}`)}
+    >
+      <div className="flex flex-row items-center justify-between">
+        <h3 className="font-bold mb-1 text-lg">{proposal.title}</h3>{" "}
       </div>
-      <p className="text-sm mt-2 mb-1 leading-1">
-       {proposal.summary ? truncate(proposal.summary, 200) : ""}
-      </p>
-      <span className="text-sm">
-       {proposal?.collaborators &&
-        collaborator_names_with_author(proposal?.collaborators, proposal?.author)}
+      <div className="text-sm align-middle">
+        <MapPinIcon className="h-4 inline-block" /> {proposal.location}
+      </div>
+      <div className="mt-2">
+        {proposal.summary
+          ? truncateDescription(proposal.summary)
+          : "No summary provided."}
+      </div>
+      <span className="text-sm mt-2">
+        {proposal?.collaborators &&
+          collaborator_names_with_author(
+            proposal?.collaborators,
+            proposal?.author
+          )}
       </span>
     </div>
   );

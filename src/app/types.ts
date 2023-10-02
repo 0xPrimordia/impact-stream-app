@@ -89,10 +89,10 @@ export type User = {
 
 export type PrivyUser = {};
 
-export type ContractDetails = {
+export interface ContractDetails {
   [key: number]: {
     proxy: `0x${string}`;
-    implementation: `0x${string}`;
+    implementation?: `0x${string}`;
     abi: any;
   };
 };
