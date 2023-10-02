@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import NavbarLink from "./navbarLink";
+import NavbarLink from "./NavbarLink";
 import Link from "next/link";
 
 export const Navbar = () => {
