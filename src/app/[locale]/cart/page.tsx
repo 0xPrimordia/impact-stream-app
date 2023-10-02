@@ -1,7 +1,12 @@
-"use client";
-
 import Cart from "./components/Cart";
 
-export default function CartPage() {
-  return <Cart />;
+// todo: fetch the cart items
+const getCartItems = async () => {
+  return [{}, {}];
+};
+
+export default async function CartPage() {
+  const cartItems = await getCartItems();
+
+  return <Cart cartItems={cartItems} />;
 }

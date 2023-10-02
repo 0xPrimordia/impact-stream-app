@@ -98,7 +98,7 @@
   "Footer": {
     "message": "La phase de vote a été prolongée jusqu'à la mi-octobre. Date exacte à annoncer."
   },
-  "Chariot": {
+  "Mon Panier": {
     "heading": "Mon panier",
     "nullMessage": "Il n'y a actuellement aucun article dans votre panier.",
     "checkoutButton": "Commander"

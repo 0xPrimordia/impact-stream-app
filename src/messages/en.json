@@ -98,7 +98,7 @@
   "Footer": {
     "message": "The voting phase has been extended to mid-October. Exact date to be announced."
   },
-  "Cart": {
+  "My Cart": {
     "heading": "My Cart",
     "nullMessage": "There are currently no items in your cart.",
     "checkoutButton": "Checkout"

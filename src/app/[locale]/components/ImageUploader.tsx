@@ -43,7 +43,7 @@ export const ImageUploader = () => {
   async function setClient() {
     let client;
     try {
-      client = await makeStorageClient();
+      client = makeStorageClient();
     } catch (error) {
       console.log(error);
     }

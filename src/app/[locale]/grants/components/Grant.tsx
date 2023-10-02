@@ -1,80 +1,75 @@
 "use client";
 
+import { SummaryProposal } from "@/app/types";
 import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import useCheckTokens from "../../hooks/useCheckTokens";
+import { useRouter } from "next/navigation";
+import { getSupabaseClient } from "../../../../../lib/supabase";
 
 // todo: list all grants for user to select from and add to cart
 
 const Grant = () => {
+  const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
+  const [grants, setGrants] = useState<SummaryProposal[]>([]);
+
+  useEffect(() => {
+    if (isAccessTokenValid) getGrants();
+  }, [isAccessTokenValid]);
+
+  async function getGrants() {
+    const supabase = await getSupabaseClient();
+    const { data, error } = await supabase.rpc(
+      "get_proposals_with_collaborators"
+    );
+    if (data) setGrants(data);
+    if (error) console.log(error);
+  }
   const t = useTranslations("My Grants");
 
   return (
     <div>
       <h3 className="font-bold mb-6 text-center">{t("heading")}</h3>
-      <GrantList />
+      <GrantList grants={grants} />
     </div>
   );
 };
 
-const clients = [
-  {
-    id: 1,
-    name: "Tuple",
-    imageUrl: "https://tailwindui.com/img/logos/48x48/tuple.svg",
-    lastInvoice: {
-      date: "December 13, 2022",
-      dateTime: "2022-12-13",
-      amount: "$2,000.00",
-      status: "Overdue",
-    },
-  },
-  {
-    id: 2,
-    name: "SavvyCal",
-    imageUrl: "https://tailwindui.com/img/logos/48x48/savvycal.svg",
-    lastInvoice: {
-      date: "January 22, 2023",
-      dateTime: "2023-01-22",
-      amount: "$14,000.00",
-      status: "Paid",
-    },
-  },
-  {
-    id: 3,
-    name: "Reform",
-    imageUrl: "https://tailwindui.com/img/logos/48x48/reform.svg",
-    lastInvoice: {
-      date: "January 23, 2023",
-      dateTime: "2023-01-23",
-      amount: "$7,600.00",
-      status: "Paid",
-    },
-  },
-];
-
-const GrantList = () => {
+const GrantList = ({ grants }: { grants: SummaryProposal[] }) => {
   return (
     <ul
       role="list"
       className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8"
     >
-      {clients.map((client) => (
+      {grants.map((grant) => (
         <li
-          key={client.id}
+          key={grant.id}
           className="overflow-hidden rounded-xl border border-gray-200"
         >
-          <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
-            <img
-              src={client.imageUrl}
-              alt={client.name}
-              className="h-12 w-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10"
-            />
-            <div className="text-sm font-medium leading-6 text-gray-900">
-              {client.name}
-            </div>
-          </div>
+          <GrantItem grant={grant} />
         </li>
       ))}
     </ul>
+  );
+};
+
+const GrantItem = ({ grant }: { grant: SummaryProposal }) => {
+  const router = useRouter();
+
+  return (
+    <div
+      className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6"
+      onClick={() => router.push(`/proposals/${grant.id}`)}
+    >
+      <img
+        src={grant.author?.profile_image_url ?? "https://i.pravatar.cc/300"}
+        alt={grant.title ?? "title"}
+        className="h-12 w-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10"
+      />
+      <div className="text-sm font-medium leading-6 text-gray-900">
+        {grant.title}
+      </div>
+    </div>
   );
 };
 

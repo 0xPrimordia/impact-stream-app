@@ -36,6 +36,7 @@ export type SummaryProposal = {
     id: string;
     name: string | null;
     family_name: string | null;
+    profile_image_url: string | null;
   };
   location: string | null;
   summary: string | null;
@@ -48,6 +49,7 @@ export type FullProposal = {
     id: string;
     name: string | null;
     family_name: string | null;
+    profile_image_url: string | null;
   };
   location: string | null;
   summary: string | null;
@@ -65,6 +67,7 @@ export type FullProposal = {
 type Collaborator = {
   name: string | null;
   family_name: string | null;
+  profile_image_url: string | null;
 };
 
 export type Milestone = {
@@ -72,6 +75,7 @@ export type Milestone = {
   budget: number;
 };
 
+// todo => note: why are we using this User and not the Collaborator type?
 export type User = {
   id: string;
   name: string | null;
