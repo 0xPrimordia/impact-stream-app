@@ -6,8 +6,17 @@ import { useEffect, useState } from "react";
 import useCheckTokens from "../../hooks/useCheckTokens";
 import { useRouter } from "next/navigation";
 import { getSupabaseClient } from "../../../../../lib/supabase";
+import { truncateDescription } from "@/app/utils";
 
 // todo: list all grants for user to select from and add to cart
+
+interface GrantListProps {
+  grants: SummaryProposal[];
+}
+
+interface GrantItemProps {
+  grant: SummaryProposal;
+}
 
 const Grant = () => {
   const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
@@ -35,7 +44,7 @@ const Grant = () => {
   );
 };
 
-const GrantList = ({ grants }: { grants: SummaryProposal[] }) => {
+const GrantList = ({ grants }: GrantListProps) => {
   return (
     <ul
       role="list"
@@ -53,21 +62,34 @@ const GrantList = ({ grants }: { grants: SummaryProposal[] }) => {
   );
 };
 
-const GrantItem = ({ grant }: { grant: SummaryProposal }) => {
+const GrantItem = ({ grant }: GrantItemProps) => {
   const router = useRouter();
 
   return (
     <div
-      className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6"
+      className="flex flex-col gap-x-4 border-b border-gray-900/5 bg-gray-50 p-2"
       onClick={() => router.push(`/proposals/${grant.id}`)}
     >
-      <img
-        src={grant.author?.profile_image_url ?? "https://i.pravatar.cc/300"}
-        alt={grant.title ?? "title"}
-        className="h-12 w-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10"
-      />
-      <div className="text-sm font-medium leading-6 text-gray-900">
-        {grant.title}
+      <div className="flex flex-row items-center justify-between">
+        <div className="flex text-sm font-medium leading-6 text-gray-900 border-b-sky-600">
+          {grant.title}
+        </div>
+        <img
+          src={grant.author?.profile_image_url ?? "https://i.pravatar.cc/300"}
+          alt={grant.title ?? "title"}
+          className="h-12 w-12 rounded-lg bg-white object-cover ring-1 ring-gray-900/10"
+        />
+      </div>
+      <div>
+        <div className="mt-1">
+          {grant.summary
+            ? truncateDescription(grant.summary)
+            : "No summary provided."}
+        </div>
+        <div className="flex flex-row items-center justify-between border bg-gray-200 rounded-md shadow-sm p-2 mt-2">
+          <span>Status: </span>
+          <span>{grant.approved ? "Approved ✅" : "Pending 🟡"}</span>
+        </div>
       </div>
     </div>
   );
