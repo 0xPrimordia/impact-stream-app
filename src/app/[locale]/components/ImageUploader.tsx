@@ -30,8 +30,8 @@ export const ImageUploader = () => {
 
   function makeStorageClient() {
     const token = getAccessToken();
-    console.log("token");
-    console.log(token);
+    console.log(token, "token");
+
     if (token) return new Web3Storage({ token: token });
   }
 
@@ -45,7 +45,7 @@ export const ImageUploader = () => {
     try {
       client = makeStorageClient();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
     setStorageClient(client);
   }
@@ -69,7 +69,7 @@ export const ImageUploader = () => {
           throw error;
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
       return Image;
     }
@@ -81,7 +81,7 @@ export const ImageUploader = () => {
     try {
       storeFiles(files);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
     setIsUploading(false);
   };

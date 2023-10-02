@@ -17,7 +17,7 @@ const Vote = async () => {
       "get_proposals_with_collaborators"
     );
     if (data) setGrants(data);
-    if (error) console.log(error);
+    if (error) console.error(error);
   }
 
   return (

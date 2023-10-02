@@ -69,7 +69,7 @@ export const EditProposalForm = ({
 			setIsEditing(false);
 			reloadData();
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 

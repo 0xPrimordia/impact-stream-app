@@ -152,7 +152,7 @@ export default function WriteProposal() {
 
    router.push(`/proposals`);
   } catch (error) {
-   console.log(error);
+   console.error(error);
   }
  };
  const inputClasses = "w-full border border-slate-300 rounded h-10 pl-2 mb-6";

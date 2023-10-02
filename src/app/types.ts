@@ -96,3 +96,11 @@ export interface ContractDetails {
     abi: any;
   };
 };
+
+export interface GrantListProps {
+  grants: SummaryProposal[];
+}
+
+export interface GrantItemProps {
+  grant: SummaryProposal;
+}
