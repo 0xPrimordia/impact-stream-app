@@ -13,7 +13,7 @@ import { logoutSupabase } from "../../../../../lib/supabase";
 
 export default function Proposal() {
   // todo: move this to another file
-  const { user, ready, authenticated, logout } = usePrivy();
+  const { ready, authenticated, logout } = usePrivy();
   const { isRefreshTokenValid } = useCheckTokens();
   const router = useRouter();
   const { grants } = useContext(GrantsContext);
@@ -30,17 +30,15 @@ export default function Proposal() {
 
   return (
     <div>
-      <ProposalList grants={grants} user={user} />
+      <ProposalList grants={grants} />
     </div>
   );
 }
 
 const ProposalList = ({
   grants,
-  user,
 }: {
   grants: SummaryProposal[];
-  user: User | null;
 }) => {
   const t = useTranslations("Proposals");
 
@@ -51,27 +49,28 @@ const ProposalList = ({
     >
       <div className="mb-14">
         <h3 className="font-bold mb-6 text-center">{t("heading")}</h3>
-        {/* filter out by author/status and then map the cards */}
-        {grants &&
+        {/* filter out by status and then map the cards */}
+        {grants ? (
           grants
-            .filter((p) => user?.id === p.author.id || p.approved === true)
+            .filter((p) => p.approved === false)
             .map((proposal) => (
               <div className="p-2" key={proposal.id}>
                 <GrantItem
                   key={proposal.id}
                   grant={proposal}
-                  showStatus={false}
+                  showStatus={true}
+                  showAction={true}
                 />
               </div>
-            ))}
-        {grants.length === 0 && (
+            ))
+        ) : (
           <p className="text-sm text-center italic my-10">{t("nullMessage")}</p>
         )}
         {/* Botton button to add new proposal */}
         <div className="fixed bottom-10 right-0 left-0 bg-white p-5 z-0">
           <button
             onClick={() => router.push("/grants/write")}
-            className="w-full border border-slate-400 rounded leading-10 font-bold"
+            className="w-full border border-slate-400 hover:bg-sky-600 rounded-md leading-10 font-bold"
           >
             {t("addProposalButton")}
           </button>

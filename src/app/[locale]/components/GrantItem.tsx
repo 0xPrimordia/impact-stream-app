@@ -1,15 +1,17 @@
 import { GrantItemProps } from "@/app/types";
 import { truncateDescription } from "@/app/utils";
-import { CheckIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export const GrantItem = ({
   grant,
   showStatus,
   showAction,
-  handleCartClick,
 }: GrantItemProps) => {
   const router = useRouter();
+  const [isInCart, setIsInCart] = useState({ [grant.id]: false });
 
   return (
     <div
@@ -32,28 +34,31 @@ export const GrantItem = ({
           className="h-12 w-12 rounded-lg bg-white object-cover ring-1 ring-gray-900/10"
         />
       </div>
-      <div>
-        <div className="mt-1">
-          {grant.summary
-            ? truncateDescription(grant.summary)
-            : "No summary provided."}
-        </div>
+      <div className="mt-1">
+        {grant.summary
+          ? truncateDescription(grant.summary)
+          : "No summary provided."}
+      </div>
+      <div className="flex flex-row justify-between items-center">
         {showStatus && (
-          <div className="flex flex-row items-center justify-between border bg-gray-200 rounded-md shadow-sm p-2 mt-2">
-            <span>Status: </span>
+          <div className="flex flex-row items-center justify-between border rounded-md shadow-sm p-2 mt-2">
             <span>{grant.approved ? "Approved ✅" : "Pending 🟡"}</span>
           </div>
         )}
         {showAction && (
-          <div className="border bg-gray-200 rounded-md shadow-sm p-2 mt-2">
-            {/* <CheckIcon className="h-4 w-4" /> */}
+          <div className="flex flex-row items-center justify-between">
             <div
-              className="flex flex-row items-center justify-between hover:text-sky-600 text-center"
-              onClick={() => console.log("clicked")}
+              className=""
+              onClick={() => setIsInCart({ [grant.id]: !isInCart[grant.id] })}
             >
               {/* todo: finish up the button display based on whether grant is in the cart or not */}
-              <span className="text-center">Add/Remove to/from Cart</span>
-              <span>{}</span>
+              <span className="">
+                {isInCart[grant.id] ? (
+                  <HeartIconSolid color={"red"} className="h-6 w-6 mt-1" />
+                ) : (
+                  <HeartIconOutline color={"red"} className="h-6 w-6 mt-1" />
+                )}
+              </span>
             </div>
           </div>
         )}

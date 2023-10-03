@@ -27,8 +27,6 @@ export const GrantsProvider = ({ children }: { children: any[] }) => {
     if (isAccessTokenValid) getGrants();
   }, [isAccessTokenValid]);
 
-  console.log("grants from context", grants);
-
   return (
     <GrantsContext.Provider
       value={{
