@@ -95,7 +95,7 @@ export interface ContractDetails {
     implementation?: `0x${string}`;
     abi: any;
   };
-};
+}
 
 export interface GrantListProps {
   grants: SummaryProposal[];
@@ -103,4 +103,12 @@ export interface GrantListProps {
 
 export interface GrantItemProps {
   grant: SummaryProposal;
+  showStatus: boolean;
+  showAction: boolean;
+  handleCartClick: (id: string) => void;
+}
+
+export interface CartItemProps {
+  grant: SummaryProposal;
+  amount: number;
 }
