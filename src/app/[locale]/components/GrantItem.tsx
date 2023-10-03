@@ -49,7 +49,7 @@ export const GrantItem = ({
             {/* <CheckIcon className="h-4 w-4" /> */}
             <div
               className="flex flex-row items-center justify-between hover:text-sky-600 text-center"
-              onClick={() => handleCartClick(grant.id)}
+              onClick={() => console.log("clicked")}
             >
               {/* todo: finish up the button display based on whether grant is in the cart or not */}
               <span className="text-center">Add/Remove to/from Cart</span>

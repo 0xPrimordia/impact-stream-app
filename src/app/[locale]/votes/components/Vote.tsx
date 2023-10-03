@@ -31,9 +31,16 @@ const Vote = () => {
       <h3 className="font-bold mb-6 text-center">{t("heading")}</h3>
       <div className="flex flex-col">
         {/* filter out the grants the user voted for? */}
-        {grants.map((grant) => grant.approved === true && (
-          <GrantItem key={grant.id} grant={grant} showStatus={false} />
-        ))}
+        {grants.map(
+          (grant) =>
+            grant.approved === true && (
+              <GrantItem
+                key={grant.id}
+                grant={grant}
+                showStatus={false}
+              />
+            )
+        )}
       </div>
     </div>
   );

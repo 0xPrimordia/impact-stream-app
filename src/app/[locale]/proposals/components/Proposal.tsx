@@ -8,7 +8,7 @@ import { User, usePrivy } from "@privy-io/react-auth";
 import useCheckTokens from "../../hooks/useCheckTokens";
 import { useEffect, useState } from "react";
 import { getSupabaseClient, logoutSupabase } from "../../../../../lib/supabase";
-import ProposalCard from "./ProposalCard";
+import { GrantItem } from "../../components/GrantItem";
 
 export default function Proposal() {
   const { user, ready, authenticated, logout } = usePrivy();
@@ -66,8 +66,12 @@ const ProposalList = ({
           proposals
             .filter((p) => user?.id === p.author.id || p.approved === true)
             .map((proposal) => (
-              <div className="border rounded-md p-2 m-1 shadow-sm mb-2" key={proposal.id}>
-                <ProposalCard key={proposal.id} proposal={proposal} />
+              <div className="p-2" key={proposal.id}>
+                <GrantItem
+                  key={proposal.id}
+                  grant={proposal}
+                  showStatus={false}
+                />
               </div>
             ))}
         {proposals.length === 0 && (
