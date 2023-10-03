@@ -1,10 +1,9 @@
 "use client";
 
 import { SummaryProposal } from "@/app/types";
-import router from "next/router";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { User, usePrivy } from "@privy-io/react-auth";
+import { usePrivy } from "@privy-io/react-auth";
 import useCheckTokens from "../../hooks/useCheckTokens";
 import { useContext } from "react";
 import { GrantItem } from "../../components/GrantItem";
@@ -41,6 +40,7 @@ const ProposalList = ({
   grants: SummaryProposal[];
 }) => {
   const t = useTranslations("Proposals");
+  const router = useRouter();
 
   return (
     <ul

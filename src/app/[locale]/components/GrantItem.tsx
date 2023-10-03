@@ -52,11 +52,11 @@ export const GrantItem = ({
               onClick={() => setIsInCart({ [grant.id]: !isInCart[grant.id] })}
             >
               {/* todo: finish up the button display based on whether grant is in the cart or not */}
-              <span className="">
+              <span className="cursor-pointer">
                 {isInCart[grant.id] ? (
-                  <HeartIconSolid color={"red"} className="h-6 w-6 mt-1" />
+                  <HeartIconSolid color={"red"} className="h-8 w-8 mt-2" />
                 ) : (
-                  <HeartIconOutline color={"red"} className="h-6 w-6 mt-1" />
+                  <HeartIconOutline color={"red"} className="h-8 w-8 mt-2" />
                 )}
               </span>
             </div>
