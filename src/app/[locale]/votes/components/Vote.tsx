@@ -1,30 +1,14 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { getSupabaseClient } from "../../../../../lib/supabase";
-import { useEffect, useState } from "react";
-import { SummaryProposal } from "@/app/types";
-import useCheckTokens from "../../hooks/useCheckTokens";
+import { useContext } from "react";
 import { GrantItem } from "../../components/GrantItem";
+import { GrantsContext } from "@/app/context/GrantContext";
 
 const Vote = () => {
-  const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
-  const [grants, setGrants] = useState<SummaryProposal[]>([]);
+  const { grants } = useContext(GrantsContext);
 
   const t = useTranslations("My Votes");
-
-  async function getGrants() {
-    const supabase = await getSupabaseClient();
-    const { data, error } = await supabase.rpc(
-      "get_proposals_with_collaborators"
-    );
-    if (data) setGrants(data);
-    if (error) console.error(error);
-  }
-
-  useEffect(() => {
-    if (isAccessTokenValid) getGrants();
-  }, [isAccessTokenValid]);
 
   return (
     <div>
@@ -34,11 +18,7 @@ const Vote = () => {
         {grants.map(
           (grant) =>
             grant.approved === true && (
-              <GrantItem
-                key={grant.id}
-                grant={grant}
-                showStatus={false}
-              />
+              <GrantItem key={grant.id} grant={grant} showStatus={false} />
             )
         )}
       </div>

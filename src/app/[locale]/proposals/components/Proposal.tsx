@@ -6,27 +6,17 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { User, usePrivy } from "@privy-io/react-auth";
 import useCheckTokens from "../../hooks/useCheckTokens";
-import { useEffect, useState } from "react";
-import { getSupabaseClient, logoutSupabase } from "../../../../../lib/supabase";
+import { useContext } from "react";
 import { GrantItem } from "../../components/GrantItem";
+import { GrantsContext } from "@/app/context/GrantContext";
+import { logoutSupabase } from "../../../../../lib/supabase";
 
 export default function Proposal() {
+  // todo: move this to another file
   const { user, ready, authenticated, logout } = usePrivy();
-  const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
+  const { isRefreshTokenValid } = useCheckTokens();
   const router = useRouter();
-  const [proposals, setProposals] = useState<SummaryProposal[]>([]);
-  useEffect(() => {
-    if (isAccessTokenValid) getProposals();
-  }, [isAccessTokenValid]);
-
-  async function getProposals() {
-    const supabase = await getSupabaseClient();
-    const { data, error } = await supabase.rpc(
-      "get_proposals_with_collaborators"
-    );
-    if (data) setProposals(data);
-    if (error) console.log(error);
-  }
+  const { grants } = useContext(GrantsContext);
 
   if (!ready) return null;
   if (ready && !authenticated) {
@@ -40,16 +30,16 @@ export default function Proposal() {
 
   return (
     <div>
-      <ProposalList proposals={proposals} user={user} />
+      <ProposalList grants={grants} user={user} />
     </div>
   );
 }
 
 const ProposalList = ({
-  proposals,
+  grants,
   user,
 }: {
-  proposals: SummaryProposal[];
+  grants: SummaryProposal[];
   user: User | null;
 }) => {
   const t = useTranslations("Proposals");
@@ -62,8 +52,8 @@ const ProposalList = ({
       <div className="mb-14">
         <h3 className="font-bold mb-6 text-center">{t("heading")}</h3>
         {/* filter out by author/status and then map the cards */}
-        {proposals &&
-          proposals
+        {grants &&
+          grants
             .filter((p) => user?.id === p.author.id || p.approved === true)
             .map((proposal) => (
               <div className="p-2" key={proposal.id}>
@@ -74,13 +64,13 @@ const ProposalList = ({
                 />
               </div>
             ))}
-        {proposals.length === 0 && (
+        {grants.length === 0 && (
           <p className="text-sm text-center italic my-10">{t("nullMessage")}</p>
         )}
         {/* Botton button to add new proposal */}
         <div className="fixed bottom-10 right-0 left-0 bg-white p-5 z-0">
           <button
-            onClick={() => router.push("/proposals/write")}
+            onClick={() => router.push("/grants/write")}
             className="w-full border border-slate-400 rounded leading-10 font-bold"
           >
             {t("addProposalButton")}
