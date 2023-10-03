@@ -13,7 +13,7 @@ export const GrantItem = ({
 
   return (
     <div
-      className="flex flex-col gap-x-4 border-b border-gray-900/5 bg-gray-50 p-2"
+      className="flex flex-col gap-x-4 border rounded-md shadow-sm bg-gray-50 p-2 mt-2"
       onClick={() => {
         if (showAction) {
           return;

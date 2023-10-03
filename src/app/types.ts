@@ -105,7 +105,7 @@ export interface GrantItemProps {
   grant: SummaryProposal;
   showStatus: boolean;
   showAction: boolean;
-  handleCartClick: (id: string) => void;
+  handleCartClick?: (id: string) => void;
 }
 
 export interface CartItemProps {
