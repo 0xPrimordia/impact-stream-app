@@ -48,13 +48,14 @@ const ProposalList = ({ grants }: { grants: SummaryProposal[] }) => {
         {/* filter out by status and then map the cards */}
         {grants ? (
           grants
-            .filter((p) => !p.approved)
-            .map((proposal) => (
-              <div className="p-2" key={proposal.id}>
+            .filter((p) => p.approved === true)
+            .map((grant) => (
+              <div className="p-2" key={grant.id}>
                 <GrantItem
-                  key={proposal.id}
-                  grant={proposal}
-                  showStatus={true}
+                  key={grant.id}
+                  grant={grant}
+                  showStatus={false}
+                  showAction={true}
                 />
               </div>
             ))

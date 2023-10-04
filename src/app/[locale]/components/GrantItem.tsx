@@ -32,11 +32,13 @@ export const GrantItem = ({
           ? truncateDescription(grant.summary)
           : "No summary provided."}
       </div>
-      <div className="flex flex-row justify-between items-center">
+      <div
+        className={`flex flex-row items-center justify-${
+          !showStatus ? "end" : "between"
+        } p-2 mt-2`}
+      >
         {showStatus && (
-          <div className="flex flex-row items-center justify-between border rounded-md shadow-sm p-2 mt-2">
-            <span>{grant.approved ? "Approved ✅" : "Pending 🟡"}</span>
-          </div>
+          <span>{grant.approved ? "Approved ✅" : "Pending 🟡"}</span>
         )}
         {showAction && <AddRemoveCartButton grantId={grant.id} />}
       </div>
