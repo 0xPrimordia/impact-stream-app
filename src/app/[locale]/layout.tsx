@@ -7,6 +7,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { BrowserCheck } from "./components/BrowserCheck";
 import { GrantsProvider } from "../context/GrantContext";
+import { CartContextProvider } from "../context/CartContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,13 +38,15 @@ export default async function RootLayout({
           <NextIntlClientProvider messages={messages} locale={locale}>
             <WagmiProvider>
               <div>
-                <GrantsProvider>
-                  <div className="mb-4">
-                    <Navbar />
-                  </div>
-                  {children}
-                  <Footer />
-                </GrantsProvider>
+                <CartContextProvider>
+                  <GrantsProvider>
+                    <div className="mb-4">
+                      <Navbar />
+                    </div>
+                    {children}
+                    <Footer />
+                  </GrantsProvider>
+                </CartContextProvider>
               </div>
             </WagmiProvider>
           </NextIntlClientProvider>

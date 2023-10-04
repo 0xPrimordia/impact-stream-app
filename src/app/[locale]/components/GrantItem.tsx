@@ -4,6 +4,7 @@ import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useCart } from "@/app/context/CartContext";
 
 export const GrantItem = ({
   grant,
@@ -11,20 +12,16 @@ export const GrantItem = ({
   showAction,
 }: GrantItemProps) => {
   const router = useRouter();
-  const [isInCart, setIsInCart] = useState({ [grant.id]: false });
+  const { addItemToCart, deleteItemFromCart, isInCart } = useCart();
 
   return (
-    <div
-      className="flex flex-col gap-x-4 border rounded-md shadow-sm bg-gray-50 p-2 mt-2"
-      onClick={() => {
-        if (showAction) {
-          return;
-        } else {
+    <div className="flex flex-col gap-x-4 border rounded-md shadow-sm bg-gray-50 p-2 mt-2">
+      <div
+        className="flex flex-row items-center justify-between cursor-pointer"
+        onClick={() => {
           router.push(`/proposals/${grant.id}`);
-        }
-      }}
-    >
-      <div className="flex flex-row items-center justify-between">
+        }}
+      >
         <div className="flex text-sm font-medium leading-6 text-gray-900 border-b-sky-600">
           {grant.title}
         </div>
@@ -49,11 +46,14 @@ export const GrantItem = ({
           <div className="flex flex-row items-center justify-between">
             <div
               className=""
-              onClick={() => setIsInCart({ [grant.id]: !isInCart[grant.id] })}
+              onClick={() =>
+                isInCart(grant.id)
+                  ? deleteItemFromCart(grant.id)
+                  : addItemToCart(grant.id)
+              }
             >
-              {/* todo: finish up the button display based on whether grant is in the cart or not */}
               <span className="cursor-pointer">
-                {isInCart[grant.id] ? (
+                {isInCart(grant.id) ? (
                   <HeartIconSolid color={"red"} className="h-8 w-8 mt-2" />
                 ) : (
                   <HeartIconOutline color={"red"} className="h-8 w-8 mt-2" />
