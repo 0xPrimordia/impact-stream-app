@@ -83,8 +83,13 @@
     "link": "faire un don sur ce lien."
   },
   "Navigation": {
-    "link1": "Les Propositions",
-    "link2": "Paramètres"
+    "link1": "Mes Votes",
+    "link2": "Mes Subventions",
+    "link3": "Les Propositions",
+    "link4": "Faire un don",
+    "link5": "Chariot",
+    "link6": "Paramètres",
+    "link7": "Apprendre encore plus"
   },
   "Settings": {
     "heading": "Paramètres Utilisateur",
@@ -92,5 +97,24 @@
   },
   "Footer": {
     "message": "La phase de vote a été prolongée jusqu'à la mi-octobre. Date exacte à annoncer."
+  },
+  "Mon Panier": {
+    "heading": "Mon panier",
+    "nullMessage": "Il n'y a actuellement aucun article dans votre panier.",
+    "checkoutButton": "Commander"
+  },
+  "Vérifier": {
+    "heading": "Commander",
+    "disclaimer": "Veuillez vérifier votre panier et confirmer votre don.",
+    "confirmButton": "Confirmer"
+  },
+  "Mes subventions": {
+    "heading": "Mes subventions",
+    "nullMessage": "Il n'y a actuellement aucune subvention ou il y a un problème avec votre connexion.",
+    "addGrantButton": "Créer une subvention"
+  },
+  "Mes votes": {
+    "heading": "Mes votes",
+    "nullMessage": "Il n'y a actuellement aucun vote ou il y a un problème avec votre connexion."
   }
 }
