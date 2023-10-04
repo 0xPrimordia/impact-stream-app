@@ -97,6 +97,13 @@ export interface ContractDetails {
   };
 }
 
+export interface StrategyDetails {
+  [key: number]: {
+    address: `0x${string}`;
+    abi: any;
+  };
+}
+
 export interface GrantListProps {
   grants: SummaryProposal[];
 }
