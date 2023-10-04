@@ -111,7 +111,7 @@ export interface GrantListProps {
 export interface GrantItemProps {
   grant: SummaryProposal;
   showStatus: boolean;
-  showAction: boolean;
+  showAction?: boolean;
 }
 
 export interface CartItemProps {

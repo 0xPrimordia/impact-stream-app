@@ -6,7 +6,7 @@ import AddRemoveCartButton from "./AddRemoveCartButton";
 export const GrantItem = ({
   grant,
   showStatus,
-  showAction,
+  showAction = false,
 }: GrantItemProps) => {
   const router = useRouter();
 
