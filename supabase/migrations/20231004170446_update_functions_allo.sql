@@ -5,6 +5,7 @@ create or replace function get_proposals_with_collaborators()
 returns table (
   id uuid,
   title text,
+	author json,
   location text,
   summary text,
   collaborators json[],
@@ -18,6 +19,7 @@ begin
   select
    p.id,
    p.title, 
+   json_build_object('id', a.id, 'name', a.name, 'family_name', a.family_name) as author,
    p.location, 
    p.summary, 
    case 
@@ -30,9 +32,14 @@ begin
    proposals p
    left join proposal_collaborators pc on p.id = pc.proposal_id
    left join users u on u.id = pc.user_id
+   inner join users a on p.author_id = a.id
   group by 
    p.id,
    p.title, 
+	 a.id,
+	 a.name,
+	 a.family_name,
+	 p.location,
    p.summary,
    p.allo_recipient_id,
    u.allo_anchor_address;
@@ -99,4 +106,3 @@ begin
    a.allo_anchor_address;
 end;
 $$;
-,
