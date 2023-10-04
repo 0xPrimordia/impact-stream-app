@@ -1,10 +1,7 @@
 import { GrantItemProps } from "@/app/types";
 import { truncateDescription } from "@/app/utils";
-import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
-import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useCart } from "@/app/context/CartContext";
+import AddRemoveCartButton from "./AddRemoveCartButton";
 
 export const GrantItem = ({
   grant,
@@ -12,7 +9,6 @@ export const GrantItem = ({
   showAction,
 }: GrantItemProps) => {
   const router = useRouter();
-  const { addItemToCart, deleteItemFromCart, isInCart } = useCart();
 
   return (
     <div className="flex flex-col gap-x-4 border rounded-md shadow-sm bg-gray-50 p-2 mt-2">
@@ -42,26 +38,7 @@ export const GrantItem = ({
             <span>{grant.approved ? "Approved ✅" : "Pending 🟡"}</span>
           </div>
         )}
-        {showAction && (
-          <div className="flex flex-row items-center justify-between">
-            <div
-              className=""
-              onClick={() =>
-                isInCart(grant.id)
-                  ? deleteItemFromCart(grant.id)
-                  : addItemToCart(grant.id)
-              }
-            >
-              <span className="cursor-pointer">
-                {isInCart(grant.id) ? (
-                  <HeartIconSolid color={"red"} className="h-8 w-8 mt-2" />
-                ) : (
-                  <HeartIconOutline color={"red"} className="h-8 w-8 mt-2" />
-                )}
-              </span>
-            </div>
-          </div>
-        )}
+        {showAction && <AddRemoveCartButton grantId={grant.id} />}
       </div>
     </div>
   );

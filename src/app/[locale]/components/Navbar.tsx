@@ -46,21 +46,21 @@ export const Navbar = () => {
                 {t("link4")}
               </NavbarLink>
             </li>
-            {/* <li className="mb-6">
+            <li className="mb-6">
               <NavbarLink setOverlay={setOverlay} path={"/cart"}>
                 {t("link5")}
               </NavbarLink>
-            </li> */}
+            </li>
             <li className="mb-6">
               <NavbarLink setOverlay={setOverlay} path={"/settings"}>
                 {t("link6")}
               </NavbarLink>
             </li>
-			<li>
-				<NavbarLink setOverlay={setOverlay} path={"/about"}>
-					{t("link7")}
-				</NavbarLink>
-			</li>
+            <li>
+              <NavbarLink setOverlay={setOverlay} path={"/about"}>
+                {t("link7")}
+              </NavbarLink>
+            </li>
           </ul>
           <XMarkIcon
             onClick={() => setOverlay(false)}

@@ -1,12 +1,13 @@
+"use client";
+import { useCart } from "@/app/context/CartContext";
 import Cart from "./components/Cart";
-
-// todo: fetch the cart items
-const getCartItems = async () => {
-  return [{}, {}];
-};
+import { useContext } from "react";
+import { GrantsContext } from "@/app/context/GrantContext";
 
 export default async function CartPage() {
-  const cartItems = await getCartItems();
+  const { isInCart } = useCart();
+  const { grants } = useContext(GrantsContext);
 
-  return <Cart cartItems={cartItems} />;
+  const filteredGrants = grants.filter((grant) => isInCart(grant.id));
+  return <Cart cartItems={filteredGrants} />;
 }
