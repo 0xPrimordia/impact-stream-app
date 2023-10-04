@@ -55,7 +55,6 @@ const ProposalList = ({ grants }: { grants: SummaryProposal[] }) => {
                   key={proposal.id}
                   grant={proposal}
                   showStatus={true}
-                  showAction={true}
                 />
               </div>
             ))
