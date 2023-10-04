@@ -59,7 +59,7 @@ const ProposalList = ({
                   key={proposal.id}
                   grant={proposal}
                   showStatus={true}
-                  showAction={true}
+                  showAction={false}
                 />
               </div>
             ))
