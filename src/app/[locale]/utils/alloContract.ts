@@ -84,7 +84,7 @@ function distribute(networkId: number) {
  * @returns boolean
  */
 async function isValidAllocator(networkId: number, allocatorId: string) {
-  const alloAddress = strategyContract[networkId]?.address;
+  const alloAddress = alloContract[networkId]?.proxy;
 
   const isValid = await callReadContract({
     address: alloAddress,
@@ -137,7 +137,7 @@ async function getVoiceCreditsCastByAllocator(
   const voiceCreditsCastByAllocator = Number(
     await callReadContract({
       address: strategyAddress,
-      abi: alloContract[networkId]?.abi,
+      abi: strategyContract[networkId]?.abi,
       functionName: "getVoiceCreditsCastByAllocator",
       args: [allocatorId],
     })
@@ -165,7 +165,7 @@ async function getVoiceCreditsCastByAllocatorToRecipient(
   const voiceCreditsCastByAllocatorToRecipient = Number(
     await callReadContract({
       address: strategyAddress,
-      abi: alloContract[networkId]?.abi,
+      abi: strategyContract[networkId]?.abi,
       functionName: "getVoiceCreditsCastByAllocatorToRecipient",
       args: [allocatorId, recipientId],
     })
@@ -186,7 +186,7 @@ async function getVotesCastByAllocatorToRecipient(
   const votesCastByAllocatorToRecipient = Number(
     await callReadContract({
       address: strategyAddress,
-      abi: alloContract[networkId]?.abi,
+      abi: strategyContract[networkId]?.abi,
       functionName: "getVotesCastByAllocatorToRecipient",
       args: [allocatorId, recipientId],
     })
