@@ -21,6 +21,8 @@ export const GrantsProvider = ({ children }: { children: any[] }) => {
     );
     if (data) setGrants(data);
     if (error) console.error(error);
+
+    console.log("grants", grants);
   }
 
   useEffect(() => {
