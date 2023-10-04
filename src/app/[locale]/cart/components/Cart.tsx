@@ -27,7 +27,7 @@ const CartItem = ({ item }: { item: SummaryProposal }) => {
 
   return (
     <div className="flex flex-col gap-x-4 border rounded-md shadow-sm bg-gray-50 p-2 mt-2">
-      <div className="flex flex-row items-center justify-between cursor-pointer">
+      <div className="flex flex-col sm:flex-row items-center justify-between cursor-pointer">
         <div
           className="flex text-sm font-medium leading-6 text-gray-900 border-b-sky-600"
           onClick={() => {
@@ -36,12 +36,16 @@ const CartItem = ({ item }: { item: SummaryProposal }) => {
         >
           {item.title}
         </div>
-        <input
-          type="number"
-          className="border rounded-md shadow-sm bg-gray-50 p-2 mt-2"
-          placeholder="0"
-        />
-        <AddRemoveCartButton grantId={item.id} />
+        <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
+          <span className="text-sm">Vote Credits &nbsp;</span>
+          <input
+            id="voteCredits"
+            type="number"
+            className="w-24 border rounded-md shadow-sm bg-gray-50 p-2 mt-2"
+            placeholder="0"
+          />
+          <AddRemoveCartButton grantId={item.id} />
+        </div>
       </div>
     </div>
   );

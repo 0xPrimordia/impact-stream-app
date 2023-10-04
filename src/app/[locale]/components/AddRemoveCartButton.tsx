@@ -22,7 +22,7 @@ const AddRemoveCartButton = ({ grantId }: { grantId: string }) => {
           <HeartIconOutline color={"red"} className="h-8 w-8 mt-2" />
         )}
       </div>
-      <span className="text-xxs text-gray-500">{buttonText}</span>
+      <span className="text-[0.5rem] text-gray-500">{buttonText}</span>
     </div>
   );
 };
