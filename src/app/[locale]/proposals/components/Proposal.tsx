@@ -34,11 +34,7 @@ export default function Proposal() {
   );
 }
 
-const ProposalList = ({
-  grants,
-}: {
-  grants: SummaryProposal[];
-}) => {
+const ProposalList = ({ grants }: { grants: SummaryProposal[] }) => {
   const t = useTranslations("Proposals");
   const router = useRouter();
 
@@ -52,7 +48,7 @@ const ProposalList = ({
         {/* filter out by status and then map the cards */}
         {grants ? (
           grants
-            .filter((p) => p.approved === false)
+            .filter((p) => !p.approved)
             .map((proposal) => (
               <div className="p-2" key={proposal.id}>
                 <GrantItem
