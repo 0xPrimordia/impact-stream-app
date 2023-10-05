@@ -5,8 +5,8 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import AddRemoveCartButton from "../../components/AddRemoveCartButton";
 import { usePrivy } from "@privy-io/react-auth";
-import { getRemainingVoiceCreditsForAllocator } from "../../utils/alloContract";
 import { getChain, getChainId } from "../../config/network.config";
+import { getMaxVoiceCreditsPerAllocator } from "../../utils/alloContract";
 
 const Cart = ({ cartItems }: { cartItems: SummaryProposal[] }) => {
   const t = useTranslations("My Cart");
@@ -62,10 +62,7 @@ const CartList = async ({ cartItems }: { cartItems: SummaryProposal[] }) => {
 
   console.log("chainId", chainId);
 
-  const voiceCreditsLeft = await getRemainingVoiceCreditsForAllocator(
-    chainId,
-    user?.wallet!.address!,
-  );
+  const voiceCreditsLeft = await getMaxVoiceCreditsPerAllocator(chainId);
 
   console.log("voiceCreditsLeft", voiceCreditsLeft);
   console.log("address", user?.wallet!.address!);
