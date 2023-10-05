@@ -34,9 +34,13 @@ begin
    proposals p
    left join proposal_collaborators pc on p.id = pc.proposal_id
    left join users u on u.id = pc.user_id
+   inner join users a on p.author_id = a.id
   group by 
    p.id,
    p.title, 
+   a.id,
+   a.name,
+	 a.family_name,
    p.summary,
    p.allo_recipient_id,
    u.allo_anchor_address;
@@ -75,11 +79,11 @@ begin
    p.minimum_budget, 
    p.key_players, 
    p.timeline,
-   p.approved,
    case 
 		when count(pc.user_id) > 0 then array_agg(json_build_object('name', u.name, 'family_name', u.family_name)) 
 		else array[]::json[] 
 	 end as collaborators,
+   p.approved,
 	 p.allo_recipient_id,
    a.allo_anchor_address
   from 
