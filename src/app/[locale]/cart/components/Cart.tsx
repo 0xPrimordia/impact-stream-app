@@ -1,14 +1,24 @@
 "use client";
 
-import { SummaryProposal } from "@/app/types";
+import { ISummaryProposal } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import AddRemoveCartButton from "../../components/AddRemoveCartButton";
 import { usePrivy } from "@privy-io/react-auth";
-import { getChain, getChainId } from "../../config/network.config";
-import { getMaxVoiceCreditsPerAllocator } from "../../utils/alloContract";
+import { getChainId } from "../../config/network.config";
+import {
+  getMaxVoiceCreditsPerAllocator,
+  getVoiceCreditsCastByAllocator,
+  getVoiceCreditsCastByAllocatorToRecipient,
+} from "../../utils/alloContract";
+import { useCart } from "@/app/context/CartContext";
+import { useContext } from "react";
+import { GrantsContext } from "@/app/context/GrantContext";
 
-const Cart = ({ cartItems }: { cartItems: SummaryProposal[] }) => {
+const Cart = () => {
+  const { isInCart, cartItems } = useCart();
+  const { grants } = useContext(GrantsContext);
+  // const cartItems = grants.filter((grant) => isInCart(grant.id));
   const t = useTranslations("My Cart");
 
   return (
@@ -25,7 +35,7 @@ const Cart = ({ cartItems }: { cartItems: SummaryProposal[] }) => {
   );
 };
 
-const CartItem = ({ item }: { item: SummaryProposal }) => {
+const CartItem = ({ item }: { item: ISummaryProposal }) => {
   const router = useRouter();
 
   return (
@@ -54,7 +64,9 @@ const CartItem = ({ item }: { item: SummaryProposal }) => {
   );
 };
 
-const CartList = async ({ cartItems }: { cartItems: SummaryProposal[] }) => {
+const CartList = async ({ cartItems }: { cartItems: ISummaryProposal[] }) => {
+  const router = useRouter();
+  const t = useTranslations("My Cart");
   const { user, authenticated, ready, logout } = usePrivy();
 
   if (!ready || !user || !user.wallet) return null;
@@ -62,9 +74,27 @@ const CartList = async ({ cartItems }: { cartItems: SummaryProposal[] }) => {
 
   console.log("chainId", chainId);
 
-  const voiceCreditsLeft = await getMaxVoiceCreditsPerAllocator(chainId);
+  const maxVoiceCreditsPerAllocator = await getMaxVoiceCreditsPerAllocator(
+    chainId
+  );
+  const voiceCreditsUsedByAllocator = 5;
+  const voiceCreditsLeftByAllocator =
+    maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator;
+  // const voiceCreditsCastByAllocator = await getVoiceCreditsCastByAllocator(
+  //   chainId,
+  //   user?.wallet!.address!
+  // );
+  // const voiceCreditsCastByAllocatorToRecipient =
+  //   getVoiceCreditsCastByAllocatorToRecipient(
+  //     chainId,
+  //     user?.wallet!.address!,
+  //     cartItems[0].allo_recipient_id
+  //   );
 
-  console.log("voiceCreditsLeft", voiceCreditsLeft);
+  console.log("maxVoiceCreditsPerAllocator", {
+    maxVoiceCreditsPerAllocator,
+    // voiceCreditsCastByAllocator,
+  });
   console.log("address", user?.wallet!.address!);
 
   return (
@@ -73,15 +103,25 @@ const CartList = async ({ cartItems }: { cartItems: SummaryProposal[] }) => {
         You have {cartItems.length}
         {cartItems.length > 1 ? " items " : " item "} in your cart.
       </p>
-      <p>You have x voice credits left</p>
-      {cartItems.map((item, index) => (
-        <div
-          key={"cartItem-" + index}
-          className="border rounded-md p-2 m-1 shadow-sm mb-2"
+      <p>You have {voiceCreditsLeftByAllocator} voice credits left</p>
+      <div>
+        {cartItems.map((item, index) => (
+          <div
+            key={"cartItem-" + index}
+            className="border rounded-md p-2 m-1 shadow-sm mb-2"
+          >
+            <CartItem item={item} />
+          </div>
+        ))}
+      </div>
+      <div>
+        <button
+          onClick={() => router.push("/cart/checkout")}
+          className="w-full border border-slate-400 hover:bg-sky-600 rounded-md leading-10 font-bold"
         >
-          <CartItem item={item} />
-        </div>
-      ))}
+          {t("checkoutButton")}
+        </button>
+      </div>
     </div>
   );
 };

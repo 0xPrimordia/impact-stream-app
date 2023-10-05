@@ -1,6 +1,6 @@
 import { Json } from "../../types/supabase";
 
-export type Proposal = {
+export type TProposal = {
   id: string;
   title: string | null;
   location: string | null;
@@ -13,7 +13,7 @@ export type Proposal = {
   key_players: string | null;
 };
 
-export type CreateProposal = {
+export type TCreateProposal = {
   id: string;
   title: string | null;
   location: string | null;
@@ -25,10 +25,10 @@ export type CreateProposal = {
   sustainability: string | null;
   minimum_budget: number | null;
   key_players: string | null;
-  milestones: Milestone[] | null;
+  milestones: TMilestone[] | null;
 };
 
-export type SummaryProposal = {
+export type TSummaryProposal = {
   id: string;
   approved: boolean;
   title: string | null;
@@ -40,10 +40,12 @@ export type SummaryProposal = {
   };
   location: string | null;
   summary: string | null;
-  collaborators: Collaborator[] | null;
+  collaborators: TCollaborator[] | null;
+  allo_recipient_id: string | null;
+  allo_anchor_address: string | null;
 };
 
-export type FullProposal = {
+export type TFullProposal = {
   title: string | null;
   author: {
     id: string;
@@ -60,23 +62,23 @@ export type FullProposal = {
   sustainability: string | null;
   minimum_budget: number | null;
   key_players: string | null;
-  project_milestones: Milestone[] | null;
-  collaborators: Collaborator[] | null;
+  project_milestones: TMilestone[] | null;
+  collaborators: TCollaborator[] | null;
 };
 
-type Collaborator = {
+type TCollaborator = {
   name: string | null;
   family_name: string | null;
   profile_image_url: string | null;
 };
 
-export type Milestone = {
+export type TMilestone = {
   title: string;
   budget: number;
 };
 
 // todo => note: why are we using this User and not the Collaborator type?
-export type User = {
+export type TUser = {
   id: string;
   name: string | null;
   family_name: string | null;
@@ -88,9 +90,9 @@ export type User = {
   email: string | null;
 };
 
-export type PrivyUser = {};
+export type TPrivyUser = {};
 
-export interface ContractDetails {
+export interface IContractDetails {
   [key: number]: {
     proxy: `0x${string}`;
     implementation?: `0x${string}`;
@@ -98,7 +100,7 @@ export interface ContractDetails {
   };
 }
 
-export interface StrategyDetails {
+export interface IStrategyDetails {
   [key: number]: {
     poolId: number;
     address: `0x${string}`;
@@ -106,17 +108,50 @@ export interface StrategyDetails {
   };
 }
 
-export interface GrantListProps {
-  grants: SummaryProposal[];
+export interface IGrantListProps {
+  grants: TSummaryProposal[];
 }
 
-export interface GrantItemProps {
-  grant: SummaryProposal;
+export interface IGrantItemProps {
+  grant: TSummaryProposal;
   showStatus: boolean;
   showAction?: boolean;
 }
 
-export interface CartItemProps {
-  grant: SummaryProposal;
+export interface ICartItemProps {
+  grant: TSummaryProposal;
   amount: number;
+}
+
+export interface ICartContextProps {
+  cartItems: string[];
+  addItemToCart: (itemId: string) => void;
+  deleteItemFromCart: (itemId: string) => void;
+  isInCart: (itemId: string) => boolean;
+}
+
+export interface IChainIndex {
+  [key: string]: any;
+}
+
+export interface IEditProposalProps {
+  proposal: TFullProposal;
+  proposalId: string;
+  setIsEditing: Function;
+  reloadData: Function;
+}
+
+export interface IMilestoneProps {
+  milestones?: TMilestone[] | null;
+}
+
+export interface IRow {
+  key: string;
+  milestone?: TMilestone;
+}
+
+export interface INavbarLinkProps {
+  children: React.ReactNode;
+  path: string;
+  setOverlay: Function;
 }

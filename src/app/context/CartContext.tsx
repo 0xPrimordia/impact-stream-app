@@ -1,12 +1,6 @@
 "use client";
 import React, { useState, useEffect, useContext } from "react";
-
-interface ICartContextProps {
-  cartItems: string[];
-  addItemToCart: (itemId: string) => void;
-  deleteItemFromCart: (itemId: string) => void;
-  isInCart: (itemId: string) => boolean;
-}
+import { ICartContextProps } from "../types";
 
 export const CartContext = React.createContext<ICartContextProps | undefined>(
   undefined,

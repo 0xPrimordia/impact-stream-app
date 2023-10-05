@@ -1,10 +1,10 @@
-import { ContractDetails, User } from "@/app/types";
+import { IContractDetails, TUser } from "@/app/types";
 import { ViemClient } from "./client";
 import { registryContractDetails } from "../config/registry.config";
 import { alloContractDetails } from "../config/allo.config";
 
 const client = ViemClient;
-const registryContract: ContractDetails = registryContractDetails();
+const registryContract: IContractDetails = registryContractDetails();
 
 export async function getAllo() {
   const network = await client.getChainId();
@@ -18,6 +18,6 @@ export async function createProfile() {
   const registryAddress = registryContract[network]?.proxy;
 }
 
-function setProfileMetadata(data: User) {
+function setProfileMetadata(data: TUser) {
   return "JSON string to store in IPFS and get a pointer?";
 }

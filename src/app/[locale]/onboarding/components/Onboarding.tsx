@@ -5,13 +5,13 @@ import { getSupabaseClient, logoutSupabase } from "../../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import useCheckTokens from "../../hooks/useCheckTokens";
-import { User } from "../types";
+import { TUser } from "../types";
 
 const Onboarding = () => {
   const { user, ready, authenticated, logout } = usePrivy();
   const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
   const router = useRouter();
-  const methods = useForm<User>({
+  const methods = useForm<TUser>({
     mode: "onBlur",
     defaultValues: {
       givenName: "",
@@ -38,7 +38,7 @@ const Onboarding = () => {
     router.push("/");
   }
 
-  const onSubmit: SubmitHandler<User> = async (data) => {
+  const onSubmit: SubmitHandler<TUser> = async (data) => {
     try {
       if (isAccessTokenValid) {
         const supabase = await getSupabaseClient();

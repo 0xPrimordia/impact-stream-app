@@ -1,8 +1,8 @@
-import { ContractDetails, StrategyDetails } from "@/app/types";
+import { IContractDetails, IStrategyDetails } from "@/app/types";
 import { alloAbi } from "../abis/allo";
 import { qvImpactStreamStrategyAbi } from "../abis/qvImpactStreamStrategy";
 
-export const alloContractDetails = (): ContractDetails => {
+export const alloContractDetails = (): IContractDetails => {
   return {
     [5]: {
       proxy: "0xbb6B237a98D907b04682D8567F4a8d0b4b611a3b",
@@ -12,7 +12,7 @@ export const alloContractDetails = (): ContractDetails => {
   };
 };
 
-export const strategyContractDetails = (): StrategyDetails => {
+export const strategyContractDetails = (): IStrategyDetails => {
   return {
     [5]: {
       poolId: 16,

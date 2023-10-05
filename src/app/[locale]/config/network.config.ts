@@ -1,6 +1,7 @@
+import { IChainIndex } from "@/app/types";
 import * as chains from "viem/chains";
 
-// Possible chains:
+// Possible chains: 🫠
 // arbitrum,arbitrumGoerli,aurora,auroraTestnet,avalanche,avalancheFuji,
 // baseGoerli,boba,bronos,bronosTestnet,bsc,bscTestnet,canto,celo,
 // celoAlfajores,celoCannoli,cronos,crossbell,dfk,dogechain,evmos,
@@ -18,11 +19,7 @@ import * as chains from "viem/chains";
 // telosTestnet,thunderTestnet,wanchain,wanchainTestnet,xdc,xdcTestnet,
 // zhejiang,zkSync,zkSyncTestnet,zoraTestnet
 
-interface ChainIndex {
-  [key: string]: any;
-}
-
-const chain: ChainIndex = chains;
+const chain: IChainIndex = chains;
 
 const selectedChain = chain[process.env.NEXT_PUBLIC_CHAIN || "goerli"];
 

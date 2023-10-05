@@ -2,19 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Milestone } from "@/app/types";
+import { IMilestoneProps, IRow, TMilestone } from "@/app/types";
 
-interface MilestoneProps {
-    milestones?: Milestone[]|null;
-}
-
-interface Row {
-    key: string;
-    milestone?: Milestone;
-}
-
-export const MilestoneForm = ({milestones, ...props}: MilestoneProps) => {
-    const [rows, setRows] = useState<Row[]>([]);
+export const MilestoneForm = ({milestones, ...props}: IMilestoneProps) => {
+    const [rows, setRows] = useState<IRow[]>([]);
     const { register, formState: { errors } } = useFormContext();
 
     useEffect(() => {
@@ -36,7 +27,7 @@ export const MilestoneForm = ({milestones, ...props}: MilestoneProps) => {
         })
     }
 
-    function addMilestoneRow(milestone:Milestone) {
+    function addMilestoneRow(milestone:TMilestone) {
         let key = "milestone-" + (rows.length + 2);
         setRows([...rows, { key, milestone }]);
     }

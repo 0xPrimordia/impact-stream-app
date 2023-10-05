@@ -1,67 +1,17 @@
-import { createPublicClient, getContract, http } from "viem";
-import {
-  alloContractDetails,
-  strategyContractDetails,
-} from "../config/allo.config";
-import { getChain } from "../config/network.config";
+import { alloContractDetails } from "../config/allo.config";
+import { ViemClient } from "./client";
+import { alloContract, strategyContract } from "./contracts";
 
-export type PoolData = {};
+// Import the Viem client
+const client = ViemClient;
 
-const transport = http(process.env.NEXT_PUBLIC_CHAIN_RPC);
-const client = createPublicClient({
-  chain: getChain(),
-  transport,
-});
-
-const _alloContractDetails: any = alloContractDetails();
-const _strategyContractDetails: any = strategyContractDetails();
-
-const alloContract = getContract({
-  address: _alloContractDetails[5]?.proxy,
-  abi: _alloContractDetails[5]?.abi,
-  publicClient: client,
-});
-
-const strategyContract = getContract({
-  address: _strategyContractDetails[5]?.address,
-  abi: _strategyContractDetails[5]?.abi,
-  publicClient: client,
-});
-
+/**
+ * Get the Allo proxy address
+ * @returns Promise<`0x${string}`>
+ */
 export async function getAllo() {
   return alloContractDetails()[await client.getChainId()]?.proxy;
 }
-
-/**
- * Viem Helper function
- * @param param0
- * @returns () => Promise<unkown[]> fixme: unknown[]
- */
-// async function callReadContract({
-//   address,
-//   abi,
-//   functionName,
-//   args,
-// }: {
-//   address: `0x${string}`;
-//   abi: any;
-//   functionName: string;
-//   args: (string[] | number[] | string | number | boolean | `0x${string}`)[];
-// }) {
-//   let result: any;
-
-//   try {
-//     await client.readContract({
-//       address,
-//       abi,
-//       functionName,
-//       args,
-//     });
-//   } catch (e) {
-//     console.log(e);
-//   }
-//   return result;
-// }
 
 /**
  * Get the strategy address for a pool
@@ -69,18 +19,10 @@ export async function getAllo() {
  * @param networkId
  * @returns Promise<`0x${string}`>
  */
-async function getStrategy(
+export async function getStrategy(
   poolId: number,
-  networkId: number,
+  networkId: number
 ): Promise<`0x${string}`> {
-  // const alloAddress = alloContract[networkId]?.proxy;
-  // const data = await callReadContract({
-  //   address: alloAddress,
-  //   abi: alloContract[networkId]?.abi,
-  //   functionName: "getStrategy",
-  //   args: [poolId],
-  // });
-
   const data = await alloContract.read.getStrategy([poolId]);
 
   return `0x${data.toString()}`;
@@ -102,8 +44,6 @@ async function getStrategy(
 //   // distribute the payouts
 // }
 
-/********** Allo Helper functions **********/
-
 /**
  * Check if an allocator is valid
  * @param networkId
@@ -111,13 +51,6 @@ async function getStrategy(
  * @returns boolean
  */
 async function isValidAllocator(networkId: number, allocatorId: string) {
-  // const isValid = await callReadContract({
-  //   address: strategyContract[networkId]?.address,
-  //   abi: strategyContract[networkId]?.abi,
-  //   functionName: "isValidAllocator",
-  //   args: [allocatorId],
-  // });
-
   const isValid = await strategyContract.read.isValidAllocator([allocatorId]);
 
   return isValid;
@@ -131,19 +64,9 @@ async function isValidAllocator(networkId: number, allocatorId: string) {
  * @returns number
  */
 export async function getMaxVoiceCreditsPerAllocator(networkId: number) {
-  // const strategyAddress = strategyContract[networkId]?.address;
-
-  // const maxVoiceCredits = Number(
-  //   await callReadContract({
-  //     address: strategyAddress,
-  //     abi: strategyContract[networkId]?.abi,
-  //     functionName: "maxVoiceCreditsPerAllocator",
-  //     args: [],
-  //   }),
-  // );
-
-  const maxVoiceCredits =
-    await strategyContract.read.maxVoiceCreditsPerAllocator([]);
+  const maxVoiceCredits = Number(
+    (await strategyContract.read.maxVoiceCreditsPerAllocator([])).toString()
+  );
 
   return maxVoiceCredits;
 }
@@ -154,27 +77,22 @@ export async function getMaxVoiceCreditsPerAllocator(networkId: number) {
 //  * @param allocatorId
 //  * @returns
 //  */
-// async function getVoiceCreditsCastByAllocator(
-//   networkId: number,
-//   allocatorId: string,
-// ) {
-// const strategyAddress = strategyContract[networkId]?.address;
+export async function getVoiceCreditsCastByAllocator(
+  networkId: number,
+  allocatorId: string
+) {
+  if (!(await isValidAllocator(networkId, allocatorId))) {
+    return 0;
+  }
 
-// if (!(await isValidAllocator(networkId, allocatorId))) {
-//   return 0;
-// }
+  const voiceCreditsCastByAllocator = Number(
+    strategyContract.read
+      .getVoiceCreditsCastByAllocator([allocatorId])
+      .toString()
+  );
 
-// const voiceCreditsCastByAllocator = Number(
-//   await callReadContract({
-//     address: strategyAddress,
-//     abi: strategyContract[networkId]?.abi,
-//     functionName: "getVoiceCreditsCastByAllocator",
-//     args: [allocatorId],
-//   }),
-// );
-
-// return voiceCreditsCastByAllocator;
-// }
+  return voiceCreditsCastByAllocator;
+}
 
 // /**
 //  * Get the voice credits allocated to a recipient
@@ -183,26 +101,31 @@ export async function getMaxVoiceCreditsPerAllocator(networkId: number) {
 //  * @param recipientId
 //  * @returns number
 //  */
-// async function getVoiceCreditsCastByAllocatorToRecipient(
-//   networkId: number,
-//   allocatorId: string,
-//   recipientId: string,
-// ): Promise<number> {
-//   // const strategyAddress = strategyContract[networkId]?.address;
-//   // if (!(await isValidAllocator(networkId, allocatorId))) {
-//   //   return 0;
-//   // }
-//   // const voiceCreditsCastByAllocatorToRecipient = Number(
-//   //   await callReadContract({
-//   //     address: strategyAddress,
-//   //     abi: strategyContract[networkId]?.abi,
-//   //     functionName: "getVoiceCreditsCastByAllocatorToRecipient",
-//   //     args: [allocatorId, recipientId],
-//   //   }),
-//   // );
+export async function getVoiceCreditsCastByAllocatorToRecipient(
+  networkId: number,
+  allocatorId: string,
+  recipientId: string
+): Promise<number> {
+  if (!(await isValidAllocator(networkId, allocatorId))) {
+    return 0;
+  }
+  // const voiceCreditsCastByAllocatorToRecipient = Number(
+  //   await callReadContract({
+  //     address: strategyAddress,
+  //     abi: strategyContract[networkId]?.abi,
+  //     functionName: "getVoiceCreditsCastByAllocatorToRecipient",
+  //     args: [allocatorId, recipientId],
+  //   })
+  // );
 
-//   // return voiceCreditsCastByAllocatorToRecipient;
-// }
+  const voiceCreditsCastByAllocatorToRecipient = Number(
+    strategyContract.read
+      .getVoiceCreditsCastByAllocatorToRecipient([allocatorId, recipientId])
+      .toString()
+  );
+
+  return voiceCreditsCastByAllocatorToRecipient;
+}
 
 // async function getVotesCastByAllocatorToRecipient(
 //   networkId: number,

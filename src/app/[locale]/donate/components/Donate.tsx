@@ -1,12 +1,15 @@
 "use client";
 
-import { GrantsContext } from "@/app/context/GrantContext";
 import { useTranslations } from "next-intl";
-import { useContext } from "react";
-import { GrantItem } from "../../components/GrantItem";
 
 const Donate = () => {
-  return (<div>Donate</div>);
+  const t = useTranslations("Donate");
+  // Add button to donate to the pool using `fundPool()`
+  return (
+    <div>
+      <h3 className="font-bold mb-6 text-center">{t("heading")}</h3>
+    </div>
+  );
 };
 
 export default Donate;

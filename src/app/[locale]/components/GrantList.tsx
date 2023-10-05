@@ -1,7 +1,7 @@
-import { GrantListProps } from "@/app/types";
+import { IGrantListProps } from "@/app/types";
 import { GrantItem } from "./GrantItem";
 
-export const GrantList = ({ grants }: GrantListProps) => {
+export const GrantList = ({ grants }: IGrantListProps) => {
   return (
     <ul
       role="list"

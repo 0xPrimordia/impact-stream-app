@@ -1,4 +1,4 @@
-import { GrantItemProps } from "@/app/types";
+import { IGrantItemProps } from "@/app/types";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { truncateDescription } from "@/app/utils";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ export const GrantItem = ({
   grant,
   showStatus,
   showAction = false,
-}: GrantItemProps) => {
+}: IGrantItemProps) => {
   const router = useRouter();
 
   return (

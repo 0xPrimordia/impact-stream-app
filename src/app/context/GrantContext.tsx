@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { SummaryProposal } from "../types";
 import { getSupabaseClient } from "../../../lib/supabase";
 import useCheckTokens from "../[locale]/hooks/useCheckTokens";
@@ -17,14 +17,14 @@ export const GrantsProvider = ({ children }: { children: any[] }) => {
   async function getGrants() {
     const supabase = await getSupabaseClient();
     const { data, error } = await supabase.rpc(
-      "get_proposals_with_collaborators",
+      "get_proposals_with_collaborators"
     );
 
-    // todo: remove this shit
-    data.map((grant: any) => {
-      grant.approved = true;
-      return grant;
-    });
+    // // todo: remove this shit
+    // data.map((grant: any) => {
+    //   grant.approved = true;
+    //   return grant;
+    // });
 
     if (data) setGrants(data);
     if (error) console.error(error);
@@ -46,4 +46,14 @@ export const GrantsProvider = ({ children }: { children: any[] }) => {
       {children}
     </GrantsContext.Provider>
   );
+};
+
+export const useGrantContext = () => {
+  const context = useContext(GrantsContext);
+  if (context === undefined)
+    throw new Error(
+      `useGrantContext must be used within a GrantContextProvider`
+    );
+
+  return context;
 };

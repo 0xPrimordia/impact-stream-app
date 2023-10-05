@@ -1,19 +1,20 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useContext } from "react";
 import { GrantList } from "../../components/GrantList";
-import { GrantsContext } from "@/app/context/GrantContext";
+import { useGrantContext } from "@/app/context/GrantContext";
 import { usePrivy } from "@privy-io/react-auth";
 
 const Grant = () => {
   const t = useTranslations("My Grants");
-  const { grants } = useContext(GrantsContext);
+  const grantsList = useGrantContext().grants;
   const { user } = usePrivy();
 
   // filter grants by grant.author.id === user.id
   if (!user) return;
-  const filteredGrants = grants.filter((grant) => grant.author.id === user!.id);
+  const filteredGrants = grantsList.filter(
+    (grant) => grant.author.id === user!.id
+  );
 
   return (
     <div>
