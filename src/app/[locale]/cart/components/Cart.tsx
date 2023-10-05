@@ -1,6 +1,6 @@
 "use client";
 
-import { ISummaryProposal } from "@/app/types";
+import { TSummaryProposal } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import AddRemoveCartButton from "../../components/AddRemoveCartButton";
@@ -16,9 +16,10 @@ import { useContext } from "react";
 import { GrantsContext } from "@/app/context/GrantContext";
 
 const Cart = () => {
-  const { isInCart, cartItems } = useCart();
+  const { isInCart } = useCart();
   const { grants } = useContext(GrantsContext);
-  // const cartItems = grants.filter((grant) => isInCart(grant.id));
+  const cartItems = grants.filter((grant) => isInCart(grant.id));
+
   const t = useTranslations("My Cart");
 
   return (
@@ -35,7 +36,7 @@ const Cart = () => {
   );
 };
 
-const CartItem = ({ item }: { item: ISummaryProposal }) => {
+const CartItem = ({ item }: { item: TSummaryProposal }) => {
   const router = useRouter();
 
   return (
@@ -64,7 +65,7 @@ const CartItem = ({ item }: { item: ISummaryProposal }) => {
   );
 };
 
-const CartList = async ({ cartItems }: { cartItems: ISummaryProposal[] }) => {
+const CartList = async ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
   const router = useRouter();
   const t = useTranslations("My Cart");
   const { user, authenticated, ready, logout } = usePrivy();
