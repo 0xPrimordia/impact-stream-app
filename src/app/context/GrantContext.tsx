@@ -17,12 +17,19 @@ export const GrantsProvider = ({ children }: { children: any[] }) => {
   async function getGrants() {
     const supabase = await getSupabaseClient();
     const { data, error } = await supabase.rpc(
-      "get_proposals_with_collaborators"
+      "get_proposals_with_collaborators",
     );
+
+    // todo: remove this shit
+    data.map((grant: any) => {
+      grant.approved = true;
+      return grant;
+    });
+
     if (data) setGrants(data);
     if (error) console.error(error);
 
-    console.log("grants", grants);
+    console.log("grants", data);
   }
 
   useEffect(() => {

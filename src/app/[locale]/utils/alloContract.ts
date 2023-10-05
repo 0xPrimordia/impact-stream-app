@@ -1,12 +1,19 @@
+import { createPublicClient, http } from "viem";
 import {
   alloContractDetails,
   strategyContractDetails,
 } from "../config/allo.config";
-import { ViemClient } from "./client";
+import { getChain } from "../config/network.config";
 
 export type PoolData = {};
 
-const client = ViemClient;
+const transport = http(process.env.NEXT_PUBLIC_CHAIN_RPC);
+const client = createPublicClient({
+  chain: getChain(),
+  transport,
+});
+
+console.log(" ================> rpc", process.env.CHAIN_RPC);
 const alloContract = alloContractDetails();
 const strategyContract = strategyContractDetails();
 
@@ -30,12 +37,19 @@ async function callReadContract({
   functionName: string;
   args: (string[] | number[] | string | number | boolean | `0x${string}`)[];
 }) {
-  return await client.readContract({
-    address,
-    abi,
-    functionName,
-    args,
-  });
+  let result: any;
+
+  try {
+    await client.readContract({
+      address,
+      abi,
+      functionName,
+      args,
+    });
+  } catch (e) {
+    console.log(e);
+  }
+  return result;
 }
 
 /**
@@ -46,7 +60,7 @@ async function callReadContract({
  */
 async function getStrategy(
   poolId: number,
-  networkId: number
+  networkId: number,
 ): Promise<`0x${string}`> {
   const alloAddress = alloContract[networkId]?.proxy;
   const data = await callReadContract({
@@ -84,11 +98,9 @@ function distribute(networkId: number) {
  * @returns boolean
  */
 async function isValidAllocator(networkId: number, allocatorId: string) {
-  const alloAddress = alloContract[networkId]?.proxy;
-
   const isValid = await callReadContract({
-    address: alloAddress,
-    abi: alloContract[networkId]?.abi,
+    address: strategyContract[networkId]?.address,
+    abi: strategyContract[networkId]?.abi,
     functionName: "isValidAllocator",
     args: [allocatorId],
   });
@@ -112,7 +124,7 @@ async function getMaxVoiceCreditsPerAllocator(networkId: number) {
       abi: strategyContract[networkId]?.abi,
       functionName: "maxVoiceCreditsPerAllocator",
       args: [],
-    })
+    }),
   );
 
   return maxVoiceCredits;
@@ -126,11 +138,11 @@ async function getMaxVoiceCreditsPerAllocator(networkId: number) {
  */
 async function getVoiceCreditsCastByAllocator(
   networkId: number,
-  allocatorId: string
+  allocatorId: string,
 ) {
   const strategyAddress = strategyContract[networkId]?.address;
 
-  if (!isValidAllocator(networkId, allocatorId)) {
+  if (!(await isValidAllocator(networkId, allocatorId))) {
     return 0;
   }
 
@@ -140,7 +152,7 @@ async function getVoiceCreditsCastByAllocator(
       abi: strategyContract[networkId]?.abi,
       functionName: "getVoiceCreditsCastByAllocator",
       args: [allocatorId],
-    })
+    }),
   );
 
   return voiceCreditsCastByAllocator;
@@ -156,10 +168,10 @@ async function getVoiceCreditsCastByAllocator(
 async function getVoiceCreditsCastByAllocatorToRecipient(
   networkId: number,
   allocatorId: string,
-  recipientId: string
+  recipientId: string,
 ): Promise<number> {
   const strategyAddress = strategyContract[networkId]?.address;
-  if (!isValidAllocator(networkId, allocatorId)) {
+  if (!(await isValidAllocator(networkId, allocatorId))) {
     return 0;
   }
   const voiceCreditsCastByAllocatorToRecipient = Number(
@@ -168,7 +180,7 @@ async function getVoiceCreditsCastByAllocatorToRecipient(
       abi: strategyContract[networkId]?.abi,
       functionName: "getVoiceCreditsCastByAllocatorToRecipient",
       args: [allocatorId, recipientId],
-    })
+    }),
   );
 
   return voiceCreditsCastByAllocatorToRecipient;
@@ -177,10 +189,10 @@ async function getVoiceCreditsCastByAllocatorToRecipient(
 async function getVotesCastByAllocatorToRecipient(
   networkId: number,
   allocatorId: string,
-  recipientId: string
+  recipientId: string,
 ): Promise<number> {
   const strategyAddress = strategyContract[networkId]?.address;
-  if (!isValidAllocator(networkId, allocatorId)) {
+  if (!(await isValidAllocator(networkId, allocatorId))) {
     return 0;
   }
   const votesCastByAllocatorToRecipient = Number(
@@ -189,7 +201,7 @@ async function getVotesCastByAllocatorToRecipient(
       abi: strategyContract[networkId]?.abi,
       functionName: "getVotesCastByAllocatorToRecipient",
       args: [allocatorId, recipientId],
-    })
+    }),
   );
 
   return votesCastByAllocatorToRecipient;
@@ -201,20 +213,20 @@ async function getVotesCastByAllocatorToRecipient(
  * @param allocatorId
  * @returns number
  */
-async function getRemainingVoiceCreditsForAllocator(
+export async function getRemainingVoiceCreditsForAllocator(
   networkId: number,
-  allocatorId: string
+  allocatorId: string,
 ) {
-  if (!isValidAllocator(networkId, allocatorId)) {
+  if (!(await isValidAllocator(networkId, allocatorId))) {
     return 0;
   }
 
   const maxVoiceCredits = Number(
-    await getMaxVoiceCreditsPerAllocator(networkId)
+    await getMaxVoiceCreditsPerAllocator(networkId),
   );
   const usedVoiceCredits = await getVoiceCreditsCastByAllocator(
     networkId,
-    allocatorId
+    allocatorId,
   );
 
   return maxVoiceCredits - usedVoiceCredits;
@@ -230,13 +242,13 @@ async function getRemainingVoiceCreditsForAllocator(
 async function canAllocatorSpendVoiceCredits(
   networkId: number,
   allocatorId: string,
-  voiceCredits: number
+  voiceCredits: number,
 ) {
   const maxVoiceCredits = Number(
-    await getMaxVoiceCreditsPerAllocator(networkId)
+    await getMaxVoiceCreditsPerAllocator(networkId),
   );
   const remainingVoiceCredits = Number(
-    await getRemainingVoiceCreditsForAllocator(networkId, allocatorId)
+    await getRemainingVoiceCreditsForAllocator(networkId, allocatorId),
   );
   return maxVoiceCredits >= remainingVoiceCredits + voiceCredits;
 }
@@ -257,7 +269,7 @@ async function canAllocateVotesToRecipient(
   networkId: number,
   allocatorId: string,
   recipientId: string,
-  votes: number
+  votes: number,
 ) {
   // ==> assume 1 vote is to be cast to recipient
   // ==> allocator has already cast 2 votes to this recipient and 1 vote to another
@@ -277,7 +289,7 @@ async function canAllocateVotesToRecipient(
     await getVoiceCreditsCastByAllocatorToRecipient(
       networkId,
       allocatorId,
-      recipientId
+      recipientId,
     );
 
   // get the actual votes allocated to the recipient
@@ -287,8 +299,8 @@ async function canAllocateVotesToRecipient(
     await getVotesCastByAllocatorToRecipient(
       networkId,
       allocatorId,
-      recipientId
-    )
+      recipientId,
+    ),
   );
 
   // get total votes to recipient with the votes the user wants to cast
@@ -302,7 +314,7 @@ async function canAllocateVotesToRecipient(
   // ==> 4 + 1 => 5
   const voiceCreditsUsedByAllocator = await getVoiceCreditsCastByAllocator(
     networkId,
-    allocatorId
+    allocatorId,
   );
 
   // ==> 5 - 4 = 1
@@ -333,7 +345,7 @@ async function canAllocateVotesToRecipients(
   networkId: number,
   allocatorId: string,
   recipientIds: string[],
-  votes: number[]
+  votes: number[],
 ) {
   // ==> assume the allocator wants to cast 1 vote for recipient1 and 2 votes for recipient2
   // ==> allocator has already cast 1 votes to recipient1 and 1 vote to recipient3 (not in the list)
@@ -355,7 +367,7 @@ async function canAllocateVotesToRecipients(
   // ==>  1 (recipient1) + 0 (recipient2) + 1 (recipient3) => 2
   const voiceCreditsUsedByAllocator = await getVoiceCreditsCastByAllocator(
     networkId,
-    allocatorId
+    allocatorId,
   );
 
   let totalVoiceCreditsUsedByAllocatorToRecipientsInCart = 0;
@@ -369,8 +381,8 @@ async function canAllocateVotesToRecipients(
       await getVoiceCreditsCastByAllocatorToRecipient(
         networkId,
         allocatorId,
-        recipientIds[i]
-      )
+        recipientIds[i],
+      ),
     );
 
     // get the actual votes allocated to the recipient
@@ -381,8 +393,8 @@ async function canAllocateVotesToRecipients(
       await getVotesCastByAllocatorToRecipient(
         networkId,
         allocatorId,
-        recipientIds[i]
-      )
+        recipientIds[i],
+      ),
     );
 
     // get total votes to recipient with the votes the user wants to cast

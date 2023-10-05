@@ -4,6 +4,9 @@ import { SummaryProposal } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import AddRemoveCartButton from "../../components/AddRemoveCartButton";
+import { usePrivy } from "@privy-io/react-auth";
+import { getRemainingVoiceCreditsForAllocator } from "../../utils/alloContract";
+import { getChain, getChainId } from "../../config/network.config";
 
 const Cart = ({ cartItems }: { cartItems: SummaryProposal[] }) => {
   const t = useTranslations("My Cart");
@@ -51,13 +54,29 @@ const CartItem = ({ item }: { item: SummaryProposal }) => {
   );
 };
 
-const CartList = ({ cartItems }: { cartItems: SummaryProposal[] }) => {
+const CartList = async ({ cartItems }: { cartItems: SummaryProposal[] }) => {
+  const { user, authenticated, ready, logout } = usePrivy();
+
+  if (!ready || !user || !user.wallet) return null;
+  const chainId = getChainId();
+
+  console.log("chainId", chainId);
+
+  const voiceCreditsLeft = await getRemainingVoiceCreditsForAllocator(
+    chainId,
+    user?.wallet!.address!,
+  );
+
+  console.log("voiceCreditsLeft", voiceCreditsLeft);
+  console.log("address", user?.wallet!.address!);
+
   return (
     <div className="text-center">
       <p className="text-sm text-center italic mb-4">
         You have {cartItems.length}
         {cartItems.length > 1 ? " items " : " item "} in your cart.
       </p>
+      <p>You have x voice credits left</p>
       {cartItems.map((item, index) => (
         <div
           key={"cartItem-" + index}

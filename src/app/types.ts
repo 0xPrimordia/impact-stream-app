@@ -100,6 +100,7 @@ export interface ContractDetails {
 
 export interface StrategyDetails {
   [key: number]: {
+    poolId: number;
     address: `0x${string}`;
     abi: any;
   };
