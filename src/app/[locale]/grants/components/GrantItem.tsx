@@ -3,6 +3,9 @@ import { MapPinIcon } from "@heroicons/react/24/outline";
 import { truncateDescription } from "@/app/utils";
 import { useRouter } from "next/navigation";
 import AddRemoveCartButton from "../../cart/components/AddRemoveCartButton";
+import { usePrivy } from "@privy-io/react-auth";
+import { useState, useEffect } from "react";
+import { getVoiceCreditsCastByAllocatorToRecipient } from "../../utils/alloContract";
 
 export const GrantItem = ({
   grant,
@@ -10,6 +13,21 @@ export const GrantItem = ({
   showAction = false,
 }: IGrantItemProps) => {
   const router = useRouter();
+  const { user } = usePrivy();
+  const [votesCastedToRecipient, setVotesCastedToRecipient] =
+    useState<number>(0);
+
+  useEffect(() => {
+    const load = async () => {
+      setVotesCastedToRecipient(
+        await getVoiceCreditsCastByAllocatorToRecipient(
+          user?.wallet?.address!,
+          grant.allo_recipient_id!
+        )
+      );
+    };
+    load();
+  }, [user?.wallet!]);
 
   return (
     <div className="flex flex-col gap-x-4 p-2 mt-2">
@@ -34,6 +52,11 @@ export const GrantItem = ({
         {grant.summary
           ? truncateDescription(grant.summary)
           : "No summary provided."}
+      </div>
+      <div>
+        <span className="text-xs mt-2">
+          Allocations: {votesCastedToRecipient ?? 0}
+        </span>
       </div>
       {showStatus && (
         <div

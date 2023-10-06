@@ -7,7 +7,6 @@ import { GrantsContext } from "@/app/context/GrantContext";
 
 const Vote = () => {
   const { grants } = useContext(GrantsContext);
-
   const t = useTranslations("My Votes");
 
   return (
