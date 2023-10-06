@@ -11,7 +11,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { TFullProposal, TMilestone } from "@/app/types";
 import { useTranslations } from "next-intl";
-import { EditProposalForm } from "../../components/EditProposalForm";
+import { EditProposalForm } from "../components/EditProposalForm";
 import useCheckTokens from "../../hooks/useCheckTokens";
 import Link from "next/link";
 

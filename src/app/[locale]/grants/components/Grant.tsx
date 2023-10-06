@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { GrantList } from "../../components/GrantList";
+import { GrantList } from "./GrantList";
 import { useGrantContext } from "@/app/context/GrantContext";
 import { usePrivy } from "@privy-io/react-auth";
 

@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useContext } from "react";
-import { GrantItem } from "../../components/GrantItem";
+import { GrantItem } from "../../grants/components/GrantItem";
 import { GrantsContext } from "@/app/context/GrantContext";
 
 const Vote = () => {

@@ -2,7 +2,7 @@ import { IGrantItemProps } from "@/app/types";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { truncateDescription } from "@/app/utils";
 import { useRouter } from "next/navigation";
-import AddRemoveCartButton from "./AddRemoveCartButton";
+import AddRemoveCartButton from "../../cart/components/AddRemoveCartButton";
 
 export const GrantItem = ({
   grant,
