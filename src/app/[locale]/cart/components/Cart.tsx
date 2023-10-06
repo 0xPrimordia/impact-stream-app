@@ -1,6 +1,6 @@
 "use client";
 
-import { IAllocationParams, TSummaryProposal } from "@/app/types";
+import { TSummaryProposal } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import AddRemoveCartButton from "../../components/AddRemoveCartButton";
@@ -41,25 +41,28 @@ const CartItem = ({ item }: { item: TSummaryProposal }) => {
   const { user } = usePrivy();
   const [votes, setVotes] = useState<number>(0);
   const { handleAllocationChange } = useCart();
-  const [castedVoiceCredits, setCastedVoiceCredits] = useState<number>(0);
+  const [votesCastedToRecipient, setVotesCastedToRecipient] =
+    useState<number>(0);
   const onChangeHandler = (e: any) => {
     e.preventDefault();
     setVotes(Number(e.target.value));
     handleAllocationChange(item.allo_recipient_id!, e.target.value);
   };
 
-  if (!user) return null;
-
   useEffect(() => {
-    async () => {
-      setVotes(
+    const load = async () => {
+      setVotesCastedToRecipient(
         await getVoiceCreditsCastByAllocatorToRecipient(
           user!.wallet!.address,
-          item.allo_recipient_id!
-        )
+          item.allo_recipient_id!,
+        ),
       );
     };
-  }, []);
+    load();
+  }, [user!.wallet]);
+
+  if (!user) return null;
+
   return (
     <div className="flex flex-col gap-x-4 border rounded-md shadow-sm bg-gray-50 p-2 mt-2">
       <div className="flex flex-col sm:flex-row items-center justify-between cursor-pointer">
@@ -87,14 +90,14 @@ const CartItem = ({ item }: { item: TSummaryProposal }) => {
       <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
         <span className="text-sm">
           Casted Voice Credits:{" "}
-          <span className="font-semibold">{castedVoiceCredits}</span>
+          <span className="font-semibold">{votesCastedToRecipient}</span>
         </span>
       </div>
       <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
         <span className="text-sm">
           Votes casted:{" "}
           <span className="font-semibold">
-            {Math.sqrt(castedVoiceCredits).toFixed(2)}
+            {Math.sqrt(votesCastedToRecipient).toFixed(2)}
           </span>
         </span>
       </div>
@@ -102,7 +105,7 @@ const CartItem = ({ item }: { item: TSummaryProposal }) => {
         <span className="text-sm">
           Votes casted after vote:{" "}
           <span className="font-semibold">
-            {Math.sqrt(castedVoiceCredits + votes).toFixed(2)}
+            {Math.sqrt(votesCastedToRecipient + votes).toFixed(2)}
           </span>
         </span>
       </div>
@@ -120,8 +123,6 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
   const [voiceCreditsUsedByAllocator, setVoiceCreditsUsedByAllocator] =
     useState(0);
 
-  if (!ready || !user || !user.wallet) return null;
-
   useEffect(() => {
     // Fetch maxVoiceCreditsPerAllocator data
     async function fetchMaxVoiceCreditsPerAllocator() {
@@ -138,7 +139,7 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
     async function fetchVoiceCreditsUsedByAllocator() {
       try {
         const data = await getVoiceCreditsCastByAllocator(
-          user!.wallet!.address
+          user!.wallet!.address,
         );
         setVoiceCreditsUsedByAllocator(data);
       } catch (error) {
@@ -150,10 +151,9 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
     // Call both functions to fetch data
     fetchMaxVoiceCreditsPerAllocator();
     fetchVoiceCreditsUsedByAllocator();
-  }, [user.wallet.address]); // Dependencies array - re-run when user.wallet.address changes
+  }, []); // Dependencies array - re-run when user.wallet.address changes
 
-  const voiceCreditsLeftByAllocator =
-    maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator;
+  if (!ready || !user || !user.wallet) return null;
 
   const onButtonClick = async () => {
     const unsignedTx = allocate(allocations);
@@ -166,7 +166,10 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
         You have {cartItems.length}
         {cartItems.length > 1 ? " items " : " item "} in your cart.
       </p>
-      <p>You have {voiceCreditsLeftByAllocator} voice credits left</p>
+      <p>
+        You have {maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator}{" "}
+        voice credits left
+      </p>
       <div>
         {cartItems.map((item, index) => (
           <div
@@ -186,7 +189,8 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
         </button>
         {Object.values(allocations)
           .map((value) => Number(value))
-          .reduce((a, b) => a + b, 0) > voiceCreditsLeftByAllocator && (
+          .reduce((a, b) => a + b, 0) >
+          maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator && (
           <p className="text-red-500">Error: Not enough voice credits left.</p>
         )}
       </div>
