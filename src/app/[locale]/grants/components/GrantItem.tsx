@@ -75,6 +75,9 @@ export const GrantItem = ({
         {grant.collaborators  && grant.collaborators?.map((user) => (
           <span key={grant.id + '-' + user.family_name} className="text-sm font-bold">, {user.name} {user.family_name}</span>
         ))}
+        <div className="flex justify-end">
+          {showAction && <AddRemoveCartButton grantId={grant.id} />}
+        </div>
       </div>
     </div>
   );
