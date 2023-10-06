@@ -36,12 +36,12 @@ const Cart = () => {
   );
 };
 
-const CartItem = async ({ item }: { item: TSummaryProposal }) => {
+const CartItem = ({ item }: { item: TSummaryProposal }) => {
   const router = useRouter();
   const { user } = usePrivy();
   const [votes, setVotes] = useState<number>(0);
   const { handleAllocationChange } = useCart();
-
+  const [castedVoiceCredits, setCastedVoiceCredits] = useState<number>(0);
   const onChangeHandler = (e: any) => {
     e.preventDefault();
     setVotes(Number(e.target.value));
@@ -50,11 +50,16 @@ const CartItem = async ({ item }: { item: TSummaryProposal }) => {
 
   if (!user) return null;
 
-  const castedVoiceCredits = await getVoiceCreditsCastByAllocatorToRecipient(
-    user!.wallet!.address,
-    item.allo_recipient_id!,
-  );
-
+  useEffect(() => {
+    async () => {
+      setVotes(
+        await getVoiceCreditsCastByAllocatorToRecipient(
+          user!.wallet!.address,
+          item.allo_recipient_id!
+        )
+      );
+    };
+  }, []);
   return (
     <div className="flex flex-col gap-x-4 border rounded-md shadow-sm bg-gray-50 p-2 mt-2">
       <div className="flex flex-col sm:flex-row items-center justify-between cursor-pointer">
@@ -105,7 +110,7 @@ const CartItem = async ({ item }: { item: TSummaryProposal }) => {
   );
 };
 
-const CartList = async ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
+const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
   const t = useTranslations("My Cart");
   const { user, ready, sendTransaction } = usePrivy();
   const { allocations } = useCart();
@@ -133,7 +138,7 @@ const CartList = async ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
     async function fetchVoiceCreditsUsedByAllocator() {
       try {
         const data = await getVoiceCreditsCastByAllocator(
-          user!.wallet!.address,
+          user!.wallet!.address
         );
         setVoiceCreditsUsedByAllocator(data);
       } catch (error) {
