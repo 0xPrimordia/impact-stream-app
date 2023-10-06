@@ -12,7 +12,7 @@ import {
   getVoiceCreditsCastByAllocatorToRecipient,
 } from "../../utils/alloContract";
 import { useCart } from "@/app/context/CartContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GrantsContext } from "@/app/context/GrantContext";
 
 const Cart = () => {
@@ -36,21 +36,16 @@ const Cart = () => {
   );
 };
 
-const CartItem = async ({
-  item,
-  handler,
-}: {
-  item: TSummaryProposal;
-  handler: (id: string, votes: number) => void;
-}) => {
+const CartItem = async ({ item }: { item: TSummaryProposal }) => {
   const router = useRouter();
   const { user } = usePrivy();
   const [votes, setVotes] = useState<number>(0);
+  const { handleAllocationChange } = useCart();
 
   const onChangeHandler = (e: any) => {
     e.preventDefault();
     setVotes(Number(e.target.value));
-    handler(item.allo_recipient_id!, e.target.value);
+    handleAllocationChange(item.allo_recipient_id!, e.target.value);
   };
 
   if (!user) return null;
@@ -113,33 +108,47 @@ const CartItem = async ({
 const CartList = async ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
   const t = useTranslations("My Cart");
   const { user, ready, sendTransaction } = usePrivy();
-  const allocations: IAllocationParams = {};
-  const [error, setError] = useState<string | null>(null);
+  const { allocations } = useCart();
+
+  const [maxVoiceCreditsPerAllocator, setMaxVoiceCreditsPerAllocator] =
+    useState(0);
+  const [voiceCreditsUsedByAllocator, setVoiceCreditsUsedByAllocator] =
+    useState(0);
 
   if (!ready || !user || !user.wallet) return null;
 
-  const maxVoiceCreditsPerAllocator = await getMaxVoiceCreditsPerAllocator();
+  useEffect(() => {
+    // Fetch maxVoiceCreditsPerAllocator data
+    async function fetchMaxVoiceCreditsPerAllocator() {
+      try {
+        const data = await getMaxVoiceCreditsPerAllocator();
+        setMaxVoiceCreditsPerAllocator(data);
+      } catch (error) {
+        // Handle error
+        console.error("Error fetching maxVoiceCreditsPerAllocator:", error);
+      }
+    }
 
-  const voiceCreditsUsedByAllocator = await getVoiceCreditsCastByAllocator(
-    user.wallet.address,
-  );
+    // Fetch voiceCreditsUsedByAllocator data
+    async function fetchVoiceCreditsUsedByAllocator() {
+      try {
+        const data = await getVoiceCreditsCastByAllocator(
+          user!.wallet!.address,
+        );
+        setVoiceCreditsUsedByAllocator(data);
+      } catch (error) {
+        // Handle error
+        console.error("Error fetching voiceCreditsUsedByAllocator:", error);
+      }
+    }
+
+    // Call both functions to fetch data
+    fetchMaxVoiceCreditsPerAllocator();
+    fetchVoiceCreditsUsedByAllocator();
+  }, [user.wallet.address]); // Dependencies array - re-run when user.wallet.address changes
+
   const voiceCreditsLeftByAllocator =
     maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator;
-
-  const handleAllocationChange = (recipientId: string, value: number) => {
-    allocations[recipientId] = value;
-    const allocationSum = Object.values(allocations)
-      .map((value) => Number(value))
-      .reduce((a, b) => a + b, 0);
-
-    if (allocationSum > voiceCreditsLeftByAllocator) {
-      setError(
-        `You cannot allocate more than ${voiceCreditsLeftByAllocator} voice credits`,
-      );
-    } else {
-      setError(null);
-    }
-  };
 
   const onButtonClick = async () => {
     const unsignedTx = allocate(allocations);
@@ -159,19 +168,22 @@ const CartList = async ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
             key={"cartItem-" + index}
             className="border rounded-md p-2 m-1 shadow-sm mb-2"
           >
-            <CartItem item={item} handler={handleAllocationChange} />
+            <CartItem item={item} />
           </div>
         ))}
       </div>
       <div>
         <button
-          disabled={error !== null}
           onClick={onButtonClick}
           className="w-full border border-slate-400 hover:bg-sky-600 rounded-md leading-10 font-bold"
         >
           {t("checkoutButton")}
         </button>
-        {error && <p className="text-red-500">{error}</p>}
+        {Object.values(allocations)
+          .map((value) => Number(value))
+          .reduce((a, b) => a + b, 0) > voiceCreditsLeftByAllocator && (
+          <p className="text-red-500">Error: Not enough voice credits left.</p>
+        )}
       </div>
     </div>
   );

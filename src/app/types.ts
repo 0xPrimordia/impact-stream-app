@@ -128,6 +128,8 @@ export interface ICartContextProps {
   addItemToCart: (itemId: string) => void;
   deleteItemFromCart: (itemId: string) => void;
   isInCart: (itemId: string) => boolean;
+  allocations: IAllocationParams;
+  handleAllocationChange: (recipientId: string, value: number) => void;
 }
 
 export interface IChainIndex {
