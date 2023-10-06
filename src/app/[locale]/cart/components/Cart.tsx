@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import AddRemoveCartButton from "../../components/AddRemoveCartButton";
 import { usePrivy } from "@privy-io/react-auth";
-import { getChainId } from "../../config/network.config";
 import {
   allocate,
   getMaxVoiceCreditsPerAllocator,
@@ -37,7 +36,7 @@ const Cart = () => {
   );
 };
 
-const CartItem = ({
+const CartItem = async ({
   item,
   handler,
 }: {
@@ -45,11 +44,21 @@ const CartItem = ({
   handler: (id: string, votes: number) => void;
 }) => {
   const router = useRouter();
+  const { user } = usePrivy();
+  const [votes, setVotes] = useState<number>(0);
 
   const onChangeHandler = (e: any) => {
     e.preventDefault();
+    setVotes(Number(e.target.value));
     handler(item.allo_recipient_id!, e.target.value);
   };
+
+  if (!user) return null;
+
+  const castedVoiceCredits = await getVoiceCreditsCastByAllocatorToRecipient(
+    user!.wallet!.address,
+    item.allo_recipient_id!,
+  );
 
   return (
     <div className="flex flex-col gap-x-4 border rounded-md shadow-sm bg-gray-50 p-2 mt-2">
@@ -75,13 +84,34 @@ const CartItem = ({
           <AddRemoveCartButton grantId={item.id} />
         </div>
       </div>
+      <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
+        <span className="text-sm">
+          Casted Voice Credits:{" "}
+          <span className="font-semibold">{castedVoiceCredits}</span>
+        </span>
+      </div>
+      <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
+        <span className="text-sm">
+          Votes casted:{" "}
+          <span className="font-semibold">
+            {Math.sqrt(castedVoiceCredits).toFixed(2)}
+          </span>
+        </span>
+      </div>
+      <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
+        <span className="text-sm">
+          Votes casted after vote:{" "}
+          <span className="font-semibold">
+            {Math.sqrt(castedVoiceCredits + votes).toFixed(2)}
+          </span>
+        </span>
+      </div>
     </div>
   );
 };
 
 const CartList = async ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
   const t = useTranslations("My Cart");
-  const chainId = getChainId();
   const { user, ready, sendTransaction } = usePrivy();
   const allocations: IAllocationParams = {};
   const [error, setError] = useState<string | null>(null);
@@ -90,9 +120,9 @@ const CartList = async ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
 
   const maxVoiceCreditsPerAllocator = await getMaxVoiceCreditsPerAllocator();
 
-  const voiceCreditsUsedByAllocator = await getVoiceCreditsCastByAllocator(
-    user.wallet.address,
-  );
+  const voiceCreditsUsedByAllocator = 5; //await getVoiceCreditsCastByAllocator(
+  //   user.wallet.address,
+  // );
   const voiceCreditsLeftByAllocator =
     maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator;
 

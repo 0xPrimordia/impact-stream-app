@@ -133,24 +133,16 @@ export async function getVoiceCreditsCastByAllocator(allocatorId: string) {
 //  * @returns number
 //  */
 export async function getVoiceCreditsCastByAllocatorToRecipient(
-  networkId: number,
   allocatorId: string,
   recipientId: string,
 ): Promise<number> {
   if (!(await isValidAllocator(allocatorId))) {
     return 0;
   }
-  // const voiceCreditsCastByAllocatorToRecipient = Number(
-  //   await callReadContract({
-  //     address: strategyAddress,
-  //     abi: strategyContract[networkId]?.abi,
-  //     functionName: "getVoiceCreditsCastByAllocatorToRecipient",
-  //     args: [allocatorId, recipientId],
-  //   })
-  // );
 
   const voiceCreditsCastByAllocatorToRecipient = Number(
-    await strategyContract.read.getVoiceCreditsCastByAllocatorToRecipient([
+    await strategyContract.read.getAllocatorVoiceCreditsCastToRecipient([
+      //getVoiceCreditsCastByAllocatorToRecipient([
       allocatorId,
       recipientId,
     ]),
