@@ -25,6 +25,7 @@ const ProposalList = ({ grants }: { grants: TSummaryProposal[] }) => {
                   grant={grant}
                   showStatus={false}
                   showAction={true}
+                  showAllocation={false}
                 />
               </div>
             ))

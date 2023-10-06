@@ -18,8 +18,12 @@ const Grant = () => {
 
   return (
     <div>
-      <h3 className="font-bold mb-6">{t("heading")}</h3>
-      <GrantList grants={filteredGrants} />
+      <h3 className="font-bold mb-6 text-center">{t("heading")}</h3>
+      {filteredGrants.length > 0 ? (
+        <GrantList grants={filteredGrants} />
+      ) : (
+        <div className="text-center">{t("nullMessage")}</div>
+      )}
     </div>
   );
 };

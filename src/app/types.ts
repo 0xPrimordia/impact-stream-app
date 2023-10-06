@@ -116,6 +116,7 @@ export interface IGrantItemProps {
   grant: TSummaryProposal;
   showStatus: boolean;
   showAction?: boolean;
+  showAllocation?: boolean;
 }
 
 export interface ICartItemProps {

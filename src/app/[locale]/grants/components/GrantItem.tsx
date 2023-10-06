@@ -11,6 +11,7 @@ export const GrantItem = ({
   grant,
   showStatus,
   showAction = false,
+  showAllocation,
 }: IGrantItemProps) => {
   const router = useRouter();
   const { user } = usePrivy();
@@ -28,6 +29,8 @@ export const GrantItem = ({
     };
     load();
   }, [user?.wallet!]);
+
+  if (!user) return null;
 
   return (
     <div className="flex flex-col gap-x-4 p-2 mt-2">
