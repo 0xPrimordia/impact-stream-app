@@ -9,7 +9,7 @@ import {
   UserCircleIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
-import { FullProposal, Milestone } from "@/app/types";
+import { TFullProposal, TMilestone } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { EditProposalForm } from "../../components/EditProposalForm";
 import useCheckTokens from "../../hooks/useCheckTokens";
@@ -19,7 +19,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   const { ready, authenticated, user, logout } = usePrivy();
   const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
   const router = useRouter();
-  const [proposal, setProposal] = useState<FullProposal>();
+  const [proposal, setProposal] = useState<TFullProposal>();
   const [isAuthor, setIsAuthor] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [totalBudget, setTotalBudget] = useState<number>();
@@ -39,7 +39,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     if (proposal && proposal.project_milestones) {
       let calculatedTotalBudget = 0;
       Object.values(proposal.project_milestones).forEach(
-        (milestone: Milestone) => {
+        (milestone: TMilestone) => {
           calculatedTotalBudget += Number(milestone.budget);
         },
       );
@@ -175,7 +175,7 @@ export default function Page({ params }: { params: { slug: string } }) {
           )}
           {proposal?.project_milestones &&
             Object.values(proposal.project_milestones).map(
-              (milestone: Milestone) => (
+              (milestone: TMilestone) => (
                 <>
                   {milestone.title && (
                     <div key={milestone.title} className="mt-3 mb-3">

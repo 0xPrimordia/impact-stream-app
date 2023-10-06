@@ -3,14 +3,13 @@
 import React from "react";
 import {
   collaborator_names_with_author,
-  truncate,
   truncateDescription,
 } from "@/app/utils";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
-import { FullProposal, SummaryProposal } from "@/app/types";
+import { TSummaryProposal } from "@/app/types";
 
-function ProposalCard({ grant }: { grant: SummaryProposal }) {
+function ProposalCard({ grant }: { grant: TSummaryProposal }) {
   const router = useRouter();
 
   return (
@@ -31,10 +30,7 @@ function ProposalCard({ grant }: { grant: SummaryProposal }) {
       </div>
       <span className="text-sm mt-2">
         {grant?.collaborators &&
-          collaborator_names_with_author(
-            grant?.collaborators,
-            grant?.author
-          )}
+          collaborator_names_with_author(grant?.collaborators, grant?.author)}
       </span>
     </div>
   );

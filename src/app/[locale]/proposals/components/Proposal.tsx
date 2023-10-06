@@ -1,6 +1,7 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
-import { SummaryProposal } from "@/app/types";
+import { TSummaryProposal } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { usePrivy } from "@privy-io/react-auth";
@@ -38,7 +39,7 @@ export default function Proposal() {
   );
 }
 
-const ProposalList = ({ grants, authorId }: { grants: SummaryProposal[], authorId: string|undefined }) => {
+const ProposalList = ({ grants, authorId }: { grants: TSummaryProposal[], authorId: string|undefined }) => {
   const t = useTranslations("Proposals");
   const router = useRouter();
 
