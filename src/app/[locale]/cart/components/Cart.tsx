@@ -88,11 +88,11 @@ const CartList = async ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
 
   if (!ready || !user || !user.wallet) return null;
 
-  const maxVoiceCreditsPerAllocator = await getMaxVoiceCreditsPerAllocator(
-    chainId,
-  );
+  const maxVoiceCreditsPerAllocator = await getMaxVoiceCreditsPerAllocator();
 
-  const voiceCreditsUsedByAllocator = 5;
+  const voiceCreditsUsedByAllocator = await getVoiceCreditsCastByAllocator(
+    user.wallet.address,
+  );
   const voiceCreditsLeftByAllocator =
     maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator;
 

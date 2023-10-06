@@ -86,7 +86,7 @@ export function allocate(allocations: IAllocationParams) {
  * @param allocatorId
  * @returns boolean
  */
-async function isValidAllocator(networkId: number, allocatorId: string) {
+async function isValidAllocator(allocatorId: string) {
   const isValid = await strategyContract.read.isValidAllocator([allocatorId]);
 
   return isValid;
@@ -99,7 +99,7 @@ async function isValidAllocator(networkId: number, allocatorId: string) {
  * @param networkId
  * @returns number
  */
-export async function getMaxVoiceCreditsPerAllocator(networkId: number) {
+export async function getMaxVoiceCreditsPerAllocator() {
   const maxVoiceCredits = Number(
     (await strategyContract.read.maxVoiceCreditsPerAllocator([])).toString(),
   );
@@ -113,11 +113,8 @@ export async function getMaxVoiceCreditsPerAllocator(networkId: number) {
 //  * @param allocatorId
 //  * @returns
 //  */
-export async function getVoiceCreditsCastByAllocator(
-  networkId: number,
-  allocatorId: string,
-) {
-  if (!(await isValidAllocator(networkId, allocatorId))) {
+export async function getVoiceCreditsCastByAllocator(allocatorId: string) {
+  if (!(await isValidAllocator(allocatorId))) {
     return 0;
   }
 
@@ -140,7 +137,7 @@ export async function getVoiceCreditsCastByAllocatorToRecipient(
   allocatorId: string,
   recipientId: string,
 ): Promise<number> {
-  if (!(await isValidAllocator(networkId, allocatorId))) {
+  if (!(await isValidAllocator(allocatorId))) {
     return 0;
   }
   // const voiceCreditsCastByAllocatorToRecipient = Number(
@@ -230,6 +227,13 @@ export async function getVoiceCreditsCastByAllocatorToRecipient(
 // }
 
 // /********** Main functions **********/
+// vote 2 voiceCredits => sqrt(2) votes
+// other way around
+// voice credits -> votes
+
+// 1 => 1
+// 4 => 2
+// 9 => 3
 
 // /**
 //  * In the UI -> the allocator would enter the number of votes they want to cast to a recipient
