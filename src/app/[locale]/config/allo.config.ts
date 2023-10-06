@@ -15,8 +15,8 @@ export const alloContractDetails = (): IContractDetails => {
 export const strategyContractDetails = (): IStrategyDetails => {
   return {
     [5]: {
-      poolId: 16,
-      address: "0x511f0d3674aB86f4267dA5651440Ba5aC54dB3F7",
+      poolId: 17,
+      address: "0xc7C1C2d673c6C782B7Ca565422Ddb3A8F3EABCe5",
       abi: qvImpactStreamStrategyAbi,
     },
   };

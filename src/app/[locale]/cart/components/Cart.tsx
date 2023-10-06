@@ -120,9 +120,9 @@ const CartList = async ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
 
   const maxVoiceCreditsPerAllocator = await getMaxVoiceCreditsPerAllocator();
 
-  const voiceCreditsUsedByAllocator = 5; //await getVoiceCreditsCastByAllocator(
-  //   user.wallet.address,
-  // );
+  const voiceCreditsUsedByAllocator = await getVoiceCreditsCastByAllocator(
+    user.wallet.address,
+  );
   const voiceCreditsLeftByAllocator =
     maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator;
 

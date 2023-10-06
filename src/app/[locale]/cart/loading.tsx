@@ -1,7 +1,5 @@
 export const LoadingSkeleton = () => {
-  return (
-      <>Loading...</>
-  )
+  return <>Loading...</>;
 }
 
 export default function Loading() {
