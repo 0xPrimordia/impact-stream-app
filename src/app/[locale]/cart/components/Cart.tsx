@@ -1,18 +1,19 @@
 "use client";
 
-import { TSummaryProposal } from "@/app/types";
+import { IAllocationParams, TSummaryProposal } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import AddRemoveCartButton from "../../components/AddRemoveCartButton";
 import { usePrivy } from "@privy-io/react-auth";
 import { getChainId } from "../../config/network.config";
 import {
+  allocate,
   getMaxVoiceCreditsPerAllocator,
   getVoiceCreditsCastByAllocator,
   getVoiceCreditsCastByAllocatorToRecipient,
 } from "../../utils/alloContract";
 import { useCart } from "@/app/context/CartContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { GrantsContext } from "@/app/context/GrantContext";
 
 const Cart = () => {
@@ -36,8 +37,19 @@ const Cart = () => {
   );
 };
 
-const CartItem = ({ item }: { item: TSummaryProposal }) => {
+const CartItem = ({
+  item,
+  handler,
+}: {
+  item: TSummaryProposal;
+  handler: (id: string, votes: number) => void;
+}) => {
   const router = useRouter();
+
+  const onChangeHandler = (e: any) => {
+    e.preventDefault();
+    handler(item.allo_recipient_id!, e.target.value);
+  };
 
   return (
     <div className="flex flex-col gap-x-4 border rounded-md shadow-sm bg-gray-50 p-2 mt-2">
@@ -55,8 +67,10 @@ const CartItem = ({ item }: { item: TSummaryProposal }) => {
           <input
             id="voteCredits"
             type="number"
+            min="0"
             className="w-24 border rounded-md shadow-sm bg-gray-50 p-2 mt-2"
             placeholder="0"
+            onChange={onChangeHandler}
           />
           <AddRemoveCartButton grantId={item.id} />
         </div>
@@ -66,37 +80,41 @@ const CartItem = ({ item }: { item: TSummaryProposal }) => {
 };
 
 const CartList = async ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
-  const router = useRouter();
   const t = useTranslations("My Cart");
-  const { user, authenticated, ready, logout } = usePrivy();
+  const chainId = getChainId();
+  const { user, ready, sendTransaction } = usePrivy();
+  const allocations: IAllocationParams = {};
+  const [error, setError] = useState<string | null>(null);
 
   if (!ready || !user || !user.wallet) return null;
-  const chainId = getChainId();
-
-  console.log("chainId", chainId);
 
   const maxVoiceCreditsPerAllocator = await getMaxVoiceCreditsPerAllocator(
-    chainId
+    chainId,
   );
+
   const voiceCreditsUsedByAllocator = 5;
   const voiceCreditsLeftByAllocator =
     maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator;
-  // const voiceCreditsCastByAllocator = await getVoiceCreditsCastByAllocator(
-  //   chainId,
-  //   user?.wallet!.address!
-  // );
-  // const voiceCreditsCastByAllocatorToRecipient =
-  //   getVoiceCreditsCastByAllocatorToRecipient(
-  //     chainId,
-  //     user?.wallet!.address!,
-  //     cartItems[0].allo_recipient_id
-  //   );
 
-  console.log("maxVoiceCreditsPerAllocator", {
-    maxVoiceCreditsPerAllocator,
-    // voiceCreditsCastByAllocator,
-  });
-  console.log("address", user?.wallet!.address!);
+  const handleAllocationChange = (recipientId: string, value: number) => {
+    allocations[recipientId] = value;
+    const allocationSum = Object.values(allocations)
+      .map((value) => Number(value))
+      .reduce((a, b) => a + b, 0);
+
+    if (allocationSum > voiceCreditsLeftByAllocator) {
+      setError(
+        `You cannot allocate more than ${voiceCreditsLeftByAllocator} voice credits`,
+      );
+    } else {
+      setError(null);
+    }
+  };
+
+  const onButtonClick = async () => {
+    const unsignedTx = allocate(allocations);
+    await sendTransaction(unsignedTx);
+  };
 
   return (
     <div className="text-center">
@@ -111,17 +129,19 @@ const CartList = async ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
             key={"cartItem-" + index}
             className="border rounded-md p-2 m-1 shadow-sm mb-2"
           >
-            <CartItem item={item} />
+            <CartItem item={item} handler={handleAllocationChange} />
           </div>
         ))}
       </div>
       <div>
         <button
-          onClick={() => router.push("/cart/checkout")}
+          disabled={error !== null}
+          onClick={onButtonClick}
           className="w-full border border-slate-400 hover:bg-sky-600 rounded-md leading-10 font-bold"
         >
           {t("checkoutButton")}
         </button>
+        {error && <p className="text-red-500">{error}</p>}
       </div>
     </div>
   );

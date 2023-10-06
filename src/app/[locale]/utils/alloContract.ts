@@ -1,6 +1,12 @@
-import { alloContractDetails } from "../config/allo.config";
+import { IAllocationParams } from "@/app/types";
+import {
+  alloContractDetails,
+  strategyContractDetails,
+} from "../config/allo.config";
 import { ViemClient } from "./client";
 import { alloContract, strategyContract } from "./contracts";
+import { encodeAbiParameters, encodeFunctionData } from "viem";
+import { getChainId } from "../config/network.config";
 
 // Import the Viem client
 const client = ViemClient;
@@ -9,8 +15,8 @@ const client = ViemClient;
  * Get the Allo proxy address
  * @returns Promise<`0x${string}`>
  */
-export async function getAllo() {
-  return alloContractDetails()[await client.getChainId()]?.proxy;
+export function getAllo() {
+  return alloContractDetails()[getChainId()]?.proxy;
 }
 
 /**
@@ -19,20 +25,50 @@ export async function getAllo() {
  * @param networkId
  * @returns Promise<`0x${string}`>
  */
-export async function getStrategy(
-  poolId: number,
-  networkId: number
-): Promise<`0x${string}`> {
+export async function getStrategy(poolId: number): Promise<`0x${string}`> {
   const data = await alloContract.read.getStrategy([poolId]);
 
   return `0x${data.toString()}`;
 }
 
-// function allocate(networkId: number) {
-//   const alloAddress = alloContract[networkId]?.proxy;
+export function allocate(allocations: IAllocationParams) {
+  const poolId = strategyContractDetails()[getChainId()]?.poolId;
+  const poolIdArray = Array.from(Object.values(allocations), () => poolId);
 
-//   // allocate votes to a recipient
-// }
+  const filterZeroAllocations = (allocations: IAllocationParams) => {
+    return Object.entries(allocations).reduce((acc, [recipientId, value]) => {
+      if (value > 0) {
+        acc[recipientId] = value;
+      }
+      return acc;
+    }, {} as IAllocationParams);
+  };
+
+  const filteredAllocations = filterZeroAllocations(allocations);
+
+  const encodedDataArray: `0x${string}`[] = Object.entries(
+    filteredAllocations,
+  ).map(([recipientId, value]) => {
+    return encodeAbiParameters(
+      [{ type: "address" }, { type: "uint256" }],
+      [recipientId as `0x${string}`, BigInt(value)],
+    );
+  });
+
+  const encodedTxData = encodeFunctionData({
+    abi: alloContract.abi,
+    functionName: "batchAllocate",
+    args: [poolIdArray, encodedDataArray],
+  });
+
+  const unsignedTx = {
+    to: getAllo(),
+    chainId: getChainId(),
+    data: encodedTxData,
+  };
+
+  return unsignedTx;
+}
 
 // function setPayouts(networkId: number) {
 //   const alloAddress = alloContract[networkId]?.proxy;
@@ -65,7 +101,7 @@ async function isValidAllocator(networkId: number, allocatorId: string) {
  */
 export async function getMaxVoiceCreditsPerAllocator(networkId: number) {
   const maxVoiceCredits = Number(
-    (await strategyContract.read.maxVoiceCreditsPerAllocator([])).toString()
+    (await strategyContract.read.maxVoiceCreditsPerAllocator([])).toString(),
   );
 
   return maxVoiceCredits;
@@ -79,16 +115,14 @@ export async function getMaxVoiceCreditsPerAllocator(networkId: number) {
 //  */
 export async function getVoiceCreditsCastByAllocator(
   networkId: number,
-  allocatorId: string
+  allocatorId: string,
 ) {
   if (!(await isValidAllocator(networkId, allocatorId))) {
     return 0;
   }
 
   const voiceCreditsCastByAllocator = Number(
-    strategyContract.read
-      .getVoiceCreditsCastByAllocator([allocatorId])
-      .toString()
+    await strategyContract.read.getVoiceCreditsCastByAllocator([allocatorId]),
   );
 
   return voiceCreditsCastByAllocator;
@@ -104,7 +138,7 @@ export async function getVoiceCreditsCastByAllocator(
 export async function getVoiceCreditsCastByAllocatorToRecipient(
   networkId: number,
   allocatorId: string,
-  recipientId: string
+  recipientId: string,
 ): Promise<number> {
   if (!(await isValidAllocator(networkId, allocatorId))) {
     return 0;
@@ -119,9 +153,10 @@ export async function getVoiceCreditsCastByAllocatorToRecipient(
   // );
 
   const voiceCreditsCastByAllocatorToRecipient = Number(
-    strategyContract.read
-      .getVoiceCreditsCastByAllocatorToRecipient([allocatorId, recipientId])
-      .toString()
+    await strategyContract.read.getVoiceCreditsCastByAllocatorToRecipient([
+      allocatorId,
+      recipientId,
+    ]),
   );
 
   return voiceCreditsCastByAllocatorToRecipient;

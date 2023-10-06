@@ -155,3 +155,8 @@ export interface INavbarLinkProps {
   path: string;
   setOverlay: Function;
 }
+
+export interface IAllocationParams {
+  [key: string]: number;
+}
+
