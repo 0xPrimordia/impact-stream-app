@@ -366,7 +366,7 @@ export default function WriteProposal() {
        })}
       />
       <div className="mb-6">
-        <span className="italic text-xs">Amount in F.CFA (not USD or other)</span>
+        <span className="italic text-xs">{t("minimumBudgetContext")}</span>
         <span className="text-red-600 text-xs">
         {" "}
         {errors.key_players && errors.key_players.message}
