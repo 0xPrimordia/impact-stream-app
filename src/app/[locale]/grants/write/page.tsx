@@ -38,7 +38,7 @@ export default function WriteProposal() {
    location: "",
    summary: "",
    affected_locations: "",
-   minimum_budget: 1,
+   minimum_budget: null,
    key_players: "",
    timeline: "",
    proposed_solution: "",
@@ -357,7 +357,7 @@ export default function WriteProposal() {
       </span>
       <input
        type="number"
-       className={inputClasses}
+       className="w-full border border-slate-300 rounded h-10 pl-2"
        placeholder={t("minimumBudgetPlaceholder")}
        {...register("minimum_budget", {
         required: t("minimumBudgetValidationMessage"),
@@ -365,10 +365,14 @@ export default function WriteProposal() {
         max: 12000000,
        })}
       />
-      <span className="text-red-600 text-xs">
-       {" "}
-       {errors.key_players && errors.key_players.message}
-      </span>
+      <div className="mb-6">
+        <span className="italic text-xs">Amount in F.CFA (not USD or other)</span>
+        <span className="text-red-600 text-xs">
+        {" "}
+        {errors.key_players && errors.key_players.message}
+        </span>
+      </div>
+      
       <input
        className={inputClasses}
        placeholder={t("keyPlayersPlaceholder")}
