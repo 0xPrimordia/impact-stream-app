@@ -52,7 +52,7 @@
     "sustainabilityContext": "Les meilleurs projets sont ceux qui pourront être pérennisés par les togolais. Nous voulons voir des projets construits pour durer des générations.",
     "heading6": "Détails Du Projet",
     "minimumBudgetPlaceholder": "Budget Total Minimum",
-    "minimumBudgetContext": "Faites de votre mieux pour considérer le montant minimum de financement qui serait utile. Il est possible sur la page suivante de discuter des budgets maximaux et idéaux. Pour la chronologie, n'hésitez pas à donner une fourchette de temps.",
+    "minimumBudgetContext": "Montant en F.CFA (pas USD ou autre), ne dépassant pas 12 000 000 F.CFA.",
     "minimumBudgetValidationMessage": "Veuillez fournir un budget minimum.",
     "keyPlayersPlaceholder": "Personnes Et Fournisseurs Impliqués",
     "keyPlayersValidationMessage": "Veuillez indiquer les personnes et les fournisseurs concernés.",
