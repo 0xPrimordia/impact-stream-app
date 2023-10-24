@@ -54,6 +54,8 @@
     "minimumBudgetPlaceholder": "Minimum Total Budget",
     "minimumBudgetContext": "Amount in F.CFA (not USD or other), not exceeding 12,000,000 F.CFA.",
     "minimumBudgetValidationMessage": "Please provide minimum budget.",
+    "minimumBudgetMin": "Minimum value is 1 F.CFA",
+    "minimumBudgetMax": "Maximum value is 12,000,000 F.CFA",
     "keyPlayersPlaceholder": "People and Vendors Involved",
     "keyPlayersValidationMessage": "Please provide people and venders involved.",
     "timelinePlaceholder": "Timeline",

@@ -54,6 +54,8 @@
     "minimumBudgetPlaceholder": "Gazazã Bliboa Ƒe Suetɔ Kekeake",
     "minimumBudgetContext": "Ga home si le F.CFA me (menye USD alo bubu aɖeke o), si mewu 12,000,000 F.CFA o.",
     "minimumBudgetValidationMessage": "Taflatse na gazazã suetɔ kekeake.",
+    "minimumBudgetMin": "Asixɔxɔ suetɔ kekeakee nye 1 F.CFA",
+    "minimumBudgetMax": "Asixɔxɔ si sɔ gbɔ wue nye 12,000,000 F.CFA",
     "keyPlayersPlaceholder": "Amewo Kple Nudzrala Siwo Kpɔa Eme",
     "keyPlayersValidationMessage": "Taflatse mina amewo kple nudzrala siwo kpɔ gome le eme.",
     "timelinePlaceholder": "Ɣeyiɣi Ƒe Ɖoɖo",
