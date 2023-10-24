@@ -161,7 +161,8 @@ export default function WriteProposal() {
 
  function setStep(direction: string) {
   if (direction === "next") {
-   setCurrentStep(currentStep + 1);
+    console.log(methods.getValues())
+    setCurrentStep(currentStep + 1);
   }
   if (direction === "previous") {
    setCurrentStep(currentStep - 1);
