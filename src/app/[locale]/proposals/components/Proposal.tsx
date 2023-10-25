@@ -44,7 +44,7 @@ const ProposalList = ({ grants }: { grants: SummaryProposal[] }) => {
       className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8"
     >
       <div className="mb-14">
-        <h3 className="font-bold mb-6 text-center">{t("heading")}</h3>
+        <h3 className="font-bold mb-2 ml-4">{t("heading")}</h3>
         {/* filter out by status and then map the cards */}
         {grants ? (
           grants
