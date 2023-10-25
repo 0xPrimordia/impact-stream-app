@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { XMarkIcon, Bars3Icon, ArchiveBoxIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
@@ -11,6 +11,14 @@ export const Navbar = () => {
   const [overlay, setOverlay] = useState(false);
   const t = useTranslations("Navigation");
   const router = useRouter();
+  const [cartCount, setCartCount] = useState<number>();
+
+  useEffect(() => {
+    console.log('cart items: ' + localStorage.getItem("cartItems"))
+    const cartItems = localStorage.getItem("cartItems")
+    if(cartItems)
+    setCartCount(JSON.parse(cartItems).length)
+  }, []);
 
   return (
     <div className="fixed top-0 left-0 right-0 bg-white p-8 pb-4 z-50">
@@ -75,7 +83,7 @@ export const Navbar = () => {
           router.push(`/cart`);
         }}
       >
-        <div className="text-xs bg-blue-600 font-bold rounded-full absolute right-16 z-10 block h-5 leading-5 w-5 text-center text-white top-9">2</div>
+        <div className="text-xs bg-blue-600 font-bold rounded-full absolute right-16 z-10 block h-5 leading-5 w-5 text-center text-white top-9">{cartCount}</div>
         <ArchiveBoxIcon className="h-6 absolute right-20 top-11" />
       </div>
       {!overlay && (
