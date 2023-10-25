@@ -17,7 +17,7 @@ const Grant = () => {
 
   return (
     <div>
-      <h3 className="font-bold mb-6 text-center">{t("heading")}</h3>
+      <h3 className="font-bold mb-6">{t("heading")}</h3>
       <GrantList grants={filteredGrants} />
     </div>
   );

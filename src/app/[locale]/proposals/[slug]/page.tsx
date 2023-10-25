@@ -113,7 +113,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       )}
 
       {!isEditing && (
-        <div>
+        <div className="pr-4 pl-4 pb-4">
           <div className="font-bold mb-6">
             <Link className="text-sky-600" href="/proposals">
               {t("heading")}

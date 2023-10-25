@@ -6,7 +6,6 @@ const AddRemoveCartButton = ({ grantId }: { grantId: string }) => {
   const { addItemToCart, deleteItemFromCart, isInCart } = useCart();
 
   const grantIsInCart = isInCart(grantId);
-  const buttonText = grantIsInCart ? "Remove from Cart" : "Add item to Cart";
 
   return (
     <div className="flex flex-col items-center">
@@ -17,14 +16,11 @@ const AddRemoveCartButton = ({ grantId }: { grantId: string }) => {
         }
       >
         {grantIsInCart ? (
-          <HeartIconSolid color={"red"} className="h-8 w-8 mt-2" />
+          <HeartIconSolid color={"#005AAD"} className="h-8 w-8" />
         ) : (
-          <HeartIconOutline color={"red"} className="h-8 w-8 mt-2" />
+          <HeartIconOutline color={"#005AAD"} className="h-8 w-8" />
         )}
       </div>
-      <span className="text-[0.5rem] text-gray-500 text-center">
-        {buttonText}
-      </span>
     </div>
   );
 };
