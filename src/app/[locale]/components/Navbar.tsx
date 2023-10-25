@@ -74,7 +74,7 @@ export const Navbar = () => {
           </ul>
           <XMarkIcon
             onClick={() => setOverlay(false)}
-            className="h-8 absolute right-12 top-10"
+            className="h-8 absolute right-6 top-10"
           />
         </nav>
       )}
