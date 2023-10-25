@@ -47,7 +47,7 @@ export const GrantItem = ({
       <div className="mt-2">
         <span className="text-sm font-bold">{grant.author.name} {grant.author.family_name}</span>
         {grant.collaborators  && grant.collaborators?.map((user) => (
-          <span className="text-sm font-bold">, {user.name} {user.family_name}</span>
+          <span key={grant.id + '-' + user.family_name} className="text-sm font-bold">, {user.name} {user.family_name}</span>
         ))}
       </div>
     </div>
