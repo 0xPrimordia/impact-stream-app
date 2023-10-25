@@ -159,9 +159,14 @@ export default function WriteProposal() {
  const textareaClasses =
   "w-full border border-slate-300 rounded h-20 pl-2 mb-6";
 
+ function saveDraft() {
+  let values = methods.getValues()
+  // create new draft with currentStep
+  // find best way to continue draft
+ }
+
  function setStep(direction: string) {
   if (direction === "next") {
-    console.log(methods.getValues())
     setCurrentStep(currentStep + 1);
   }
   if (direction === "previous") {
