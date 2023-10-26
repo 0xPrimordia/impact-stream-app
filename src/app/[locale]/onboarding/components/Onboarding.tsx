@@ -1,11 +1,9 @@
 "use client";
-
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
 import { getSupabaseClient, logoutSupabase } from "../../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { ImageUploader } from "../../components/ImageUploader";
 import useCheckTokens from "../../hooks/useCheckTokens";
 import { User } from "../types";
 
