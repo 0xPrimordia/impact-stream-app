@@ -5,6 +5,7 @@ import { getSupabaseClient } from "../../../../lib/supabase";
 import { Web3Storage, CIDString, Web3File } from "web3.storage";
 import { storeImage } from "./ImageGallery";
 import Image from "next/legacy/image";
+import { useTranslations } from "next-intl";
 
 export const ImageUploader = () => {
   const { user } = usePrivy();

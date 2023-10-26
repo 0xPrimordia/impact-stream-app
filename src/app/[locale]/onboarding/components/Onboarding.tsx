@@ -72,12 +72,7 @@ const Onboarding = () => {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <h2 className="font-bold mb-6 text-center">{t("heading")}</h2>
-          <div className="flex flex-row">
-            <div className="flex flex-col">
-              <span className="font-bold text-sm mb-2">Profile Image</span>
-              <ImageUploader />
-            </div>
-          </div>
+          
           <FormInput
             inputClasses={inputClasses}
             register={register("givenName", {
