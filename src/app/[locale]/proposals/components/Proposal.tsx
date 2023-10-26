@@ -1,5 +1,4 @@
 "use client";
-
 import { SummaryProposal } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -12,7 +11,7 @@ import { logoutSupabase } from "../../../../../lib/supabase";
 
 export default function Proposal() {
   // todo: move this to another file
-  const { ready, authenticated, logout } = usePrivy();
+  const { ready, authenticated, logout, user } = usePrivy();
   const { isRefreshTokenValid } = useCheckTokens();
   const router = useRouter();
   const { grants } = useContext(GrantsContext);
@@ -48,7 +47,7 @@ const ProposalList = ({ grants }: { grants: SummaryProposal[] }) => {
         {/* filter out by status and then map the cards */}
         {grants ? (
           grants
-            .filter((p) => p.approved === true)
+            .filter((p) => p.approved === true || (p.approved === null && p.author.id === usePrivy().user?.id))
             .map((grant) => (
               <div className="p-2" key={grant.id}>
                 <GrantItem
