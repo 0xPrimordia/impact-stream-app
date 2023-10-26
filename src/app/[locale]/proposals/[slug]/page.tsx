@@ -170,7 +170,9 @@ export default function Page({ params }: { params: { slug: string } }) {
             <h3 className="font-bold mt-6 text-sm">{t("keyPlayers")}</h3>
             <p className="text-sm leading-1 mt-2">{proposal?.key_players}</p>
           </div>
-          <h3 className="font-bold mt-6 mb-5">{t("milestones")}</h3>
+          {proposal?.project_milestones && (
+            <h3 className="font-bold mt-6 mb-5">{t("milestones")}</h3>
+          )}
           {proposal?.project_milestones &&
             Object.values(proposal.project_milestones).map(
               (milestone: Milestone) => (
@@ -186,9 +188,11 @@ export default function Page({ params }: { params: { slug: string } }) {
           <div className="italic mt-6">
             {t("minimumBudget") + ": $" + proposal?.minimum_budget}
           </div>
-          <div className="italic mt-6">
-            {t("totalBudget") + ": $" + totalBudget}
-          </div>
+          {proposal?.project_milestones && (
+            <div className="italic mt-6">
+              {t("totalBudget") + ": $" + totalBudget}
+            </div>
+          )}
         </div>
       )}
     </>
