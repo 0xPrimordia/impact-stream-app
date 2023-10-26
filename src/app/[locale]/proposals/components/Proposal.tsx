@@ -69,7 +69,7 @@ const ProposalList = ({ grants, authorId }: { grants: SummaryProposal[], authorI
         {/* Botton button to add new proposal */}
         <div className="fixed bottom-10 right-0 left-0 bg-white p-5 z-0">
           <button
-            onClick={() => router.push("/grants/write")}
+            onClick={() => router.push("/grants/write/new")}
             className="w-full border border-slate-400 hover:bg-sky-600 rounded-md leading-10 font-bold"
           >
             {t("addProposalButton")}
