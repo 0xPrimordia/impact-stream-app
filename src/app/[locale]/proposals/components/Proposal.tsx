@@ -1,4 +1,5 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import { SummaryProposal } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -10,12 +11,16 @@ import { GrantsContext } from "@/app/context/GrantContext";
 import { logoutSupabase } from "../../../../../lib/supabase";
 
 export default function Proposal() {
-  // todo: move this to another file
   const { ready, authenticated, logout, user } = usePrivy();
   const { isRefreshTokenValid } = useCheckTokens();
   const router = useRouter();
   const { grants } = useContext(GrantsContext);
-
+  const [authorId, setAuthorId] = useState<string>();
+  
+  useEffect(() => {
+    setAuthorId(user?.id);
+  }, [user]);
+  
   if (!ready) return null;
   if (ready && !authenticated) {
     router.push("/");
@@ -28,12 +33,12 @@ export default function Proposal() {
 
   return (
     <div>
-      <ProposalList grants={grants} />
+      <ProposalList authorId={authorId} grants={grants} />
     </div>
   );
 }
 
-const ProposalList = ({ grants }: { grants: SummaryProposal[] }) => {
+const ProposalList = ({ grants, authorId }: { grants: SummaryProposal[], authorId: string|undefined }) => {
   const t = useTranslations("Proposals");
   const router = useRouter();
 
@@ -47,7 +52,7 @@ const ProposalList = ({ grants }: { grants: SummaryProposal[] }) => {
         {/* filter out by status and then map the cards */}
         {grants ? (
           grants
-            .filter((p) => p.approved === true || (p.approved === null && p.author.id === usePrivy().user?.id))
+            .filter((p) => p.approved === true || (p.approved === null && p.author.id === authorId))
             .map((grant) => (
               <div className="p-2" key={grant.id}>
                 <GrantItem
