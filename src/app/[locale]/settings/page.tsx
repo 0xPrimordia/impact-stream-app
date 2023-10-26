@@ -8,6 +8,7 @@ import { shortenAddress } from "../../utils";
 import { useTranslations } from "next-intl";
 import useCheckTokens from "../hooks/useCheckTokens";
 
+
 export default function Settings() {
  const { logout, user, ready, authenticated } = usePrivy();
  const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
@@ -44,6 +45,9 @@ export default function Settings() {
   router.push("/");
  }
 
+ const navigateToSettingPage = () => {
+  router.push("/onboarding?update=true");
+ }
 
  return (
   <>
@@ -56,7 +60,7 @@ export default function Settings() {
      <p>{currentUser.village_neighborhood}</p>
      <p>{currentUser.phone_number}</p>
      {currentUser.address && <p>{shortenAddress(currentUser.address)}</p>}
-     <button className="border border-slate-400 rounded leading-6 text-xs font-bold px-2 my-4">
+     <button onClick={navigateToSettingPage}  className="border border-slate-400 rounded leading-6 text-xs font-bold px-2 my-4">
       Edit Profile
      </button>
      <p className="italic text-xs">

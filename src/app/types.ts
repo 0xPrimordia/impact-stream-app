@@ -85,6 +85,7 @@ export type User = {
   onboarded: boolean | null;
   phone_number: string | null;
   village_neighborhood: string | null;
+  email: string | null;
 };
 
 export type PrivyUser = {};
