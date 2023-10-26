@@ -203,7 +203,7 @@ export const EditProposalForm = ({
 				</span>
 
 				<button
-					className="w-full border border-slate-400 rounded leading-10 font-bold mt-4"
+					className="w-full border border-slate-400 rounded leading-10 font-bold mt-4 mb-6"
 					type="submit"
 				>
 					{t("updateButton")}
