@@ -16,7 +16,7 @@ export const Navbar = () => {
   useEffect(() => {
     console.log('cart items: ' + localStorage.getItem("cartItems"))
     const cartItems = localStorage.getItem("cartItems")
-    if(cartItems)
+    if(cartItems && JSON.parse(cartItems).length > 0)
     setCartCount(JSON.parse(cartItems).length)
   }, []);
 
@@ -83,7 +83,10 @@ export const Navbar = () => {
           router.push(`/cart`);
         }}
       >
-        <div className="text-xs bg-blue-600 font-bold rounded-full absolute right-16 z-10 block h-5 leading-5 w-5 text-center text-white top-9">{cartCount}</div>
+        {cartCount && (
+          <div className="text-xs bg-blue-600 font-bold rounded-full absolute right-16 z-10 block h-5 leading-5 w-5 text-center text-white top-9">{cartCount}</div>
+        )}
+        
         <ArchiveBoxIcon className="h-6 absolute right-20 top-11" />
       </div>
       {!overlay && (
