@@ -15,6 +15,7 @@ export type Proposal = {
 
 export type DraftProposal = {
   id: string;
+  author_id: string;
   title: string | null;
   location: string | null;
   summary: string | null;
@@ -22,9 +23,11 @@ export type DraftProposal = {
   affected_locations: string | null;
   community_problem: string | null;
   proposed_solution: string | null;
+  sustainability: string | null;
   minimum_budget: number | null;
   key_players: string | null;
   form_step: number | null;
+  collaborators: Collaborator[] | null;
 };
 
 export type CreateProposal = {

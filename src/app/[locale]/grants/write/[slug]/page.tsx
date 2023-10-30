@@ -10,7 +10,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { getSupabaseClient, logoutSupabase } from "../../../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { User, CreateProposal, CreateDraft } from "@/app/types";
+import { User, CreateProposal, DraftProposal } from "@/app/types";
 import useCheckTokens from "../../../hooks/useCheckTokens";
 import { useParams } from 'next/navigation'
 
@@ -31,7 +31,7 @@ export default function WriteProposal() {
   const [userOptions, setUserOptions] = useState<SelectOption[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
   const [users, setUsers] = useState<UserOption[]>([]);
-  const [draft, setDraft] = useState<CreateDraft>();
+  const [draft, setDraft] = useState<DraftProposal>();
   let initialValues
   const params = useParams()
   if(params.slug !== "new") {
@@ -92,12 +92,22 @@ export default function WriteProposal() {
     });
     setUserOptions([...userOptions, ...options]);
   }, [users, user]);
+
+  async function getDraft() {
+    if (params.slug === "new") return;
+    const supabase = await getSupabaseClient();
+    const { data, error } = await supabase.rpc(
+      "get_proposal_draft_with_collaborators", { proposal_draft_id: params.slug }
+    )
+    .single();
+    //@ts-ignore
+    if (data && data.author_id === user?.id) setDraft(data);
+  }
+
   useEffect(() => {
-    if(params.slug !== "new") {
-      // fetch draft by slug as ID
-      // save to state
-    }
-  })
+    if (isAccessTokenValid && params.slug !== "new") getDraft();
+   }, [user, isAccessTokenValid]);
+
   if (!ready) return null;
   if (ready && !authenticated) {
     router.push("/");
@@ -217,7 +227,6 @@ export default function WriteProposal() {
     
     }
     router.push(`/proposals/drafts`);
-    // find best way to continue draft
   }
 
  function setStep(direction: string) {
