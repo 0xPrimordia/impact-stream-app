@@ -5,10 +5,11 @@ interface NavbarLinkProps {
   children: React.ReactNode;
   path: string;
   setOverlay: Function;
+  target?:string;
 }
-const NavbarLink = ({ children, setOverlay, path }: NavbarLinkProps) => {
+const NavbarLink = ({ children, setOverlay, path, target }: NavbarLinkProps) => {
   return (
-    <Link onClick={() => setOverlay(false)} href={path}>
+    <Link target={target} onClick={() => setOverlay(false)} href={path}>
       {children}
     </Link>
   );
