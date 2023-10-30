@@ -13,6 +13,20 @@ export type Proposal = {
   key_players: string | null;
 };
 
+export type DraftProposal = {
+  id: string;
+  title: string | null;
+  location: string | null;
+  summary: string | null;
+  timeline: string | null;
+  affected_locations: string | null;
+  community_problem: string | null;
+  proposed_solution: string | null;
+  minimum_budget: number | null;
+  key_players: string | null;
+  form_step: number | null;
+};
+
 export type CreateProposal = {
   id: string;
   title: string | null;
@@ -26,6 +40,22 @@ export type CreateProposal = {
   minimum_budget: number | null;
   key_players: string | null;
   milestones: Milestone[] | null;
+};
+
+export type CreateDraft = {
+  id: string;
+  title: string | null;
+  location: string | null;
+  summary: string | null;
+  timeline: string | null;
+  affected_locations: string | null;
+  community_problem: string | null;
+  proposed_solution: string | null;
+  sustainability: string | null;
+  minimum_budget: number | null;
+  key_players: string | null;
+  milestones: Milestone[] | null;
+  form_step: number | null;
 };
 
 export type SummaryProposal = {

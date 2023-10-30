@@ -10,7 +10,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { getSupabaseClient, logoutSupabase } from "../../../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { User, CreateProposal } from "@/app/types";
+import { User, CreateProposal, CreateDraft } from "@/app/types";
 import useCheckTokens from "../../../hooks/useCheckTokens";
 import { useParams } from 'next/navigation'
 
@@ -26,26 +26,26 @@ interface SelectOption {
 }
 
 export default function WriteProposal() {
+  const { user, authenticated, ready, logout } = usePrivy();
+  const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
+  const [userOptions, setUserOptions] = useState<SelectOption[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<UserOption[]>([]);
+  const [draft, setDraft] = useState<CreateDraft>();
   let initialValues
   const params = useParams()
-
-  if(params.slug != "new") {
-    // check if user owns draft ID in the slug
-    // fetch draft with ID
-    // save draft array to initialValues
-
+  if(params.slug !== "new") {
     initialValues = {
-      /*title: formData.title,
-      summary: formData.summary,
-      timeline: formData.timeline,
-      location: formData.location,
-      affected_locations: formData.affected_locations,
-      community_problem: formData.community_problem,
-      proposed_solution: formData.proposed_solution,
-      sustainability: formData.sustainability,
-      minimum_budget: formData.minimum_budget,
-      key_players: formData.key_players,
-      project_milestones: formData.milestones,*/
+      title: draft?.title,
+      location: draft?.location,
+      summary: draft?. summary,
+      affected_locations: draft?.affected_locations,
+      minimum_budget: draft?.minimum_budget,
+      key_players: draft?.key_players,
+      timeline: draft?.timeline,
+      proposed_solution: draft?.proposed_solution,
+      sustainability: draft?.sustainability,
+      community_problem: draft?.community_problem,
     }
   } else {
     initialValues = {
@@ -62,11 +62,6 @@ export default function WriteProposal() {
     }
   }
 
-  const { user, authenticated, ready, logout } = usePrivy();
-  const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
-  const [userOptions, setUserOptions] = useState<SelectOption[]>([]);
-  const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
-  const [users, setUsers] = useState<UserOption[]>([]);
   const router = useRouter();
   const methods = useForm<CreateProposal>({
     mode: "onBlur",
@@ -97,6 +92,12 @@ export default function WriteProposal() {
     });
     setUserOptions([...userOptions, ...options]);
   }, [users, user]);
+  useEffect(() => {
+    if(params.slug !== "new") {
+      // fetch draft by slug as ID
+      // save to state
+    }
+  })
   if (!ready) return null;
   if (ready && !authenticated) {
     router.push("/");
