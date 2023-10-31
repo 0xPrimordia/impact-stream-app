@@ -32,35 +32,53 @@ export default function WriteProposal() {
   const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
   const [users, setUsers] = useState<UserOption[]>([]);
   const [draft, setDraft] = useState<DraftProposal>();
-  let initialValues
-  const params = useParams()
-  if(params.slug !== "new") {
-    initialValues = {
-      title: draft?.title,
-      location: draft?.location,
-      summary: draft?. summary,
-      affected_locations: draft?.affected_locations,
-      minimum_budget: draft?.minimum_budget,
-      key_players: draft?.key_players,
-      timeline: draft?.timeline,
-      proposed_solution: draft?.proposed_solution,
-      sustainability: draft?.sustainability,
-      community_problem: draft?.community_problem,
-    }
-  } else {
-    initialValues = {
-      title: "",
-      location: "",
-      summary: "",
-      affected_locations: "",
-      minimum_budget: null,
-      key_players: "",
-      timeline: "",
-      proposed_solution: "",
-      sustainability: "",
-      community_problem: "",
-    }
+  const initialValues = {
+    title: "",
+        location: "",
+        summary: "",
+        affected_locations: "",
+        minimum_budget: null,
+        key_players: "",
+        timeline: "",
+        proposed_solution: "",
+        sustainability: "",
+        community_problem: "",
   }
+  const params = useParams()
+
+  async function getDraft() {
+    if (params.slug === "new") return;
+    const supabase = await getSupabaseClient();
+    const { data, error } = await supabase.rpc(
+      "get_proposal_draft_with_collaborators", { proposal_draft_id: params.slug }
+    )
+    .single();
+    //@ts-ignore
+    if (data && data.author.id === user?.id) setDraft(data);
+  }
+
+  useEffect(() => {
+    if(draft) {
+      setValue('title', draft?.title)
+      setValue('location', draft?.location)
+      setValue('summary', draft?.summary)
+      setValue('affected_locations', draft?.affected_locations)
+      setValue('community_problem', draft?.community_problem)
+      setValue('proposed_solution', draft?.proposed_solution)
+      setValue('sustainability', draft?.sustainability)
+      setValue('minimum_budget', draft?.minimum_budget)
+      setValue('key_players', draft?.key_players)
+      setValue('timeline', draft?.timeline)
+      setValue('milestones', draft?.milestones)
+      if(draft?.form_step)
+      setCurrentStep(draft?.form_step)
+      router.push(`/grants/write/${params.slug}`)
+    }
+  }, [draft])
+
+  useEffect(() => {
+    if (isAccessTokenValid && params.slug !== "new") getDraft();
+  }, [user, isAccessTokenValid]);
 
   const router = useRouter();
   const methods = useForm<CreateProposal>({
@@ -70,6 +88,7 @@ export default function WriteProposal() {
   const {
     register,
     formState,
+    setValue,
     handleSubmit,
     formState: { errors, isSubmitting, isSubmitted },
   } = methods;
@@ -92,21 +111,6 @@ export default function WriteProposal() {
     });
     setUserOptions([...userOptions, ...options]);
   }, [users, user]);
-
-  async function getDraft() {
-    if (params.slug === "new") return;
-    const supabase = await getSupabaseClient();
-    const { data, error } = await supabase.rpc(
-      "get_proposal_draft_with_collaborators", { proposal_draft_id: params.slug }
-    )
-    .single();
-    //@ts-ignore
-    if (data && data.author_id === user?.id) setDraft(data);
-  }
-
-  useEffect(() => {
-    if (isAccessTokenValid && params.slug !== "new") getDraft();
-   }, [user, isAccessTokenValid]);
 
   if (!ready) return null;
   if (ready && !authenticated) {
@@ -226,7 +230,7 @@ export default function WriteProposal() {
     } catch (error) {
     
     }
-    router.push(`/proposals/drafts`);
+    router.push(`/grants`);
   }
 
  function setStep(direction: string) {

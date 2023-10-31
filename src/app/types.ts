@@ -28,6 +28,13 @@ export type DraftProposal = {
   key_players: string | null;
   form_step: number | null;
   collaborators: Collaborator[] | null;
+  milestones: Milestone[] | null;
+};
+
+export type SummaryDraftProposal = {
+  id: string;
+  author_id: string | null;
+  title: string | null;
 };
 
 export type CreateProposal = {
@@ -140,6 +147,10 @@ export interface StrategyDetails {
 
 export interface GrantListProps {
   grants: SummaryProposal[];
+}
+
+export interface DraftListProps {
+  drafts: SummaryDraftProposal[];
 }
 
 export interface GrantItemProps {
