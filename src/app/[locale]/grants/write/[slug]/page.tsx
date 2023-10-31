@@ -223,21 +223,34 @@ export default function WriteProposal() {
       })
       .select()
       .single();
-    if (proposalError) {
-      throw proposalError;
-    }
-    let inserts: any = [];
-    } catch (error) {
-    
-    }
-    router.push(`/grants`);
-  }
+      if (proposalError) {
+        throw proposalError;
+      }
 
- function saveDraft() {
-  let values = methods.getValues()
-  // create new draft with currentStep
-  // find best way to continue draft
- }
+      let inserts: any = [];
+
+      selectedUsers.map(async (selectedUser) => {
+        inserts.push({
+        id: {
+          user_id: selectedUser?.value as string,
+          proposal_id: draft?.id,
+        },
+        proposal_id: draft?.id,
+        user_id: selectedUser?.value,
+        });
+      });
+
+      const { error } = await supabase
+        .from("proposal_draft_collaborators")
+        .insert(inserts);
+      if (error) {
+        throw error;
+      }
+      router.push(`/grants`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
  function setStep(direction: string) {
   if (direction === "next") {
