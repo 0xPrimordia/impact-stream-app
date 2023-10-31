@@ -67,7 +67,7 @@ export const Navbar = () => {
               </NavbarLink>
             </li>
             <li>
-              <NavbarLink setOverlay={setOverlay} path={"/about"}>
+              <NavbarLink setOverlay={setOverlay} target="_blank" path={"https://www.impact.stream/"}>
                 {t("link7")}
               </NavbarLink>
             </li>
