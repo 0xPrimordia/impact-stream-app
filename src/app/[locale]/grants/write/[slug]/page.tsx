@@ -233,9 +233,9 @@ export default function WriteProposal() {
         inserts.push({
         id: {
           user_id: selectedUser?.value as string,
-          proposal_id: draft?.id,
+          proposal_draft_id: draft?.id,
         },
-        proposal_id: draft?.id,
+        proposal_draft_id: draft?.id,
         user_id: selectedUser?.value,
         });
       });
@@ -246,6 +246,7 @@ export default function WriteProposal() {
       if (error) {
         throw error;
       }
+
       router.push(`/grants`);
     } catch (error) {
       console.error(error);
