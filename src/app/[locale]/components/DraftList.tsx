@@ -12,7 +12,7 @@ export const DraftList = ({ drafts }: DraftListProps) => {
       {drafts.map((draft) => (
         <li
           key={draft.id}
-          className="overflow-hidden"
+          className="overflow-hidden underline text-blue-600"
           onClick={
             () => {
                 router.push(`/grants/write/${draft.id}`);

@@ -34,10 +34,10 @@ const Grant = () => {
   const filteredGrants = grants.filter((grant) => grant.author.id === user!.id);
 
   return (
-    <div>
+    <div className="p-4">
       <h3 className="font-bold mb-6">{t("heading")}</h3>
       <GrantList grants={filteredGrants} />
-      <h3 className="font-bold mb-6">My Draft Proposals</h3>
+      <h3 className="font-bold mb-4 mt-4">My Draft Proposals</h3>
       <DraftList drafts={drafts} />
     </div>
   );
