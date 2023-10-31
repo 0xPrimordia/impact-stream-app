@@ -14,6 +14,7 @@ create or replace function get_proposal_draft_with_collaborators(proposal_draft_
   minimum_budget integer,
   key_players text,
   timeline text,
+  project_milestones jsonb,
   collaborators json[],
   form_step integer
 )
@@ -32,8 +33,9 @@ begin
    pd.minimum_budget, 
    pd.key_players, 
    pd.timeline,
+   pd.project_milestones,
    case 
-		when count(pc.user_id) > 0 then array_agg(json_build_object('name', u.name, 'family_name', u.family_name)) 
+		when count(pdc.user_id) > 0 then array_agg(json_build_object('name', u.name, 'family_name', u.family_name)) 
 		else array[]::json[] 
 	 end as collaborators,
    pd.form_step
@@ -56,6 +58,7 @@ begin
    pd.minimum_budget, 
    pd.key_players, 
    pd.timeline,
+			pd.project_milestones,
 	 pd.form_step;
 end;
 $$;
