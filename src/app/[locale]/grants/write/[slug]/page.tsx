@@ -233,6 +233,12 @@ export default function WriteProposal() {
     router.push(`/grants`);
   }
 
+ function saveDraft() {
+  let values = methods.getValues()
+  // create new draft with currentStep
+  // find best way to continue draft
+ }
+
  function setStep(direction: string) {
   if (direction === "next") {
     setCurrentStep(currentStep + 1);
