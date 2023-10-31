@@ -1,17 +1,18 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Select from "react-tailwindcss-select";
-import { MilestoneForm } from "../../components/MilestoneForm";
+import { MilestoneForm } from "../../../components/MilestoneForm";
 import "react-tailwindcss-select/dist/index.css";
 import { SelectValue } from "react-tailwindcss-select/dist/components/type";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
-import { getSupabaseClient, logoutSupabase } from "../../../../../lib/supabase";
+import { getSupabaseClient, logoutSupabase } from "../../../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { User, CreateProposal } from "@/app/types";
-import useCheckTokens from "../../hooks/useCheckTokens";
+import { User, CreateProposal, DraftProposal } from "@/app/types";
+import useCheckTokens from "../../../hooks/useCheckTokens";
+import { useParams } from 'next/navigation'
 
 interface UserOption {
  id: string;
@@ -25,139 +26,208 @@ interface SelectOption {
 }
 
 export default function WriteProposal() {
- const { user, authenticated, ready, logout } = usePrivy();
- const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
- const [userOptions, setUserOptions] = useState<SelectOption[]>([]);
- const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
- const [users, setUsers] = useState<UserOption[]>([]);
- const router = useRouter();
- const methods = useForm<CreateProposal>({
-  mode: "onBlur",
-  defaultValues: {
-   title: "",
-   location: "",
-   summary: "",
-   affected_locations: "",
-   minimum_budget: null,
-   key_players: "",
-   timeline: "",
-   proposed_solution: "",
-   sustainability: "",
-   community_problem: "",
-  },
- });
- const {
-  register,
-  formState,
-  handleSubmit,
-  formState: { errors, isSubmitting, isSubmitted },
- } = methods;
- const { isValid } = formState;
- const [currentStep, setCurrentStep] = useState(1);
- const t = useTranslations("Create Proposal");
- useEffect(() => {
-  if (isAccessTokenValid) getUsers();
- }, [isAccessTokenValid]);
- useEffect(() => {
-  let options: SelectOption[] = [];
-  users.forEach((u) => {
-   if (u.id !== user?.id) {
-    let userOption = {
-     value: u.id,
-     label: u.name + " " + u.family_name,
-    };
-    options.push(userOption);
-   }
+  const { user, authenticated, ready, logout } = usePrivy();
+  const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
+  const [userOptions, setUserOptions] = useState<SelectOption[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<UserOption[]>([]);
+  const [draft, setDraft] = useState<DraftProposal>();
+  let initialValues
+  const params = useParams()
+  if(params.slug !== "new") {
+    initialValues = {
+      title: draft?.title,
+      location: draft?.location,
+      summary: draft?. summary,
+      affected_locations: draft?.affected_locations,
+      minimum_budget: draft?.minimum_budget,
+      key_players: draft?.key_players,
+      timeline: draft?.timeline,
+      proposed_solution: draft?.proposed_solution,
+      sustainability: draft?.sustainability,
+      community_problem: draft?.community_problem,
+    }
+  } else {
+    initialValues = {
+      title: "",
+      location: "",
+      summary: "",
+      affected_locations: "",
+      minimum_budget: null,
+      key_players: "",
+      timeline: "",
+      proposed_solution: "",
+      sustainability: "",
+      community_problem: "",
+    }
+  }
+
+  const router = useRouter();
+  const methods = useForm<CreateProposal>({
+    mode: "onBlur",
+    defaultValues: initialValues,
   });
-  setUserOptions([...userOptions, ...options]);
- }, [users, user]);
- if (!ready) return null;
- if (ready && !authenticated) {
-  router.push("/");
- }
- if (!isRefreshTokenValid) {
-  logoutSupabase();
-  logout();
-  router.push("/");
- }
+  const {
+    register,
+    formState,
+    handleSubmit,
+    formState: { errors, isSubmitting, isSubmitted },
+  } = methods;
+  const { isValid } = formState;
+  const [currentStep, setCurrentStep] = useState(1);
+  const t = useTranslations("Create Proposal");
+  useEffect(() => {
+    if (isAccessTokenValid) getUsers();
+  }, [isAccessTokenValid]);
+  useEffect(() => {
+    let options: SelectOption[] = [];
+    users.forEach((u) => {
+    if (u.id !== user?.id) {
+      let userOption = {
+      value: u.id,
+      label: u.name + " " + u.family_name,
+      };
+      options.push(userOption);
+    }
+    });
+    setUserOptions([...userOptions, ...options]);
+  }, [users, user]);
 
- async function getUsers() {
-  const supabase = await getSupabaseClient();
-  const { data } = await supabase
-   .from("users")
-   .select(`id, name, family_name`);
-  if (data) setUsers(data);
- }
+  async function getDraft() {
+    if (params.slug === "new") return;
+    const supabase = await getSupabaseClient();
+    const { data, error } = await supabase.rpc(
+      "get_proposal_draft_with_collaborators", { proposal_draft_id: params.slug }
+    )
+    .single();
+    //@ts-ignore
+    if (data && data.author_id === user?.id) setDraft(data);
+  }
 
- const selectUser = (user: SelectValue) => {
-  if (user)
-   setUserOptions((current) =>
+  useEffect(() => {
+    if (isAccessTokenValid && params.slug !== "new") getDraft();
+   }, [user, isAccessTokenValid]);
+
+  if (!ready) return null;
+  if (ready && !authenticated) {
+    router.push("/");
+  }
+  if (!isRefreshTokenValid) {
+    logoutSupabase();
+    logout();
+    router.push("/");
+  }
+
+  async function getUsers() {
+    const supabase = await getSupabaseClient();
+    const { data } = await supabase
+    .from("users")
+    .select(`id, name, family_name`);
+    if (data) setUsers(data);
+  }
+
+  const selectUser = (user: SelectValue) => {
+    if (user)
+    setUserOptions((current) =>
+      // @ts-ignore
+      current.filter((option) => option.value !== user.value)
+    );
+    setSelectedUsers([...selectedUsers, user]);
+  };
+
+  const removeCollaborator = (user: SelectValue) => {
+    setSelectedUsers((current) =>
     // @ts-ignore
     current.filter((option) => option.value !== user.value)
-   );
-  setSelectedUsers([...selectedUsers, user]);
- };
+    );
+    // @ts-ignore
+    setUserOptions([...userOptions, user]);
+  };
 
- const removeCollaborator = (user: SelectValue) => {
-  setSelectedUsers((current) =>
-   // @ts-ignore
-   current.filter((option) => option.value !== user.value)
-  );
-  // @ts-ignore
-  setUserOptions([...userOptions, user]);
- };
+  const onSubmit: SubmitHandler<CreateProposal> = async (formData) => {
+    try {
+      const supabase = await getSupabaseClient();
+      const { data: proposalData, error: proposalError } = await supabase
+        .from("proposals")
+        .insert({
+        author_id: user?.id,
+        title: formData.title,
+        summary: formData.summary,
+        timeline: formData.timeline,
+        location: formData.location,
+        affected_locations: formData.affected_locations,
+        community_problem: formData.community_problem,
+        proposed_solution: formData.proposed_solution,
+        sustainability: formData.sustainability,
+        minimum_budget: formData.minimum_budget,
+        key_players: formData.key_players,
+        project_milestones: formData.milestones,
+        })
+        .select()
+        .single();
+      if (proposalError) {
+        throw proposalError;
+      }
+      let inserts: any = [];
+      selectedUsers.map(async (selectedUser) => {
+        inserts.push({
+        id: {
+          user_id: selectedUser?.value as string,
+          proposal_id: proposalData.id,
+        },
+        proposal_id: proposalData.id,
+        user_id: selectedUser?.value,
+        });
+      });
 
- const onSubmit: SubmitHandler<CreateProposal> = async (formData) => {
-  try {
-   const supabase = await getSupabaseClient();
-   const { data: proposalData, error: proposalError } = await supabase
-    .from("proposals")
-    .insert({
-     author_id: user?.id,
-     title: formData.title,
-     summary: formData.summary,
-     timeline: formData.timeline,
-     location: formData.location,
-     affected_locations: formData.affected_locations,
-     community_problem: formData.community_problem,
-     proposed_solution: formData.proposed_solution,
-     sustainability: formData.sustainability,
-     minimum_budget: formData.minimum_budget,
-     key_players: formData.key_players,
-     project_milestones: formData.milestones,
-    })
-    .select()
-    .single();
-   if (proposalError) {
-    throw proposalError;
-   }
-   let inserts: any = [];
-   selectedUsers.map(async (selectedUser) => {
-    inserts.push({
-     id: {
-      user_id: selectedUser?.value as string,
-      proposal_id: proposalData.id,
-     },
-     proposal_id: proposalData.id,
-     user_id: selectedUser?.value,
-    });
-   });
+      const { error } = await supabase
+        .from("proposal_collaborators")
+        .insert(inserts);
+      if (error) {
+        throw error;
+      }
 
-   const { error } = await supabase
-    .from("proposal_collaborators")
-    .insert(inserts);
-   if (error) {
-    throw error;
-   }
+      router.push(`/proposals`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const inputClasses = "w-full border border-slate-300 rounded h-10 pl-2 mb-6";
+  const textareaClasses =
+    "w-full border border-slate-300 rounded h-20 pl-2 mb-6";
 
-   router.push(`/proposals`);
-  } catch (error) {
-   console.error(error);
+  const saveDraft = async () => {
+    let formData = methods.getValues()
+    try {
+      const supabase = await getSupabaseClient();
+      const { error: proposalError } = await supabase
+      .from("proposal_drafts")
+      .insert({
+        form_step: currentStep,
+        author_id: user?.id,
+        title: formData.title,
+        summary: formData.summary,
+        timeline: formData.timeline,
+        location: formData.location,
+        affected_locations: formData.affected_locations,
+        community_problem: formData.community_problem,
+        proposed_solution: formData.proposed_solution,
+        sustainability: formData.sustainability,
+        minimum_budget: formData.minimum_budget,
+        key_players: formData.key_players,
+        project_milestones: formData.milestones,
+      })
+      .select()
+      .single();
+    if (proposalError) {
+      throw proposalError;
+    }
+    let inserts: any = [];
+    } catch (error) {
+    
+    }
+    router.push(`/proposals/drafts`);
   }
- };
- const inputClasses = "w-full border border-slate-300 rounded h-10 pl-2 mb-6";
- const textareaClasses =
-  "w-full border border-slate-300 rounded h-20 pl-2 mb-6";
 
  function saveDraft() {
   let values = methods.getValues()
@@ -176,6 +246,7 @@ export default function WriteProposal() {
 
  const StepControls = () => {
   return (
+    <>
    <div className="flex mb-10 mt-10">
     {currentStep !== 1 && (
      <button
@@ -197,7 +268,10 @@ export default function WriteProposal() {
       {t("nextButton")}
      </button>
     )}
+  
    </div>
+   <span className="underline text-blue-600 cursor text-center block italic" onClick={saveDraft}>Save this as a Draft</span>
+   </>
   );
  };
 
@@ -367,8 +441,8 @@ export default function WriteProposal() {
        placeholder={t("minimumBudgetPlaceholder")}
        {...register("minimum_budget", {
         required: t("minimumBudgetValidationMessage"),
-        min: 1,
-        max: 12000000,
+        min: { value: 1, message: t("minimumBudgetMin") },
+        max: { value: 12000000, message: t("minimumBudgetMax") }
        })}
       />
       <div className="mb-6">

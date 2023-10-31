@@ -1,6 +1,6 @@
 {
   "Sign-In": {
-    "signInButton": "De asi agbalẽ te .",
+    "signInButton": "De asi ete.",
     "disclaimer": "Ne èdi be yeage ɖe eme la, ŋlɔ wò telefon xexlẽdzesi si dze egɔme tso dukɔ ƒe xexlẽdzesi 228 dzi, emegbe nàlé ŋku ɖe gbedasi aɖe tso Impact Stream (Sandbox) gbɔ ŋu eye nàŋlɔ wò kɔdasia ɖe pop-up la me."
   },
   "Onboarding": {
@@ -14,7 +14,10 @@
     "email": "Email Dzi",
     "emailValidation": "Email si sɔ hiã",
     "disclaimer": "Womagblɔ wò nyatakakawo na dukɔa o eye ɖeko woazã wo atsɔ ade dzesi wò eye woate ŋu aƒo ka na wò ne ehiã.",
-    "submitButton": "Tsᴐe Yi"
+    "submitButton": "Tsᴐe Yi",
+    "profileImage": "Profile Image",
+    "imageUploadBtn": "tsɔe da ɖe Internet dzi"
+
   },
   "Proposals": {
     "heading": "Kpekpeɖeŋunaɖoɖo Siwo Wodo Ɖa",
@@ -54,6 +57,8 @@
     "minimumBudgetPlaceholder": "Gazazã Bliboa Ƒe Suetɔ Kekeake",
     "minimumBudgetContext": "Ga home si le F.CFA me (menye USD alo bubu aɖeke o), si mewu 12,000,000 F.CFA o.",
     "minimumBudgetValidationMessage": "Taflatse na gazazã suetɔ kekeake.",
+    "minimumBudgetMin": "Asixɔxɔ suetɔ kekeakee nye 1 F.CFA",
+    "minimumBudgetMax": "Asixɔxɔ si sɔ gbɔ wue nye 12,000,000 F.CFA",
     "keyPlayersPlaceholder": "Amewo Kple Nudzrala Siwo Kpɔa Eme",
     "keyPlayersValidationMessage": "Taflatse mina amewo kple nudzrala siwo kpɔ gome le eme.",
     "timelinePlaceholder": "Ɣeyiɣi Ƒe Ɖoɖo",

@@ -14,7 +14,9 @@
     "email": "Email",
     "emailValidation": "Courriel valide requis",
     "disclaimer": "Vos informations ne seront pas partagées avec le public et ne seront utilisées qu'à des fins d'identification et pour vous contacter si nécessaire.",
-    "submitButton": "Soumettre"
+    "submitButton": "Soumettre",
+    "profileImage": "Image de profil",
+    "imageUploadBtn": "Télécharger"
   },
   "Proposals": {
     "heading": "Subventions Proposées",
@@ -54,6 +56,8 @@
     "minimumBudgetPlaceholder": "Budget Total Minimum",
     "minimumBudgetContext": "Montant en F.CFA (pas USD ou autre), ne dépassant pas 12 000 000 F.CFA.",
     "minimumBudgetValidationMessage": "Veuillez fournir un budget minimum.",
+    "minimumBudgetMin": "La valeur minimale est 1 F.CFA",
+    "minimumBudgetMax": "La valeur maximale est 12,000,000 F.CFA",
     "keyPlayersPlaceholder": "Personnes Et Fournisseurs Impliqués",
     "keyPlayersValidationMessage": "Veuillez indiquer les personnes et les fournisseurs concernés.",
     "timelinePlaceholder": "Ligne Du Temps",
