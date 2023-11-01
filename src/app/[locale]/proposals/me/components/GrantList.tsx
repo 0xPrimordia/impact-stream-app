@@ -1,19 +1,19 @@
-import { IGrantListProps } from "@/app/types";
+import { IProposalListProps } from "@/app/types";
 import { GrantItem } from "./GrantItem";
 
-export const GrantList = ({ grants }: IGrantListProps) => {
+export const GrantList = ({ grants }: IProposalListProps) => {
   return (
     <ul
       role="list"
       className="grid grid-cols-1 gap-x-4 gap-y-4 lg:grid-cols-3 xl:gap-x-8"
     >
-      {grants.map((grant) => (
+      {grants.map((proposal) => (
         <li
-          key={grant.id}
+          key={proposal.id}
           className="overflow-hidden"
         >
           <GrantItem
-            grant={grant}
+            proposal={proposal}
             showStatus={true}
           />
         </li>

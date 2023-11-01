@@ -1,17 +1,17 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Select from "react-tailwindcss-select";
-import { MilestoneForm } from "../../components/MilestoneForm";
+import { MilestoneForm } from "../../../components/MilestoneForm";
 import "react-tailwindcss-select/dist/index.css";
 import { SelectValue } from "react-tailwindcss-select/dist/components/type";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
-import { getSupabaseClient, logoutSupabase } from "../../../../../lib/supabase";
+import { getSupabaseClient, logoutSupabase } from "../../../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { TUser, TCreateProposal } from "@/app/types";
-import useCheckTokens from "../../hooks/useCheckTokens";
+import useCheckTokens from "../../../hooks/useCheckTokens";
 
 interface UserOption {
   id: string;

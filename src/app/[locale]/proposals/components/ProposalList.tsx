@@ -1,9 +1,10 @@
 import { TSummaryProposal } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { GrantItem } from "../../grants/components/GrantItem";
+import { GrantItem } from "../me/components/GrantItem";
+import ProposalCard from "./ProposalCard";
 
-const ProposalList = ({ grants }: { grants: TSummaryProposal[] }) => {
+const ProposalList = ({ proposals }: { proposals: TSummaryProposal[] }) => {
   const t = useTranslations("Proposals");
   const router = useRouter();
 
@@ -15,18 +16,19 @@ const ProposalList = ({ grants }: { grants: TSummaryProposal[] }) => {
       <div className="mb-14">
         <h3 className="font-bold mb-6 text-center">{t("heading")}</h3>
         {/* filter out by status and then map the cards */}
-        {grants ? (
-          grants
+        {proposals ? (
+          proposals
             .filter((p) => p.approved === true)
-            .map((grant) => (
-              <div className="p-2" key={grant.id}>
-                <GrantItem
-                  key={grant.id}
-                  grant={grant}
+            .map((proposal) => (
+              <div className="p-2" key={proposal.id}>
+                <ProposalCard proposal={proposal} />
+                {/* <GrantItem
+                  key={proposal.id}
+                  proposal={proposal}
                   showStatus={false}
                   showAction={true}
                   showAllocation={false}
-                />
+                /> */}
               </div>
             ))
         ) : (
@@ -35,7 +37,7 @@ const ProposalList = ({ grants }: { grants: TSummaryProposal[] }) => {
         {/* Botton button to add new proposal */}
         <div className="fixed bottom-10 right-0 left-0 bg-white p-5 z-0">
           <button
-            onClick={() => router.push("/grants/write")}
+            onClick={() => router.push("/proposals/me/write")}
             className="w-full border border-slate-400 hover:bg-sky-600 rounded-md leading-10 font-bold"
           >
             {t("addProposalButton")}

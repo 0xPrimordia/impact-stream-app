@@ -108,19 +108,19 @@ export interface IStrategyDetails {
   };
 }
 
-export interface IGrantListProps {
+export interface IProposalListProps {
   grants: TSummaryProposal[];
 }
 
-export interface IGrantItemProps {
-  grant: TSummaryProposal;
+export interface IProposalCardProps {
+  proposal: TSummaryProposal;
   showStatus: boolean;
   showAction?: boolean;
   showAllocation?: boolean;
 }
 
 export interface ICartItemProps {
-  grant: TSummaryProposal;
+  proposal: TSummaryProposal;
   amount: number;
 }
 

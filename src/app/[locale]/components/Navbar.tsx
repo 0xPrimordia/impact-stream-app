@@ -37,7 +37,7 @@ export const Navbar = () => {
         <nav className="brand-bg-color text-3xl font-bold fixed top-0 bottom-0 right-0 left-0 p-10 pt-28 z-40">
           <ul>
             <li className="mb-6">
-              <NavbarLink setOverlay={setOverlay} path={"/grants"}>
+              <NavbarLink setOverlay={setOverlay} path={"/proposals/me"}>
                 {t("link1")}
               </NavbarLink>
             </li>

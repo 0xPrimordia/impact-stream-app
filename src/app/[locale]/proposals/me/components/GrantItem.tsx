@@ -1,18 +1,18 @@
-import { IGrantItemProps } from "@/app/types";
+import { IProposalCardProps } from "@/app/types";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { truncateDescription } from "@/app/utils";
 import { useRouter } from "next/navigation";
-import AddRemoveCartButton from "../../cart/components/AddRemoveCartButton";
+import AddRemoveCartButton from "../../../cart/components/AddRemoveCartButton";
 import { usePrivy } from "@privy-io/react-auth";
 import { useState, useEffect } from "react";
-import { getVoiceCreditsCastByAllocatorToRecipient } from "../../utils/alloContract";
+import { getVoiceCreditsCastByAllocatorToRecipient } from "../../../utils/alloContract";
 
 export const GrantItem = ({
-  grant,
+  proposal,
   showStatus,
   showAction = false,
   showAllocation,
-}: IGrantItemProps) => {
+}: IProposalCardProps) => {
   const router = useRouter();
   const { user } = usePrivy();
   const [votesCastedToRecipient, setVotesCastedToRecipient] =
@@ -23,7 +23,7 @@ export const GrantItem = ({
       setVotesCastedToRecipient(
         await getVoiceCreditsCastByAllocatorToRecipient(
           user?.wallet?.address!,
-          grant.allo_recipient_id!
+          proposal.allo_recipient_id!
         )
       );
     };
@@ -37,23 +37,23 @@ export const GrantItem = ({
       <div
         className="justify-between cursor-pointer mb-2"
         onClick={() => {
-          router.push(`/proposals/${grant.id}`);
+          router.push(`/proposals/${proposal.id}`);
         }}
       >
         <div className="flex">
           <h3 className="text-lg font-bold leading-6 text-gray-900">
-            {grant.title}
+            {proposal.title}
           </h3>
           <div className="ml-auto">
-            {showAction && <AddRemoveCartButton grantId={grant.id} />}
+            {showAction && <AddRemoveCartButton grantId={proposal.id} />}
           </div>
         </div>
         
-        <span className="text-sm"><MapPinIcon className="h-5 inline-block" /> {grant.location}</span>
+        <span className="text-sm"><MapPinIcon className="h-5 inline-block" /> {proposal.location}</span>
       </div>
       <div className="mt-1 text-sm">
-        {grant.summary
-          ? truncateDescription(grant.summary)
+        {proposal.summary
+          ? truncateDescription(proposal.summary)
           : "No summary provided."}
       </div>
       <div>
@@ -67,16 +67,16 @@ export const GrantItem = ({
             !showStatus ? "end" : "between"
           } p-2 mt-2`}
         >
-          <span>{grant.approved ? "Approved ✅" : "Pending 🟡"}</span>
+          <span>{proposal.approved ? "Approved ✅" : "Pending 🟡"}</span>
         </div>
       )}
       <div className="mt-2">
-        <span className="text-sm font-bold">{grant.author.name} {grant.author.family_name}</span>
-        {grant.collaborators  && grant.collaborators?.map((user) => (
-          <span key={grant.id + '-' + user.family_name} className="text-sm font-bold">, {user.name} {user.family_name}</span>
+        <span className="text-sm font-bold">{proposal.author.name} {proposal.author.family_name}</span>
+        {proposal.collaborators  && proposal.collaborators?.map((user) => (
+          <span key={proposal.id + '-' + user.family_name} className="text-sm font-bold">, {user.name} {user.family_name}</span>
         ))}
         <div className="flex justify-end">
-          {showAction && <AddRemoveCartButton grantId={grant.id} />}
+          {showAction && <AddRemoveCartButton grantId={proposal.id} />}
         </div>
       </div>
     </div>

@@ -2,25 +2,26 @@
 
 import { useTranslations } from "next-intl";
 import { GrantList } from "./GrantList";
-import { useGrantContext } from "@/app/context/GrantContext";
+import { useProposalContext } from "@/app/context/ProposalContext";
 import { usePrivy } from "@privy-io/react-auth";
+import ProposalList from "../../components/ProposalList";
 
-const Grant = () => {
-  const t = useTranslations("My Grants");
-  const grantsList = useGrantContext().grants;
+const Proposal = () => {
+  const t = useTranslations("My Proposals");
+  const grantsList = useProposalContext().proposals;
   const { user } = usePrivy();
 
-  // filter grants by grant.author.id === user.id
+  // filter proposals by proposal.author.id === user.id
   if (!user) return;
   const filteredGrants = grantsList.filter(
-    (grant) => grant.author.id === user!.id
+    (proposal) => proposal.author.id === user!.id
   );
 
   return (
     <div>
       <h3 className="font-bold mb-6 text-center">{t("heading")}</h3>
       {filteredGrants.length > 0 ? (
-        <GrantList grants={filteredGrants} />
+        <ProposalList grants={filteredGrants} />
       ) : (
         <div className="text-center">{t("nullMessage")}</div>
       )}
@@ -28,4 +29,4 @@ const Grant = () => {
   );
 };
 
-export default Grant;
+export default Proposal;

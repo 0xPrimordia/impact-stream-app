@@ -3,13 +3,13 @@
 import { useTranslations } from "next-intl";
 import { useCart } from "@/app/context/CartContext";
 import { useContext } from "react";
-import { GrantsContext } from "@/app/context/GrantContext";
+import { ProposalContext } from "@/app/context/ProposalContext";
 import CartList from "./CartList";
 
 const Cart = () => {
   const { isInCart } = useCart();
-  const { grants } = useContext(GrantsContext);
-  const cartItems = grants.filter((grant) => isInCart(grant.id));
+  const { proposals } = useContext(ProposalContext);
+  const cartItems = proposals.filter((proposal) => isInCart(proposal.id));
 
   const t = useTranslations("My Cart");
 
