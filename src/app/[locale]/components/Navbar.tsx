@@ -37,38 +37,33 @@ export const Navbar = () => {
         <nav className="brand-bg-color text-3xl font-bold fixed top-0 bottom-0 right-0 left-0 p-10 pt-28 z-40">
           <ul>
             <li className="mb-6">
-              <NavbarLink setOverlay={setOverlay} path={"/votes"}>
+              <NavbarLink setOverlay={setOverlay} path={"/grants"}>
                 {t("link1")}
               </NavbarLink>
             </li>
             <li className="mb-6">
-              <NavbarLink setOverlay={setOverlay} path={"/grants"}>
+              <NavbarLink setOverlay={setOverlay} path={"/proposals"}>
                 {t("link2")}
               </NavbarLink>
             </li>
             <li className="mb-6">
-              <NavbarLink setOverlay={setOverlay} path={"/proposals"}>
+              <NavbarLink setOverlay={setOverlay} path={"/donate"}>
                 {t("link3")}
               </NavbarLink>
             </li>
             <li className="mb-6">
-              <NavbarLink setOverlay={setOverlay} path={"/donate"}>
+              <NavbarLink setOverlay={setOverlay} path={"/cart"}>
                 {t("link4")}
               </NavbarLink>
             </li>
             <li className="mb-6">
-              <NavbarLink setOverlay={setOverlay} path={"/cart"}>
-                {t("link5")}
-              </NavbarLink>
-            </li>
-            <li className="mb-6">
               <NavbarLink setOverlay={setOverlay} path={"/settings"}>
-                {t("link6")}
+                {t("link5")}
               </NavbarLink>
             </li>
             <li>
               <NavbarLink setOverlay={setOverlay} target="_blank" path={"https://www.impact.stream/"}>
-                {t("link7")}
+                {t("link6")}
               </NavbarLink>
             </li>
           </ul>

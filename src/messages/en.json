@@ -88,13 +88,12 @@
     "link": "donate at this link."
   },
   "Navigation": {
-    "link1": "My Votes",
-    "link2": "My Grants",
-    "link3": "Proposals",
-    "link4": "Donate",
-    "link5": "Cart",
-    "link6": "Settings",
-    "link7": "Learn More"
+    "link1": "My Grants",
+    "link2": "Proposals",
+    "link3": "Donate",
+    "link4": "Cart",
+    "link5": "Settings",
+    "link6": "Learn More"
   },
   "Settings": {
     "heading": "User Settings",

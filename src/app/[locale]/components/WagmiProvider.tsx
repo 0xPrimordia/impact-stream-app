@@ -13,6 +13,7 @@ const configureChainsConfig = configureChains(
     }),
   ]
 );
+
 export function WagmiProvider({ children }: any) {
   // todo: what else do we need to do on login?
   const handleLogin = (user: any) => {
