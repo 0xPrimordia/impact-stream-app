@@ -1,7 +1,6 @@
 import { TSummaryProposal } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { GrantItem } from "../me/components/GrantItem";
 import ProposalCard from "./ProposalCard";
 
 const ProposalList = ({ proposals }: { proposals: TSummaryProposal[] }) => {
@@ -21,14 +20,7 @@ const ProposalList = ({ proposals }: { proposals: TSummaryProposal[] }) => {
             .filter((p) => p.approved === true)
             .map((proposal) => (
               <div className="p-2" key={proposal.id}>
-                <ProposalCard proposal={proposal} />
-                {/* <GrantItem
-                  key={proposal.id}
-                  proposal={proposal}
-                  showStatus={false}
-                  showAction={true}
-                  showAllocation={false}
-                /> */}
+                <ProposalCard proposal={proposal} showStatus={false} />
               </div>
             ))
         ) : (

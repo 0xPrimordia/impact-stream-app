@@ -50,7 +50,7 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
     // Call both functions to fetch data
     fetchMaxVoiceCreditsPerAllocator();
     fetchVoiceCreditsUsedByAllocator();
-  }, []); // Dependencies array - re-run when user.wallet.address changes
+  }, [user]); // Dependencies array - re-run when user.wallet.address changes
 
   if (!ready || !user || !user.wallet) return null;
 

@@ -23,25 +23,6 @@ const supabaseAuth = async (address: string, userId: string) => {
 export function Wallet() {
   const router = useRouter();
   const { login, authenticated, user, ready } = usePrivy();
-  const checkOnboardingStatus = async () => {
-    if (ready && authenticated && user && user.wallet?.address) {
-      await supabaseAuth(user.wallet.address, user.id);
-      const supabase = await getSupabaseClient();
-      const { data, error } = await supabase
-        .from("users")
-        .select("onboarded")
-        .eq("id", user.id)
-        .single();
-      if (error) {
-        throw error;
-      }
-      if (!data.onboarded) {
-        router.push(`/onboarding/`);
-      } else {
-        router.push(`/proposals/`);
-      }
-    }
-  };
   const t = useTranslations("Sign-In");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
@@ -57,8 +38,28 @@ export function Wallet() {
   };
 
   useEffect(() => {
+    const checkOnboardingStatus = async () => {
+      if (ready && authenticated && user && user.wallet?.address) {
+        await supabaseAuth(user.wallet.address, user.id);
+        const supabase = await getSupabaseClient();
+        const { data, error } = await supabase
+          .from("users")
+          .select("onboarded")
+          .eq("id", user.id)
+          .single();
+        if (error) {
+          throw error;
+        }
+        if (!data.onboarded) {
+          router.push(`/onboarding/`);
+        } else {
+          router.push(`/proposals/`);
+        }
+      }
+    };
+
     checkOnboardingStatus();
-  }, [ready, authenticated, user]);
+  }, [ready, authenticated, user, router]);
 
   return (
     <>

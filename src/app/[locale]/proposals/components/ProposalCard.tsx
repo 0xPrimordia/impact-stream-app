@@ -60,7 +60,7 @@ const ProposalCard = ({
       );
     };
     load();
-  }, [user?.wallet!]);
+  }, [proposal.allo_recipient_id, user?.wallet?.address]);
 
   if (!user) return null;
 

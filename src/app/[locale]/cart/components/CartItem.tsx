@@ -31,7 +31,7 @@ const CartItem = ({ item }: { item: TSummaryProposal }) => {
       );
     };
     load();
-  }, [user!.wallet]);
+  }, [user, item.allo_recipient_id]);
 
   if (!user) return null;
 

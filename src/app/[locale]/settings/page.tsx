@@ -21,18 +21,17 @@ export default function Settings() {
   const [currentUser, setCurrentUser] = useState<TUser>();
 
   useEffect(() => {
+    async function getUser() {
+      if (!user) return;
+      const supabase = await getSupabaseClient();
+      const { data, error } = await supabase
+        .from("users")
+        .select()
+        .eq("id", user.id);
+      if (data) setCurrentUser(data[0]);
+    }
     if (isAccessTokenValid) getUser();
   }, [user, isAccessTokenValid]);
-
-  async function getUser() {
-    if (!user) return;
-    const supabase = await getSupabaseClient();
-    const { data, error } = await supabase
-      .from("users")
-      .select()
-      .eq("id", user.id);
-    if (data) setCurrentUser(data[0]);
-  }
 
   if (!ready) return null;
   if (ready && !authenticated) {

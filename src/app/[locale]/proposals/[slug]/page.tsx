@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, useCallback } from "react";
 import { getSupabaseClient, logoutSupabase } from "../../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
@@ -25,15 +26,37 @@ export default function Page({ params }: { params: { slug: string } }) {
   const [totalBudget, setTotalBudget] = useState<number>();
   const t = useTranslations("Proposal Details");
 
+  const getProposal = useCallback(() => {
+    async function getProposal() {
+      const supabase = await getSupabaseClient();
+      const { data, error } = await supabase
+        .rpc("get_proposal_with_collaborators", { proposal_id: params.slug })
+        .single();
+      //ts-ignore
+      if (data) setProposal(convertShape(data));
+      if (error) console.log(error);
+    }
+
+    if (!ready) return null;
+    if (ready && !authenticated) {
+      router.push("/");
+    }
+    if (!isRefreshTokenValid) {
+      logoutSupabase();
+      logout();
+      router.push("/");
+    }
+  }, [ready, authenticated, logout, isRefreshTokenValid, router, params.slug]);
+
   useEffect(() => {
     if (isAccessTokenValid) getProposal();
-  }, [user, isAccessTokenValid]);
+  }, [isAccessTokenValid, getProposal]);
 
   useEffect(() => {
     if (user?.id === proposal?.author?.id) {
       setIsAuthor(true);
     }
-  }, [user, proposal]);
+  }, [user, proposal?.author?.id]);
 
   useEffect(() => {
     if (proposal && proposal.project_milestones) {
@@ -41,7 +64,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       Object.values(proposal.project_milestones).forEach(
         (milestone: TMilestone) => {
           calculatedTotalBudget += Number(milestone.budget);
-        },
+        }
       );
       setTotalBudget(calculatedTotalBudget);
     }
@@ -49,6 +72,8 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   function convertShape(obj: any) {
     const convertedObj = {
+      id: obj.id || null,
+      approved: obj.approved || null,
       title: obj.title || null,
       author: {
         id: obj.author.id || null,
@@ -67,6 +92,8 @@ export default function Page({ params }: { params: { slug: string } }) {
       key_players: obj.key_players || null,
       project_milestones: obj.project_milestones || null,
       collaborators: null,
+      allo_recipient_id: obj.allo_recipient_id || null,
+      allo_anchor_address: obj.allo_anchor_address || null,
     };
 
     if (obj.collaborators && Array.isArray(obj.collaborators)) {
@@ -74,31 +101,11 @@ export default function Page({ params }: { params: { slug: string } }) {
         (collaborator: any) => ({
           name: collaborator.name || null,
           family_name: collaborator.family_name || null,
-        }),
+        })
       );
     }
 
     return convertedObj;
-  }
-
-  async function getProposal() {
-    const supabase = await getSupabaseClient();
-    const { data, error } = await supabase
-      .rpc("get_proposal_with_collaborators", { proposal_id: params.slug })
-      .single();
-    //ts-ignore
-    if (data) setProposal(convertShape(data));
-    if (error) console.log(error);
-  }
-
-  if (!ready) return null;
-  if (ready && !authenticated) {
-    router.push("/");
-  }
-  if (!isRefreshTokenValid) {
-    logoutSupabase();
-    logout();
-    router.push("/");
   }
 
   return (
@@ -183,7 +190,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                     </div>
                   )}
                 </>
-              ),
+              )
             )}
           <div className="italic mt-6">
             {t("minimumBudget") + ": $" + proposal?.minimum_budget}

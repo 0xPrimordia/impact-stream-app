@@ -45,16 +45,7 @@ export type TSummaryProposal = {
   allo_anchor_address: string | null;
 };
 
-export type TFullProposal = {
-  title: string | null;
-  author: {
-    id: string;
-    name: string | null;
-    family_name: string | null;
-    profile_image_url: string | null;
-  };
-  location: string | null;
-  summary: string | null;
+export type TFullProposal = TSummaryProposal & {
   timeline: string | null;
   affected_locations: string | null;
   community_problem: string | null;
@@ -63,7 +54,6 @@ export type TFullProposal = {
   minimum_budget: number | null;
   key_players: string | null;
   project_milestones: TMilestone[] | null;
-  collaborators: TCollaborator[] | null;
 };
 
 type TCollaborator = {

@@ -7,7 +7,10 @@ import { SelectValue } from "react-tailwindcss-select/dist/components/type";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { usePrivy } from "@privy-io/react-auth";
-import { getSupabaseClient, logoutSupabase } from "../../../../../../lib/supabase";
+import {
+  getSupabaseClient,
+  logoutSupabase,
+} from "../../../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { TUser, TCreateProposal } from "@/app/types";
@@ -55,9 +58,19 @@ export default function WriteProposal() {
   const { isValid } = formState;
   const [currentStep, setCurrentStep] = useState(1);
   const t = useTranslations("Create Proposal");
+
   useEffect(() => {
+    async function getUsers() {
+      const supabase = await getSupabaseClient();
+      const { data } = await supabase
+        .from("users")
+        .select(`id, name, family_name`);
+      if (data) setUsers(data);
+    }
+
     if (isAccessTokenValid) getUsers();
   }, [isAccessTokenValid]);
+
   useEffect(() => {
     let options: SelectOption[] = [];
     users.forEach((u) => {
@@ -69,8 +82,10 @@ export default function WriteProposal() {
         options.push(userOption);
       }
     });
+
     setUserOptions([...userOptions, ...options]);
-  }, [users, user]);
+  }, [user?.id, userOptions, users]);
+
   if (!ready) return null;
   if (ready && !authenticated) {
     router.push("/");
@@ -79,14 +94,6 @@ export default function WriteProposal() {
     logoutSupabase();
     logout();
     router.push("/");
-  }
-
-  async function getUsers() {
-    const supabase = await getSupabaseClient();
-    const { data } = await supabase
-      .from("users")
-      .select(`id, name, family_name`);
-    if (data) setUsers(data);
   }
 
   const selectUser = (user: SelectValue) => {
@@ -362,18 +369,20 @@ export default function WriteProposal() {
               {...register("minimum_budget", {
                 required: t("minimumBudgetValidationMessage"),
                 min: { value: 1, message: t("minimumBudgetMin") },
-                max: { value: 12000000, message: t("minimumBudgetMax") }
+                max: { value: 12000000, message: t("minimumBudgetMax") },
               })}
             />
             <div className="mb-6">
-        <span className="italic text-xs">{t("minimumBudgetContext")}</span>
-        <span className="text-red-600 text-xs">
-               {" "}
-               {errors.key_players && errors.key_players.message}
+              <span className="italic text-xs">
+                {t("minimumBudgetContext")}
+              </span>
+              <span className="text-red-600 text-xs">
+                {" "}
+                {errors.key_players && errors.key_players.message}
               </span>
             </div>
-      
-      <input
+
+            <input
               className={inputClasses}
               placeholder={t("keyPlayersPlaceholder")}
               {...register("key_players", {

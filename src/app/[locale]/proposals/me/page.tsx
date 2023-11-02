@@ -1,5 +1,6 @@
-import Proposal from "./components/Proposal";
+import Proposal from "../components/Proposal";
 
-export default function GrantsPage() {
+// TODO: sort by user owned proposals
+export default function MyProposalsPage() {
   return <Proposal />;
 }
