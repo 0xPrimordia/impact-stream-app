@@ -5,7 +5,7 @@ import {
   collaborator_names_with_author,
   truncateDescription,
 } from "@/app/utils";
-import { MapPinIcon } from "@heroicons/react/24/outline";
+import { CheckBadgeIcon, EyeIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { IProposalCardProps, TSummaryProposal } from "@/app/types";
 import AddRemoveCartButton from "../../cart/components/AddRemoveCartButton";
@@ -68,14 +68,28 @@ const ProposalCard = ({
     <div className="flex flex-col gap-x-4 p-2 mt-2">
       <div className="justify-between cursor-pointer mb-2">
         <div className="flex">
+
           <h3
-            className="text-lg font-bold leading-6 text-gray-900"
+            className="text-lg font-semibold leading-6 text-gray-900"
             onClick={() => {
               router.push(`/proposals/${proposal.id}`);
             }}
           >
             {proposal.title}
           </h3>
+
+          { showStatus && 
+          <div className="ml-2 text-xs font-normal flex">
+            {proposal.approved ?
+              <CheckBadgeIcon width={18} color="green"/> :
+              <>
+                <EyeIcon width={18} color="orange"/>
+                <span className="ml-1 mt-1">(in review)</span>
+              </>
+            }
+          </div>
+        }
+
           <div className="ml-auto">
             {showAction && <AddRemoveCartButton grantId={proposal.id} />}
           </div>
@@ -91,37 +105,19 @@ const ProposalCard = ({
           : "No summary provided."}
       </div>
       <div>
-        <span className="text-sm mt-2">
-          {proposal?.collaborators &&
-            collaborator_names_with_author(
-              proposal?.collaborators,
-              proposal?.author
-            )}
-        </span>
-      </div>
-      <div>
         <span className="text-xs mt-2">
           Allocations: {votesCastedToRecipient ?? 0}
         </span>
       </div>
-      {showStatus && (
-        <div
-          className={`flex flex-row items-center justify-${
-            !showStatus ? "end" : "between"
-          } p-2 mt-2`}
-        >
-          <span>{proposal.approved ? "Approved ✅" : "Pending 🟡"}</span>
-        </div>
-      )}
-      <div className="mt-2">
-        <span className="text-sm font-bold">
+      <div className="mt-1">
+        <span className="text-xs font-semibold">
           {proposal.author.name} {proposal.author.family_name}
         </span>
         {proposal.collaborators &&
           proposal.collaborators?.map((user) => (
             <span
               key={proposal.id + "-" + user.family_name}
-              className="text-sm font-bold"
+              className="text-xs font-semibold"
             >
               , {user.name} {user.family_name}
             </span>

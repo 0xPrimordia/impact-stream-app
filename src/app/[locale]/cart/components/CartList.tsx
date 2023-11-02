@@ -63,11 +63,11 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
 
   return (
     <div className="text-center">
-      <p className="text-sm text-center italic mb-4">
+      <p className="text-sm text-center mb-2">
         You have {cartItems.length}
         {cartItems.length > 1 ? " items " : " item "} in your cart.
       </p>
-      <p>
+      <p className="text-sm text-center mb-4">
         You have {maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator}{" "}
         voice credits left
       </p>
@@ -75,7 +75,7 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
         {cartItems.map((item, index) => (
           <div
             key={"cartItem-" + index}
-            className=" border rounded-md shadow-sm bg-gray-50 mb-2"
+            className=" border rounded-md shadow-sm bg-gray-50 mb-5"
           >
             <CartItem item={item} />
           </div>
