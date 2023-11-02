@@ -8,35 +8,19 @@ export const MilestoneForm = ({ milestones, ...props }: IMilestoneProps) => {
   const [rows, setRows] = useState<IRow[]>([]);
   const {
     register,
+    unregister,
     formState: { errors },
   } = useFormContext();
 
   useEffect(() => {
-    function addMilestoneRow(milestone: TMilestone) {
-      let key = "milestone-" + (rows.length + 2);
-      setRows([...rows, { key, milestone }]);
+    if (rows.length === 0) {
+      addRow();
     }
-
-    async function setMilestones() {
-      if (milestones)
-        Object.values(milestones).map(async (milestone, index) => {
-          if (rows.length === 0) {
-            setRows([...rows, { key: "default", milestone }]);
-          } else {
-            addMilestoneRow(milestone);
-          }
-        });
-    }
-
-    if (milestones) {
-      setMilestones();
-    } else {
-      setRows([...rows, { key: "default" }]);
-    }
-  }, [milestones, rows]);
+  }, [rows]);
 
   function addRow() {
-    let key = "milestone-" + (rows.length + 2);
+    const random = Math.floor(Math.random() * 100000000);
+    let key = "milestone-" + random;
     setRows([...rows, { key }]);
   }
 
@@ -83,7 +67,11 @@ export const MilestoneForm = ({ milestones, ...props }: IMilestoneProps) => {
           )}
           {row.key !== "default" && (
             <XMarkIcon
-              onClick={() => removeRow(row.key)}
+              onClick={() => {
+                unregister(`milestones.${row.key}.title`);
+                unregister(`milestones.${row.key}.budget`);
+                removeRow(row.key);
+              }}
               className="h-6 ml-2 mt-2.5"
             />
           )}

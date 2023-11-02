@@ -84,7 +84,7 @@ export default function WriteProposal() {
     });
 
     setUserOptions([...userOptions, ...options]);
-  }, [user?.id, userOptions, users]);
+  }, [user?.id, users]);
 
   if (!ready) return null;
   if (ready && !authenticated) {
