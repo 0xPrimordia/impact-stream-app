@@ -15,6 +15,10 @@ const ProposalList = ({
   const pathname = usePathname();
   const myProposals = pathname === "/proposals/me";
 
+  const filteredProposals = proposals.filter((p) =>
+    myProposals ? p.author.id === user?.id : p.approved === true,
+  );
+
   return (
     <ul
       role="list"
@@ -28,20 +32,16 @@ const ProposalList = ({
         )}
 
         {/* filter out by status and then map the cards */}
-        {proposals ? (
-          proposals
-            .filter((p) =>
-              myProposals ? p.author.id === user?.id : p.approved === true,
-            )
-            .map((proposal) => (
-              <div className="p-2" key={proposal.id}>
-                <ProposalCard
-                  proposal={proposal}
-                  showStatus={showStatus ?? false}
-                  showAction={showAction ?? true}
-                />
-              </div>
-            ))
+        {filteredProposals ? (
+          filteredProposals.map((proposal) => (
+            <div className="p-2" key={proposal.id}>
+              <ProposalCard
+                proposal={proposal}
+                showStatus={showStatus ?? false}
+                showAction={showAction ?? true}
+              />
+            </div>
+          ))
         ) : (
           <p className="text-sm text-center italic my-10">{t("nullMessage")}</p>
         )}
