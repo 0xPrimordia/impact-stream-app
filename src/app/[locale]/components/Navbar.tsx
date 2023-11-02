@@ -72,7 +72,7 @@ export const Navbar = () => {
           router.push(`/cart`);
         }}
       >
-        {context.cartItems.length && (
+        {context.cartItems.length > 0 && (
           <div className="text-xs bg-blue-600 font-bold rounded-full absolute right-16 z-10 block h-5 leading-5 w-5 text-center text-white top-9">{context.cartItems.length}</div>
         )}
         
