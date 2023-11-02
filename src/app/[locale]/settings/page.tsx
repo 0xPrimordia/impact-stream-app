@@ -4,9 +4,9 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { getSupabaseClient, logoutSupabase } from "../../../../lib/supabase";
 import { TUser } from "@/app/types";
-import { shortenAddress } from "../../utils";
 import { useTranslations } from "next-intl";
 import useCheckTokens from "../hooks/useCheckTokens";
+import { shortenAddress } from "@/app/utils";
 
 export default function Settings() {
   const { logout, user, ready, authenticated } = usePrivy();
@@ -43,29 +43,87 @@ export default function Settings() {
     router.push("/");
   }
 
-  const navigateToSettingPage = () => {
-    router.push("/onboarding?update=true");
-  };
-
   return (
     <>
       {currentUser && (
         <>
           <h3 className="font-bold mb-6">{t("heading")}</h3>
-          <p>
-            {currentUser.name} {currentUser?.family_name}
-          </p>
-          <p>{currentUser.village_neighborhood}</p>
-          <p>{currentUser.phone_number}</p>
-          {currentUser.address && <p>{shortenAddress(currentUser.address)}</p>}
-          <button className="border border-slate-400 rounded leading-6 text-xs font-bold px-2 my-4">
-            Edit Profile
+
+          <div className="sm:col-span-4 mt-2">
+            <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
+              Address
+            </label>
+            <p>
+              {shortenAddress(currentUser.address!)}
+            </p>
+          </div>
+
+          <div className="sm:col-span-4 mt-2">
+            <label htmlFor="phone" className="block text-sm font-medium leading-6 text-gray-900">
+              Phone
+            </label>
+            <p>
+              {currentUser.phone_number!}
+            </p>
+          </div>
+
+          <div className="sm:col-span-4 mt-2">
+            <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+              Name
+            </label>
+            <div className="mt-2">
+              <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  defaultValue={currentUser.name!}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="sm:col-span-4 mt-2">
+            <label htmlFor="familyName" className="block text-sm font-medium leading-6 text-gray-900">
+              Family Name
+            </label>
+            <div className="mt-2">
+              <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                <input
+                  type="text"
+                  name="familyName"
+                  id="familyName"
+                  className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  defaultValue={currentUser.family_name!}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="sm:col-span-4 mt-2">
+            <label htmlFor="neighborhood" className="block text-sm font-medium leading-6 text-gray-900">
+              Neighborhood
+            </label>
+            <div className="mt-2">
+              <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                <input
+                  type="text"
+                  name="neighborhood"
+                  id="neighborhood"
+                  className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  defaultValue={currentUser.village_neighborhood!}
+                />
+              </div>
+            </div>
+          </div>
+
+          <button className="w-full border border-slate-400 rounded leading-10 font-bold mt-5">
+            Update Profile
           </button>
-          <p className="italic text-xs">
-            Profile created {currentUser.created_at}
-          </p>
+
           <button
-            className="w-full border border-slate-400 rounded leading-10 font-bold mt-20"
+            className="w-full border border-slate-400 rounded leading-10 font-bold mt-2"
             onClick={handleDisconnect}
           >
             {t("logoutButton")}
