@@ -20,7 +20,8 @@
 
   },
   "Proposals": {
-    "heading": "Kpekpeɖeŋunaɖoɖo Siwo Wodo Ɖa",
+    "heading": "Gakpekpeɖeŋunana Siwo Wodo Ŋu",
+    "heading2": "Nye Aɖaŋuɖoɖowo",
     "nullMessage": "Fifia la, aɖaŋuɖoɖo aɖeke meli o alo kuxi aɖe le miaƒe kadodoa ŋu.",
     "addProposalButton": "Ŋlɔ Aɖaŋuɖoɖo"
   },
@@ -72,6 +73,7 @@
   },
   "Proposal Details": {
     "heading": "Gakpekpeɖeŋunana Siwo Wodo Ŋu",
+    "heading2": "Nye Aɖaŋuɖoɖowo",
     "summary": "Totoɖeme",
     "locationsAffected": "Teƒe Siwo Ŋu Wògblẽa Nu Le",
     "communityProblem": "Nutoa Me Ƒe Kuxi",

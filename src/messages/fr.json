@@ -20,6 +20,7 @@
   },
   "Proposals": {
     "heading": "Subventions Proposées",
+    "heading2": "Mes propositions",
     "nullMessage": "Il n'y a actuellement aucune proposition ou il y a un problème avec votre connexion.",
     "addProposalButton": "Ajouter Une Subvention"
   },
@@ -70,6 +71,7 @@
   },
   "Proposal Details": {
     "heading": "Subventions Proposées",
+    "heading2": "Mes propositions",
     "summary": "Résumé",
     "locationsAffected": "Emplacements Affectés",
     "communityProblem": "Problème Communautaire",

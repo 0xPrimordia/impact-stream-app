@@ -66,14 +66,14 @@ const ProposalCard = ({
 
   return (
     <div className="flex flex-col gap-x-4 p-2 mt-2">
-      <div
-        className="justify-between cursor-pointer mb-2"
-        onClick={() => {
-          router.push(`/proposals/${proposal.id}`);
-        }}
-      >
+      <div className="justify-between cursor-pointer mb-2">
         <div className="flex">
-          <h3 className="text-lg font-bold leading-6 text-gray-900">
+          <h3
+            className="text-lg font-bold leading-6 text-gray-900"
+            onClick={() => {
+              router.push(`/proposals/${proposal.id}`);
+            }}
+          >
             {proposal.title}
           </h3>
           <div className="ml-auto">
@@ -93,7 +93,10 @@ const ProposalCard = ({
       <div>
         <span className="text-sm mt-2">
           {proposal?.collaborators &&
-            collaborator_names_with_author(proposal?.collaborators, proposal?.author)}
+            collaborator_names_with_author(
+              proposal?.collaborators,
+              proposal?.author
+            )}
         </span>
       </div>
       <div>
@@ -123,9 +126,6 @@ const ProposalCard = ({
               , {user.name} {user.family_name}
             </span>
           ))}
-        <div className="flex justify-end">
-          {showAction && <AddRemoveCartButton grantId={proposal.id} />}
-        </div>
       </div>
     </div>
   );

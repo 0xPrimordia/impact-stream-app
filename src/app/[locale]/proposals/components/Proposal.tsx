@@ -8,13 +8,14 @@ import { useContext } from "react";
 import { ProposalContext } from "@/app/context/ProposalContext";
 import { logoutSupabase } from "../../../../../lib/supabase";
 import ProposalList from "./ProposalList";
+import { IProposalProps } from "@/app/types";
 
-export default function Proposal() {
-  const { ready, authenticated, logout, user } = usePrivy();
+export default function Proposal(props: IProposalProps) {
+  const { ready, authenticated, logout } = usePrivy();
   const { isRefreshTokenValid } = useCheckTokens();
   const router = useRouter();
   const { proposals } = useContext(ProposalContext);
-  
+
   if (!ready) return null;
   if (ready && !authenticated) {
     router.push("/");
@@ -27,7 +28,11 @@ export default function Proposal() {
 
   return (
     <div>
-      <ProposalList proposals={proposals} />
+      <ProposalList
+        proposals={proposals}
+        showAction={props.showAction!}
+        showStatus={props.showStatus ?? false}
+      />
     </div>
   );
 }

@@ -1,11 +1,16 @@
-import { TSummaryProposal } from "@/app/types";
+import { IProposalListProps, TSummaryProposal } from "@/app/types";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import ProposalCard from "./ProposalCard";
 
-const ProposalList = ({ proposals }: { proposals: TSummaryProposal[] }) => {
+const ProposalList = ({
+  proposals,
+  showAction,
+  showStatus,
+}: IProposalListProps) => {
   const t = useTranslations("Proposals");
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <ul
@@ -13,14 +18,23 @@ const ProposalList = ({ proposals }: { proposals: TSummaryProposal[] }) => {
       className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8"
     >
       <div className="mb-14">
-        <h3 className="font-bold mb-6 text-center">{t("heading")}</h3>
+        {pathname === "/proposals/me" ? (
+          <h3 className="font-bold mb-6 text-center">{t("heading2")}</h3>
+        ) : (
+          <h3 className="font-bold mb-6 text-center">{t("heading")}</h3>
+        )}
+
         {/* filter out by status and then map the cards */}
         {proposals ? (
           proposals
             .filter((p) => p.approved === true)
             .map((proposal) => (
               <div className="p-2" key={proposal.id}>
-                <ProposalCard proposal={proposal} showStatus={false} />
+                <ProposalCard
+                  proposal={proposal}
+                  showStatus={showStatus ?? false}
+                  showAction={showAction ?? true}
+                />
               </div>
             ))
         ) : (

@@ -8,6 +8,7 @@ import useCheckTokens from "../[locale]/hooks/useCheckTokens";
 export const ProposalContext = createContext({
   proposals: [] as TSummaryProposal[],
   setProposals: (proposals: TSummaryProposal[]) => {},
+  getProposal: (proposalId: string) => new Promise<void>(() => {}),
 });
 
 export const ProposalsProvider = ({ children }: { children: any[] }) => {
@@ -26,6 +27,17 @@ export const ProposalsProvider = ({ children }: { children: any[] }) => {
     console.log("proposals", data);
   }
 
+  async function getProposal(proposalId: string) {
+    const supabase = await getSupabaseClient();
+    const { data, error } = await supabase.rpc(
+      "get_proposal_with_collaborators",
+      { proposal_id: proposalId }
+    );
+
+    if (data) console.log("proposal", data);
+    if (error) console.error(error);
+  }
+
   useEffect(() => {
     if (isAccessTokenValid) getProposals();
   }, [isAccessTokenValid]);
@@ -35,6 +47,7 @@ export const ProposalsProvider = ({ children }: { children: any[] }) => {
       value={{
         proposals,
         setProposals,
+        getProposal,
       }}
     >
       {children}

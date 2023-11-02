@@ -21,6 +21,7 @@
   },
   "Proposals": {
     "heading": "Proposed Proposals",
+    "heading2": "My Proposals",
     "nullMessage": "There are currently no proposals or there is a problem with your connection.",
     "addProposalButton": "Create Proposal"
   },
@@ -71,6 +72,7 @@
   },
   "Proposal Details": {
     "heading": "Proposed Proposals",
+    "heading2": "My Proposals",
     "summary": "Summary",
     "locationsAffected": "Locations Affected",
     "communityProblem": "Community Problem",

@@ -98,8 +98,16 @@ export interface IStrategyDetails {
   };
 }
 
+export interface IProposalProps {
+  showStatus?: boolean;
+  showAction?: boolean;
+  showAllocation?: boolean;
+}
+
 export interface IProposalListProps {
-  grants: TSummaryProposal[];
+  proposals: TSummaryProposal[];
+  showStatus?: boolean;
+  showAction?: boolean;
 }
 
 export interface IProposalCardProps {
