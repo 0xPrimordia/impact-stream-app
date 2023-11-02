@@ -2,15 +2,22 @@ import { IProposalListProps, TSummaryProposal } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
 import ProposalCard from "./ProposalCard";
+import { usePrivy } from "@privy-io/react-auth";
 
 const ProposalList = ({
   proposals,
   showAction,
   showStatus,
 }: IProposalListProps) => {
+  const { user } = usePrivy();
   const t = useTranslations("Proposals");
   const router = useRouter();
   const pathname = usePathname();
+  const myProposals = pathname === "/proposals/me";
+
+  const filteredProposals = proposals.filter((p) =>
+    myProposals ? p.author.id === user?.id : p.approved === true,
+  );
 
   return (
     <ul
@@ -18,25 +25,23 @@ const ProposalList = ({
       className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8"
     >
       <div className="mb-14">
-        {pathname === "/proposals/me" ? (
+        {myProposals ? (
           <h3 className="font-bold mb-6 text-center">{t("heading2")}</h3>
         ) : (
           <h3 className="font-bold mb-6 text-center">{t("heading")}</h3>
         )}
 
         {/* filter out by status and then map the cards */}
-        {proposals ? (
-          proposals
-            .filter((p) => p.approved === true)
-            .map((proposal) => (
-              <div className="p-2" key={proposal.id}>
-                <ProposalCard
-                  proposal={proposal}
-                  showStatus={showStatus ?? false}
-                  showAction={showAction ?? true}
-                />
-              </div>
-            ))
+        {filteredProposals ? (
+          filteredProposals.map((proposal) => (
+            <div className="p-2" key={proposal.id}>
+              <ProposalCard
+                proposal={proposal}
+                showStatus={showStatus ?? false}
+                showAction={showAction ?? true}
+              />
+            </div>
+          ))
         ) : (
           <p className="text-sm text-center italic my-10">{t("nullMessage")}</p>
         )}
