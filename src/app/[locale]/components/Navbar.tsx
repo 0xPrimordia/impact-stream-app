@@ -23,7 +23,7 @@ export const Navbar = () => {
   return (
     <div className="fixed top-0 left-0 right-0 bg-white p-8 pb-4 z-50">
       <div className="z-50 relative inline-block">
-        <Link href="/">
+        <Link href="/proposals">
           <Image
             src="/impact-stream-logo.svg"
             alt="Impact Stream"
