@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { getSupabaseClient, logoutSupabase } from "../../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
@@ -15,6 +15,8 @@ import { useTranslations } from "next-intl";
 import { EditProposalForm } from "../components/EditProposalForm";
 import useCheckTokens from "../../hooks/useCheckTokens";
 import Link from "next/link";
+import { ProposalContext } from "@/app/context/ProposalContext";
+import { get } from "http";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const { ready, authenticated, user, logout } = usePrivy();
@@ -25,32 +27,17 @@ export default function Page({ params }: { params: { slug: string } }) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [totalBudget, setTotalBudget] = useState<number>();
   const t = useTranslations("Proposal Details");
-
-  const getProposal = useCallback(() => {
-    async function getProposal() {
-      const supabase = await getSupabaseClient();
-      const { data, error } = await supabase
-        .rpc("get_proposal_with_collaborators", { proposal_id: params.slug })
-        .single();
-      //ts-ignore
-      if (data) setProposal(convertShape(data));
-      if (error) console.log(error);
-    }
-
-    if (!ready) return null;
-    if (ready && !authenticated) {
-      router.push("/");
-    }
-    if (!isRefreshTokenValid) {
-      logoutSupabase();
-      logout();
-      router.push("/");
-    }
-  }, [ready, authenticated, logout, isRefreshTokenValid, router, params.slug]);
+  const { getProposalById, fetchProposals } = useContext(ProposalContext);
 
   useEffect(() => {
-    if (isAccessTokenValid) getProposal();
-  }, [isAccessTokenValid, getProposal]);
+    loadProposal();
+  }, [params.slug]);
+
+  const loadProposal = async () => {
+    const prop = await getProposalById(params.slug);
+    if (prop) setProposal(prop);
+    console.log("===> prop", prop);
+  };
 
   useEffect(() => {
     if (user?.id === proposal?.author?.id) {
@@ -64,7 +51,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       Object.values(proposal.project_milestones).forEach(
         (milestone: TMilestone) => {
           calculatedTotalBudget += Number(milestone.budget);
-        }
+        },
       );
       setTotalBudget(calculatedTotalBudget);
     }
@@ -101,7 +88,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         (collaborator: any) => ({
           name: collaborator.name || null,
           family_name: collaborator.family_name || null,
-        })
+        }),
       );
     }
 
@@ -112,7 +99,10 @@ export default function Page({ params }: { params: { slug: string } }) {
     <>
       {isEditing && proposal && (
         <EditProposalForm
-          reloadData={getProposal}
+          reloadData={() => {
+            fetchProposals();
+            loadProposal();
+          }}
           setIsEditing={setIsEditing}
           proposalId={params.slug}
           proposal={proposal}
@@ -190,7 +180,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                     </div>
                   )}
                 </>
-              )
+              ),
             )}
           <div className="italic mt-6">
             {t("minimumBudget") + ": $" + proposal?.minimum_budget}
