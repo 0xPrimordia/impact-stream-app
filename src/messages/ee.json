@@ -20,7 +20,8 @@
 
   },
   "Proposals": {
-    "heading": "Kpekpeɖeŋunaɖoɖo Siwo Wodo Ɖa",
+    "heading": "Gakpekpeɖeŋunana Siwo Wodo Ŋu",
+    "heading2": "Nye Aɖaŋuɖoɖowo",
     "nullMessage": "Fifia la, aɖaŋuɖoɖo aɖeke meli o alo kuxi aɖe le miaƒe kadodoa ŋu.",
     "addProposalButton": "Ŋlɔ Aɖaŋuɖoɖo"
   },
@@ -72,6 +73,7 @@
   },
   "Proposal Details": {
     "heading": "Gakpekpeɖeŋunana Siwo Wodo Ŋu",
+    "heading2": "Nye Aɖaŋuɖoɖowo",
     "summary": "Totoɖeme",
     "locationsAffected": "Teƒe Siwo Ŋu Wògblẽa Nu Le",
     "communityProblem": "Nutoa Me Ƒe Kuxi",
@@ -89,13 +91,12 @@
     "link": "dzɔ nu le kadodo sia dzi."
   },
   "Navigation": {
-    "link1": "Nye Akɔdadawo",
-    "link2": "Nye Gakpekpeɖeŋunana",
-    "link3": "Aɖaŋuɖoɖowo",
-    "link4": "Na nu",
-    "link5": "Tasiaɖam",
-    "link6": "Ðoɖowo",
-    "link7": "Srɔ̃ Nu Geɖe"
+    "link1": "Nye Aɖaŋuɖoɖowo",
+    "link2": "Aɖaŋuɖoɖowo",
+    "link3": "Na nu",
+    "link4": "Tasiaɖam",
+    "link5": "Ðoɖowo",
+    "link6": "Srɔ̃ Nu Geɖe"
   },
   "Settings": {
     "heading": "Zãla ƒe Ðoɖowo",

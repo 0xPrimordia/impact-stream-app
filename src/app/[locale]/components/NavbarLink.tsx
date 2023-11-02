@@ -1,3 +1,4 @@
+import { INavbarLinkProps } from "@/app/types";
 import Link from "next/link";
 import React from "react";
 
