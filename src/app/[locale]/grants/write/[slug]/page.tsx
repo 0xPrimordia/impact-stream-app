@@ -204,7 +204,7 @@ export default function WriteProposal() {
     let formData = methods.getValues()
     try {
       const supabase = await getSupabaseClient();
-      const { error: proposalError } = await supabase
+      const { data: proposalDraftData, error: proposalError } = await supabase
       .from("proposal_drafts")
       .insert({
         form_step: currentStep,
@@ -233,9 +233,9 @@ export default function WriteProposal() {
         inserts.push({
         id: {
           user_id: selectedUser?.value as string,
-          proposal_draft_id: draft?.id,
+          proposal_draft_id: proposalDraftData.id,
         },
-        proposal_draft_id: draft?.id,
+        proposal_draft_id: proposalDraftData.id,
         user_id: selectedUser?.value,
         });
       });
@@ -265,7 +265,7 @@ export default function WriteProposal() {
  const StepControls = () => {
   return (
     <>
-   <div className="flex mb-10 mt-10">
+   <div className="flex mb-6 mt-10">
     {currentStep !== 1 && (
      <button
       className="border border-slate-400 rounded leading-10 font-bold px-10"
@@ -288,7 +288,7 @@ export default function WriteProposal() {
     )}
   
    </div>
-   <span className="underline text-blue-600 cursor text-center block italic" onClick={saveDraft}>Save this as a Draft</span>
+   <span className="underline text-blue-600 cursor text-center block italic mb-6" onClick={saveDraft}>Save this as a Draft</span>
    </>
   );
  };
