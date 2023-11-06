@@ -1008,6 +1008,11 @@ export const alloAbi = [
     inputs: [
       {
         internalType: "address",
+        name: "_owner",
+        type: "address",
+      },
+      {
+        internalType: "address",
         name: "_registry",
         type: "address",
       },

@@ -8,20 +8,17 @@ export const alloContractDetails = (): IContractDetails => {
   return {
     // Goerli
     [5]: {
-      proxy: "0x0",
-      implementation: "0x0",
+      proxy: "0x1133eA7Af70876e64665ecD07C0A0476d09465a1",
       abi: alloAbi,
     },
     // Celo Alfajores
     [44787]: {
-      proxy: "0x0",
-      implementation: "0x0",
+      proxy: "0x1133eA7Af70876e64665ecD07C0A0476d09465a1",
       abi: alloAbi,
     },
     // Celo Mainnet
     [42220]: {
-      proxy: "0x0",
-      implementation: "0x0",
+      proxy: "0x1133eA7Af70876e64665ecD07C0A0476d09465a1",
       abi: alloAbi,
     },
   };
@@ -31,20 +28,17 @@ export const registryContractDetails = (): IContractDetails => {
   return {
     // Goerli
     [5]: {
-      proxy: "0x0",
-      implementation: "0x0",
+      proxy: "0x4AAcca72145e1dF2aeC137E1f3C5E3D75DB8b5f3",
       abi: registryAbi,
     },
     // Celo Alfajores
     [44787]: {
-      proxy: "0x0",
-      implementation: "0x0",
+      proxy: "0x4AAcca72145e1dF2aeC137E1f3C5E3D75DB8b5f3",
       abi: registryAbi,
     },
     // Celo Mainnet
     [42220]: {
-      proxy: "0x0",
-      implementation: "0x0",
+      proxy: "0x4AAcca72145e1dF2aeC137E1f3C5E3D75DB8b5f3",
       abi: registryAbi,
     },
   };
@@ -54,8 +48,8 @@ export const strategyContractDetails = (): IStrategyDetails => {
   return {
     // Goerli
     [5]: {
-      poolId: 17,
-      address: "0xc7C1C2d673c6C782B7Ca565422Ddb3A8F3EABCe5",
+      poolId: 3,
+      address: "0x972b9BB1077d95CD28aec4F6e15c5B18011Bc3eC",
       abi: qvImpactStreamStrategyAbi,
     },
     // Celo Alfajores
