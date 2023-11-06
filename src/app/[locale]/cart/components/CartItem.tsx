@@ -37,6 +37,11 @@ const CartItem = ({ item }: { item: TSummaryProposal }) => {
 
   return (
     <div className="flex flex-col gap-x-4 p-2 mt-2">
+
+      <div className="absolute right-6">
+        <AddRemoveCartButton grantId={item.id} />
+      </div>
+
       <div className="flex flex-col sm:flex-row items-center justify-between cursor-pointer">
         <div
           className="flex text-sm font-medium leading-6 text-gray-900 border-b-sky-600"
@@ -56,27 +61,28 @@ const CartItem = ({ item }: { item: TSummaryProposal }) => {
             placeholder="0"
             onChange={onChangeHandler}
           />
-          <AddRemoveCartButton grantId={item.id} />
         </div>
       </div>
       <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
-        <span className="text-sm">
-          Casted Voice Credits:{" "}
+
+        <span className="text-xs mt-1 mb-1">
+          Credits used:{" "}
           <span className="font-semibold">{votesCastedToRecipient}</span>
         </span>
       </div>
-      <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
-        <span className="text-sm">
-          Votes casted:{" "}
+      {/* <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
+        <span className="text-xs mb-1">
+          previous votes: {" "}
           <span className="font-semibold">
             {Math.sqrt(votesCastedToRecipient).toFixed(2)}
           </span>
         </span>
-      </div>
+      </div> */}
       <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
-        <span className="text-sm">
-          Votes casted after vote:{" "}
+        <span className="text-xs">
+          Votes:{" "}
           <span className="font-semibold">
+            {Math.sqrt(votesCastedToRecipient).toFixed(2)} ->  {" "}
             {Math.sqrt(votesCastedToRecipient + votes).toFixed(2)}
           </span>
         </span>
