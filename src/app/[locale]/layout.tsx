@@ -6,7 +6,7 @@ import { WagmiProvider } from "./components/WagmiProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { BrowserCheck } from "./components/BrowserCheck";
-import { GrantsProvider } from "../context/GrantContext";
+import { ProposalsProvider } from "../context/ProposalContext";
 import { CartContextProvider } from "../context/CartContext";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -39,13 +39,13 @@ export default async function RootLayout({
             <WagmiProvider>
               <div>
                 <CartContextProvider>
-                  <GrantsProvider>
+                  <ProposalsProvider>
                     <div className="mb-4">
                       <Navbar />
                     </div>
                     {children}
                     <Footer />
-                  </GrantsProvider>
+                  </ProposalsProvider>
                 </CartContextProvider>
               </div>
             </WagmiProvider>

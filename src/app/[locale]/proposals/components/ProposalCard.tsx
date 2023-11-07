@@ -1,43 +1,130 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   collaborator_names_with_author,
-  truncate,
   truncateDescription,
 } from "@/app/utils";
-import { MapPinIcon } from "@heroicons/react/24/outline";
+import { CheckBadgeIcon, EyeIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
-import { FullProposal, SummaryProposal } from "@/app/types";
+import { IProposalCardProps, TSummaryProposal } from "@/app/types";
+import AddRemoveCartButton from "../../cart/components/AddRemoveCartButton";
+import { getVoiceCreditsCastByAllocatorToRecipient } from "../../utils/alloContract";
+import { usePrivy } from "@privy-io/react-auth";
 
-function ProposalCard({ grant }: { grant: SummaryProposal }) {
+// function ProposalCard({ proposal }: { proposal: TSummaryProposal }) {
+//   const router = useRouter();
+
+//   return (
+//     <div
+//       className="flex flex-col gap-x-4 bg-gray-50 p-2"
+//       onClick={() => router.push(`/proposals/${proposal.id}`)}
+//     >
+//       <div className="flex flex-row items-center justify-between">
+//         <h3 className="font-bold mb-1 text-lg">{proposal.title}</h3>{" "}
+//       </div>
+//       <div className="text-sm align-middle">
+//         <MapPinIcon className="h-4 inline-block" /> {proposal.location}
+//       </div>
+//       <div className="mt-2">
+//         {proposal.summary
+//           ? truncateDescription(proposal.summary)
+//           : "No summary provided."}
+//       </div>
+// <span className="text-sm mt-2">
+//   {proposal?.collaborators &&
+//     collaborator_names_with_author(proposal?.collaborators, proposal?.author)}
+// </span>
+//     </div>
+//   );
+// }
+
+const ProposalCard = ({
+  proposal,
+  showStatus,
+  showAction = false,
+  showAllocation,
+}: IProposalCardProps) => {
   const router = useRouter();
+  const { user } = usePrivy();
+  const [votesCastedToRecipient, setVotesCastedToRecipient] =
+    useState<number>(0);
+
+  useEffect(() => {
+    const load = async () => {
+      setVotesCastedToRecipient(
+        await getVoiceCreditsCastByAllocatorToRecipient(
+          user?.wallet?.address!,
+          proposal.allo_recipient_id!
+        )
+      );
+    };
+    load();
+  }, [proposal.allo_recipient_id, user?.wallet?.address]);
+
+  if (!user) return null;
 
   return (
-    <div
-      className="flex flex-col gap-x-4 bg-gray-50 p-2"
-      onClick={() => router.push(`/proposals/${grant.id}`)}
-    >
-      <div className="flex flex-row items-center justify-between">
-        <h3 className="font-bold mb-1 text-lg">{grant.title}</h3>{" "}
+    <div className="flex flex-col gap-x-4 p-2 mt-2">
+      <div className="justify-between cursor-pointer mb-2">
+        <div className="flex">
+
+          <h3
+            className="text-lg font-semibold leading-6 text-gray-900"
+            onClick={() => {
+              router.push(`/proposals/${proposal.id}`);
+            }}
+          >
+            {proposal.title}
+          </h3>
+
+          { showStatus && 
+          <div className="ml-2 text-xs font-normal flex">
+            {proposal.approved ?
+              <CheckBadgeIcon width={18} color="green"/> :
+              <>
+                <EyeIcon width={18} color="orange"/>
+                <span className="ml-1 mt-1">(in review)</span>
+              </>
+            }
+          </div>
+        }
+
+          <div className="ml-auto">
+            {showAction && <AddRemoveCartButton grantId={proposal.id} />}
+          </div>
+        </div>
+
+        <span className="text-sm">
+          <MapPinIcon className="h-5 inline-block" /> {proposal.location}
+        </span>
       </div>
-      <div className="text-sm align-middle">
-        <MapPinIcon className="h-4 inline-block" /> {grant.location}
-      </div>
-      <div className="mt-2">
-        {grant.summary
-          ? truncateDescription(grant.summary)
+      <div className="mt-1 text-sm">
+        {proposal.summary
+          ? truncateDescription(proposal.summary)
           : "No summary provided."}
       </div>
-      <span className="text-sm mt-2">
-        {grant?.collaborators &&
-          collaborator_names_with_author(
-            grant?.collaborators,
-            grant?.author
-          )}
-      </span>
+      <div>
+        <span className="text-xs mt-2">
+          Allocations: {votesCastedToRecipient ?? 0}
+        </span>
+      </div>
+      <div className="mt-1">
+        <span className="text-xs font-semibold">
+          {proposal.author.name} {proposal.author.family_name}
+        </span>
+        {proposal.collaborators &&
+          proposal.collaborators?.map((user) => (
+            <span
+              key={proposal.id + "-" + user.family_name}
+              className="text-xs font-semibold"
+            >
+              , {user.name} {user.family_name}
+            </span>
+          ))}
+      </div>
     </div>
   );
-}
+};
 
 export default ProposalCard;

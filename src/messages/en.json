@@ -20,7 +20,8 @@
 
   },
   "Proposals": {
-    "heading": "Proposed Grants",
+    "heading": "Proposed Proposals",
+    "heading2": "My Proposals",
     "nullMessage": "There are currently no proposals or there is a problem with your connection.",
     "addProposalButton": "Create Proposal"
   },
@@ -34,7 +35,7 @@
     "collaboratorsPlaceholder": "Select Collaborators",
     "collaboratorsContext": "If you are collaborating with other people on this application to make this proposal, search for them and add them here.",
     "nextButton": "Next",
-    "heading2": "Grant Information",
+    "heading2": "Proposal Information",
     "grantInformationContext": "Please give as much information as you have. Show that your project has been thoroughly thought through.",
     "summaryPlaceholder": "Summary",
     "summaryValidationMessage": "Please provide summary.",
@@ -70,7 +71,8 @@
     "updateButton": "Update"
   },
   "Proposal Details": {
-    "heading": "Proposed Grants",
+    "heading": "Proposed Proposals",
+    "heading2": "My Proposals",
     "summary": "Summary",
     "locationsAffected": "Locations Affected",
     "communityProblem": "Community Problem",
@@ -88,13 +90,12 @@
     "link": "donate at this link."
   },
   "Navigation": {
-    "link1": "My Votes",
-    "link2": "My Grants",
-    "link3": "Proposals",
-    "link4": "Donate",
-    "link5": "Cart",
-    "link6": "Settings",
-    "link7": "Learn More"
+    "link1": "My Proposals",
+    "link2": "Proposals",
+    "link3": "Donate",
+    "link4": "Cart",
+    "link5": "Settings",
+    "link6": "Learn More"
   },
   "Settings": {
     "heading": "User Settings",
@@ -113,10 +114,10 @@
     "disclaimer": "Please review your cart and confirm your donation.",
     "confirmButton": "Confirm"
   },
-  "My Grants": {
-    "heading": "My Grants",
+  "My Proposals": {
+    "heading": "My Proposals",
     "nullMessage": "There are currently no grants or there is a problem with your connection.",
-    "addGrantButton": "Create Grant"
+    "addGrantButton": "Create Proposal"
   },
   "My Votes": {
     "heading": "My Votes",

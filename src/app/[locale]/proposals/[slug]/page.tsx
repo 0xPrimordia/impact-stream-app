@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { getSupabaseClient, logoutSupabase } from "../../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
@@ -9,37 +10,46 @@ import {
   UserCircleIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
-import { FullProposal, Milestone } from "@/app/types";
+import { TFullProposal, TMilestone } from "@/app/types";
 import { useTranslations } from "next-intl";
-import { EditProposalForm } from "../../components/EditProposalForm";
+import { EditProposalForm } from "../components/EditProposalForm";
 import useCheckTokens from "../../hooks/useCheckTokens";
 import Link from "next/link";
+import { ProposalContext } from "@/app/context/ProposalContext";
+import { get } from "http";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const { ready, authenticated, user, logout } = usePrivy();
   const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
   const router = useRouter();
-  const [proposal, setProposal] = useState<FullProposal>();
+  const [proposal, setProposal] = useState<TFullProposal>();
   const [isAuthor, setIsAuthor] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [totalBudget, setTotalBudget] = useState<number>();
   const t = useTranslations("Proposal Details");
+  const { getProposalById, fetchProposals } = useContext(ProposalContext);
 
   useEffect(() => {
-    if (isAccessTokenValid) getProposal();
-  }, [user, isAccessTokenValid]);
+    loadProposal();
+  }, [params.slug]);
+
+  const loadProposal = async () => {
+    const prop = await getProposalById(params.slug);
+    if (prop) setProposal(prop);
+    console.log("===> prop", prop);
+  };
 
   useEffect(() => {
     if (user?.id === proposal?.author?.id) {
       setIsAuthor(true);
     }
-  }, [user, proposal]);
+  }, [user, proposal?.author?.id]);
 
   useEffect(() => {
     if (proposal && proposal.project_milestones) {
       let calculatedTotalBudget = 0;
       Object.values(proposal.project_milestones).forEach(
-        (milestone: Milestone) => {
+        (milestone: TMilestone) => {
           calculatedTotalBudget += Number(milestone.budget);
         },
       );
@@ -49,6 +59,8 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   function convertShape(obj: any) {
     const convertedObj = {
+      id: obj.id || null,
+      approved: obj.approved || null,
       title: obj.title || null,
       author: {
         id: obj.author.id || null,
@@ -67,6 +79,8 @@ export default function Page({ params }: { params: { slug: string } }) {
       key_players: obj.key_players || null,
       project_milestones: obj.project_milestones || null,
       collaborators: null,
+      allo_recipient_id: obj.allo_recipient_id || null,
+      allo_anchor_address: obj.allo_anchor_address || null,
     };
 
     if (obj.collaborators && Array.isArray(obj.collaborators)) {
@@ -81,31 +95,14 @@ export default function Page({ params }: { params: { slug: string } }) {
     return convertedObj;
   }
 
-  async function getProposal() {
-    const supabase = await getSupabaseClient();
-    const { data, error } = await supabase
-      .rpc("get_proposal_with_collaborators", { proposal_id: params.slug })
-      .single();
-    //ts-ignore
-    if (data) setProposal(convertShape(data));
-    if (error) console.log(error);
-  }
-
-  if (!ready) return null;
-  if (ready && !authenticated) {
-    router.push("/");
-  }
-  if (!isRefreshTokenValid) {
-    logoutSupabase();
-    logout();
-    router.push("/");
-  }
-
   return (
     <>
       {isEditing && proposal && (
         <EditProposalForm
-          reloadData={getProposal}
+          reloadData={() => {
+            fetchProposals();
+            loadProposal();
+          }}
           setIsEditing={setIsEditing}
           proposalId={params.slug}
           proposal={proposal}
@@ -175,7 +172,7 @@ export default function Page({ params }: { params: { slug: string } }) {
           )}
           {proposal?.project_milestones &&
             Object.values(proposal.project_milestones).map(
-              (milestone: Milestone) => (
+              (milestone: TMilestone) => (
                 <>
                   {milestone.title && (
                     <div key={milestone.title} className="mt-3 mb-3">

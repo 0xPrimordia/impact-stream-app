@@ -1,7 +1,8 @@
 import { createPublicClient, http } from "viem";
-import { goerli } from "wagmi";
+import { getChain } from "../config/network.config";
 
+const transport = http(process.env.NEXT_PUBLIC_CHAIN_RPC);
 export const ViemClient = createPublicClient({
-  chain: goerli,
-  transport: http(),
+  chain: getChain(),
+  transport,
 });

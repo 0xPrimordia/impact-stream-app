@@ -5,7 +5,7 @@ import { getSupabaseClient, logoutSupabase } from "../../../../../lib/supabase";
 import { useRouter } from "next/navigation";
 import { ImageUploader } from "../../components/ImageUploader";
 import { useTranslations } from "next-intl";
-import { User } from "@/app/types";
+import { TUser } from "@/app/types";
 
 
 
@@ -18,7 +18,7 @@ type UserFormType = {
   avatar?: string;
 };
 
-export default function OnboardingForm({ currentUser }: { currentUser: User }) {
+export default function OnboardingForm({ currentUser }: { currentUser: TUser }) {
   const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
   const router = useRouter();
   const queryString = new URLSearchParams(window.location.search);

@@ -1,12 +1,6 @@
 "use client";
 import React, { useState, useEffect, useContext } from "react";
-
-interface ICartContextProps {
-  cartItems: string[];
-  addItemToCart: (itemId: string) => void;
-  deleteItemFromCart: (itemId: string) => void;
-  isInCart: (itemId: string) => boolean;
-}
+import { IAllocationParams, ICartContextProps } from "../types";
 
 export const CartContext = React.createContext<ICartContextProps | undefined>(
   undefined,
@@ -14,6 +8,7 @@ export const CartContext = React.createContext<ICartContextProps | undefined>(
 
 export const CartContextProvider = ({ children }: { children: any }) => {
   const [cartItems, setCartItems] = useState<string[]>([]);
+  const [allocations, setAllocations] = useState<IAllocationParams>({});
 
   // Initialize cartItems from local storage on component mount
   useEffect(() => {
@@ -48,6 +43,13 @@ export const CartContextProvider = ({ children }: { children: any }) => {
     return cartItems.includes(itemId);
   };
 
+  const handleAllocationChange = (recipientId: string, value: number): void => {
+    setAllocations((prevAllocations) => ({
+      ...prevAllocations,
+      [recipientId]: value,
+    }));
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -55,6 +57,8 @@ export const CartContextProvider = ({ children }: { children: any }) => {
         addItemToCart,
         deleteItemFromCart,
         isInCart,
+        allocations, // Include allocations in the context
+        handleAllocationChange, // Include handleAllocationChange in the context
       }}
     >
       {children}

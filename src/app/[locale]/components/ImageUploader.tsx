@@ -26,29 +26,29 @@ export const ImageUploader = () => {
   }
 
   useEffect(() => {
+    function makeStorageClient() {
+      const token = getAccessToken();
+      console.log(token, "token");
+
+      if (token) return new Web3Storage({ token: token });
+    }
+
+    async function setClient() {
+      let client;
+      try {
+        client = makeStorageClient();
+      } catch (error) {
+        console.error(error);
+      }
+      setStorageClient(client);
+    }
+
     setClient();
   }, []);
-
-  function makeStorageClient() {
-    const token = getAccessToken();
-    console.log(token, "token");
-
-    if (token) return new Web3Storage({ token: token });
-  }
 
   function getFiles() {
     const fileInput: any = document.querySelector('input[type="file"]');
     return fileInput?.files;
-  }
-
-  async function setClient() {
-    let client;
-    try {
-      client = makeStorageClient();
-    } catch (error) {
-      console.error(error);
-    }
-    setStorageClient(client);
   }
 
   async function storeFiles(files: any) {
@@ -87,8 +87,7 @@ export const ImageUploader = () => {
     setIsUploading(false);
   };
 
- const t = useTranslations("Onboarding");
-
+  const t = useTranslations("Onboarding");
 
   return (
     <>
