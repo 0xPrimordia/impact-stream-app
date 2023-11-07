@@ -140,6 +140,8 @@ export async function getVoiceCreditsCastByAllocatorToRecipient(
     return 0;
   }
 
+  if (!allocatorId || !recipientId) return 0;
+
   const voiceCreditsCastByAllocatorToRecipient = Number(
     await strategyContract.read.getVoiceCreditsCastByAllocatorToRecipient([
       allocatorId,
