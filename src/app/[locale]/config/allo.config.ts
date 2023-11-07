@@ -48,8 +48,8 @@ export const strategyContractDetails = (): IStrategyDetails => {
   return {
     // Goerli
     [5]: {
-      poolId: 7,
-      address: "0x4751C362Fc1c6a6771B403Ea9624B00E0E20d68a",
+      poolId: 8,
+      address: "0x6dFE1e350b315E65f6216CC21e6940fcAA6ACa26",
       abi: qvImpactStreamStrategyAbi,
     },
     // Celo Alfajores
