@@ -1,8 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+import { IMilestoneProps, IRow } from "@/app/types";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { IMilestoneProps, IRow, TMilestone } from "@/app/types";
+import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 export const MilestoneForm = ({ milestones, ...props }: IMilestoneProps) => {
   const [rows, setRows] = useState<IRow[]>([]);
