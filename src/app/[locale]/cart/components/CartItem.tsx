@@ -63,24 +63,20 @@ const CartItem = ({ item }: { item: TSummaryProposal }) => {
           />
         </div>
       </div>
-      <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
 
+      <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
         <span className="text-xs mt-1 mb-1">
-          Credits used:{" "}
+          Credits Spent  :{" "}
           <span className="font-semibold">{votesCastedToRecipient}</span>
         </span>
       </div>
-      {/* <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
-        <span className="text-xs mb-1">
-          previous votes: {" "}
-          <span className="font-semibold">
-            {Math.sqrt(votesCastedToRecipient).toFixed(2)}
-          </span>
-        </span>
-      </div> */}
+
       <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
         <span className="text-xs">
-          Votes:{" "}
+          <span className="text-xs">
+            (Votes Spent -> Final Votes)
+          </span>
+          <br />
           <span className="font-semibold">
             {Math.sqrt(votesCastedToRecipient).toFixed(2)} ->  {" "}
             {Math.sqrt(votesCastedToRecipient + votes).toFixed(2)}

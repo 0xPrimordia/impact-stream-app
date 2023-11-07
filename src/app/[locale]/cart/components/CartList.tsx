@@ -71,6 +71,7 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
         You have {maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator}{" "}
         voice credits left
       </p>
+
       <div>
         {cartItems.map((item, index) => (
           <div
@@ -94,6 +95,36 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
           maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator && (
           <p className="text-red-500">Error: Not enough voice credits left.</p>
         )}
+      </div>
+
+      <div className="mt-8 text-left text-sm">
+        <h3 className="font-semibold mb-3">Voting with Voice Credits</h3>
+        <p>At Impact Stream we value your opinion and want to make your voting experience even more impactful. You have the opportunity to vote for your favorite projects using a unique system called "quadratic voting."</p>
+
+        <h4 className="font-semibold mt-5 mb-2">Voice Credits:</h4>
+        <ul className="list-disc p-3 m-auto">
+          <li className="mb-2">Each user is provided with 10 Voice Credits.</li>
+          <li className="mb-2">These Voice Credits are your currency for voting.</li>
+          <li className="mb-2">You can allocate these credits across the projects you support.</li>
+        </ul>
+
+        <h4 className="font-semibold mt-2 mb-2">Quadratic Voting:</h4>
+        <ul className="list-disc p-3 m-auto">
+          <li className="mb-2">Quadratic voting allows you to emphasize the projects that matter most to you.</li>
+          <li className="mb-2">When you vote for a project, the cost of your vote increases quadratically with each additional vote.</li>
+          <li className="mb-2">The more Voice Credits you allocate to a single project, the more impactful your vote becomes.</li>
+          <li className="mb-2">Use your Voice Credits wisely to make a significant impact on your favorite projects.</li>
+        </ul>
+
+        <h4 className="font-semibold mt-2 mb-2">Why Quadratic Voting:</h4>
+        <ul className="list-disc p-3 m-auto">
+          <li className="mb-2">Quadratic voting promotes fairness and encourages users to focus on the projects they're most passionate about.</li>
+          <li className="mb-2">It enables a more balanced distribution of Voice Credits, ensuring that popular projects receive more attention while still allowing users to support multiple projects.</li>
+        </ul>
+
+        <p>Now, you're ready to make a difference! Allocate your Voice Credits strategically and support the projects that you believe in the most.</p>
+
+        <p className="mt-5">Thank you for being part of our community and for making your voice heard!</p>
       </div>
     </div>
   );
