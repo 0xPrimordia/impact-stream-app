@@ -1,17 +1,17 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from 'react';
-import { DraftProposal } from "../types";
+import { createContext, useEffect, useState } from 'react';
 import { getSupabaseClient } from "../../../lib/supabase";
 import useCheckTokens from "../[locale]/hooks/useCheckTokens";
+import { TDraftProposal } from "../types";
 
 export const DraftContext = createContext({
-  draft: {} as DraftProposal | undefined,
-  setDraft: (draft: DraftProposal) => {},
+  draft: {} as TDraftProposal | undefined,
+  setDraft: (draft: TDraftProposal) => {},
 });
 
 export const DraftProvider = ({ children }: { children: any }) => {
   const { isAccessTokenValid } = useCheckTokens();
-  const [draft, setDraft] = useState<DraftProposal>();
+  const [draft, setDraft] = useState<TDraftProposal>();
 
   async function getDraft() {
     const supabase = await getSupabaseClient();

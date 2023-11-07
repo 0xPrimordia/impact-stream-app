@@ -42,22 +42,6 @@ export type TCreateDraft = {
   form_step: number | null;
 };
 
-export type CreateDraft = {
-  id: string;
-  title: string | null;
-  location: string | null;
-  summary: string | null;
-  timeline: string | null;
-  affected_locations: string | null;
-  community_problem: string | null;
-  proposed_solution: string | null;
-  sustainability: string | null;
-  minimum_budget: number | null;
-  key_players: string | null;
-  milestones: TMilestone[] | null;
-  form_step: number | null;
-};
-
 export type TSummaryProposal = {
   id: string;
   approved: boolean;
@@ -134,14 +118,8 @@ export interface IProposalProps {
   showAllocation?: boolean;
 }
 
-export type SummaryDraftProposal = {
-  id: string;
-  author_id: string | null;
-  title: string | null;
-};
-
-export interface DraftListProps {
-  drafts: SummaryDraftProposal[];
+export interface IDraftListProps {
+  drafts: TCreateDraft[];
 }
 
 export interface IProposalListProps {
@@ -175,6 +153,23 @@ export interface IChainIndex {
   [key: string]: any;
 }
 
+export type TDraftProposal = {
+  id: string;
+  author_id: string;
+  title: string | null;
+  location: string | null;
+  summary: string | null;
+  timeline: string | null;
+  affected_locations: string | null;
+  community_problem: string | null;
+  proposed_solution: string | null;
+  sustainability: string | null;
+  minimum_budget: number | null;
+  key_players: string | null;
+  form_step: number | null;
+  collaborators: TCollaborator[] | null;
+};
+
 export interface IEditProposalProps {
   proposal: TFullProposal;
   proposalId: string;
@@ -200,4 +195,3 @@ export interface INavbarLinkProps {
 export interface IAllocationParams {
   [key: string]: number;
 }
-
