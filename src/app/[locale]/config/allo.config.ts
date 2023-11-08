@@ -1,7 +1,7 @@
 import { IContractDetails, IStrategyDetails } from "@/app/types";
 import { alloAbi } from "../abis/allo";
-import { registryAbi } from "../abis/registry";
 import { qvImpactStreamStrategyAbi } from "../abis/qvImpactStreamStrategy";
+import { registryAbi } from "../abis/registry";
 
 // TODO: add the details for the latest deployments.
 export const alloContractDetails = (): IContractDetails => {
@@ -54,14 +54,14 @@ export const strategyContractDetails = (): IStrategyDetails => {
     },
     // Celo Alfajores
     [421613]: {
-      poolId: 3,
-      address: "0x45F8c3d0a415b5b3d4088F29895037e7a08168AC",
+      poolId: 0,
+      address: "0x0",
       abi: qvImpactStreamStrategyAbi,
     },
     // Celo Mainnet
     [42220]: {
       poolId: 0,
-      address: "0x0",
+      address: "0x05b939069163891997C879288f0BaaC3faaf4500",
       abi: qvImpactStreamStrategyAbi,
     },
   };

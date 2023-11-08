@@ -1,14 +1,20 @@
 "use client";
 
-import { PrivyWagmiConnector } from "@privy-io/wagmi-connector";
-import { configureChains, mainnet, sepolia } from "wagmi";
-import { alchemyProvider } from "wagmi/providers/alchemy";
 import { PrivyProvider } from "@privy-io/react-auth";
-import { celo, celoAlfajores, goerli } from "viem/chains";
+import { PrivyWagmiConnector } from "@privy-io/wagmi-connector";
+import { celo } from "viem/chains";
+import { configureChains } from "wagmi";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 const configureChainsConfig = configureChains(
-  [mainnet, goerli, sepolia],
+  [celo],
   [
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: process.env.NEXT_PUBLIC_CHAIN_RPC!,
+      }),
+    }),
     alchemyProvider({
       apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string,
     }),

@@ -21,8 +21,8 @@ import * as chains from "viem/chains";
 
 const chain: IChainIndex = chains;
 
-// todo: update to celoAlfajores
-const selectedChain = chain[process.env.NEXT_PUBLIC_CHAIN || "goerli"];
+// todo: update to celo
+const selectedChain = chain[process.env.NEXT_PUBLIC_CHAIN || "celo"];
 
 export const getChain = () => {
   return selectedChain;
