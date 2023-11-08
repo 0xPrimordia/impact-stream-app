@@ -4,9 +4,10 @@ import { PrivyWagmiConnector } from "@privy-io/wagmi-connector";
 import { configureChains, mainnet, sepolia } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { PrivyProvider } from "@privy-io/react-auth";
+import { celo, celoAlfajores, goerli } from "viem/chains";
 
 const configureChainsConfig = configureChains(
-  [mainnet, sepolia],
+  [mainnet, goerli, sepolia],
   [
     alchemyProvider({
       apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string,

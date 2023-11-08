@@ -3,13 +3,13 @@ import {
   alloContractDetails,
   strategyContractDetails,
 } from "../config/allo.config";
-import { ViemClient } from "./client";
+// import { ViemClient } from "./client";
 import { alloContract, strategyContract } from "./contracts";
 import { encodeAbiParameters, encodeFunctionData } from "viem";
 import { getChainId } from "../config/network.config";
 
 // Import the Viem client
-const client = ViemClient;
+// const client = ViemClient;
 
 /**
  * Get the Allo proxy address
@@ -139,6 +139,8 @@ export async function getVoiceCreditsCastByAllocatorToRecipient(
   if (!(await isValidAllocator(allocatorId))) {
     return 0;
   }
+
+  if (!allocatorId || !recipientId) return 0;
 
   const voiceCreditsCastByAllocatorToRecipient = Number(
     await strategyContract.read.getVoiceCreditsCastByAllocatorToRecipient([

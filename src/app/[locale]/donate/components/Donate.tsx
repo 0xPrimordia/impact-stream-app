@@ -8,7 +8,13 @@ const Donate = () => {
   return (
     <div className="text-center">
       <h3 className="font-bold mb-6">{t("heading")}</h3>
-      <button className="mt-2 p-2 border rounded-md shadow-md bg-gray-50 hover:bg-sky-600 hover:text-white">
+      <button
+        className="mt-2 p-2 border rounded-md shadow-md bg-gray-50 hover:bg-sky-600 hover:text-white"
+        onClick={() => {
+          // TODO: Add implementation using `fundPool()`
+          console.log("Fund the Pool");
+        }}
+      >
         Fund the Pool
       </button>
     </div>

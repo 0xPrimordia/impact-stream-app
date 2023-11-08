@@ -1,6 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { XMarkIcon, Bars3Icon, ArchiveBoxIcon } from "@heroicons/react/24/outline";
+import {
+  XMarkIcon,
+  Bars3Icon,
+  ArchiveBoxIcon,
+} from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import NavbarLink from "./NavbarLink";
@@ -56,7 +60,11 @@ export const Navbar = () => {
               </NavbarLink>
             </li>
             <li>
-              <NavbarLink setOverlay={setOverlay} target="_blank" path={"https://www.impact.stream/"}>
+              <NavbarLink
+                setOverlay={setOverlay}
+                target="_blank"
+                path={"https://www.impact.stream/"}
+              >
                 {t("link6")}
               </NavbarLink>
             </li>
@@ -73,10 +81,12 @@ export const Navbar = () => {
         }}
       >
         {context.cartItems.length > 0 && (
-          <div className="text-xs bg-blue-600 font-bold rounded-full absolute right-16 z-10 block h-5 leading-5 w-5 text-center text-white top-9">{context.cartItems.length}</div>
+          <div className="text-xs bg-blue-600 font-bold rounded-full absolute right-16 z-10 block h-5 leading-5 w-5 text-center text-white top-9">
+            {context.cartItems.length}
+          </div>
         )}
-        
-        <ArchiveBoxIcon className="h-6 absolute right-20 top-11" />
+
+        <span className="h-8 absolute right-20 top-11">📥</span>
       </div>
       {!overlay && (
         <div onClick={() => setOverlay(true)}>

@@ -10,7 +10,7 @@ const AddRemoveCartButton = ({ grantId }: { grantId: string }) => {
 
   const arrowHandler = (e: any) => {
     e.preventDefault();
-    if (e.target.id === "arrowUp") {
+    if (e.target.id === "add") {
       addItemToCart(grantId);
     } else {
       deleteItemFromCart(grantId);
@@ -20,24 +20,12 @@ const AddRemoveCartButton = ({ grantId }: { grantId: string }) => {
   return (
     <div className="flex flex-col items-center">
       <div className="cursor-pointer text-center">
-        <div className="flex flex-row items-center text-black">
+        <div className="flex flex-row items-center text-black"  >
           {grantIsInCart ? (
-            <HeartIconSolid color={"#005AAD"} className="h-8 w-8" />
+            <HeartIconSolid id="remove" color={"#005AAD"} className="h-8 w-8" onClick={arrowHandler}/>
           ) : (
-            <HeartIconOutline color={"#005AAD"} className="h-8 w-8" />
+            <HeartIconOutline id="add" color={"#005AAD"} className="h-8 w-8" onClick={arrowHandler} />
           )}
-          <ArrowDownIcon
-            id="arrowDown"
-            color={"#005AAD"}
-            className="h-6 w-6 px-1"
-            onClick={arrowHandler}
-          />
-          <ArrowUpIcon
-            id="arrowUp"
-            color={"#005AAD"}
-            className="h-6 w-6 px-1"
-            onClick={arrowHandler}
-          />
         </div>
       </div>
     </div>

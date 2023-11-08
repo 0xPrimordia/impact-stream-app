@@ -4,7 +4,7 @@ import { useCart } from "@/app/context/CartContext";
 import { TSummaryProposal } from "@/app/types";
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getVoiceCreditsCastByAllocatorToRecipient } from "../../utils/alloContract";
 import AddRemoveCartButton from "./AddRemoveCartButton";
 
@@ -37,6 +37,10 @@ const CartItem = ({ item }: { item: TSummaryProposal }) => {
 
   return (
     <div className="flex flex-col gap-x-4 p-2 mt-2">
+      <div className="absolute right-6">
+        <AddRemoveCartButton grantId={item.id} />
+      </div>
+
       <div className="flex flex-col sm:flex-row items-center justify-between cursor-pointer">
         <div
           className="flex text-sm font-medium leading-6 text-gray-900 border-b-sky-600"
@@ -56,27 +60,22 @@ const CartItem = ({ item }: { item: TSummaryProposal }) => {
             placeholder="0"
             onChange={onChangeHandler}
           />
-          <AddRemoveCartButton grantId={item.id} />
         </div>
       </div>
+
       <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
-        <span className="text-sm">
-          Casted Voice Credits:{" "}
+        <span className="text-xs mt-1 mb-1">
+          Credits Spent :{" "}
           <span className="font-semibold">{votesCastedToRecipient}</span>
         </span>
       </div>
+
       <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
-        <span className="text-sm">
-          Votes casted:{" "}
+        <span className="text-xs">
+          <span className="text-xs">(Votes Spent {"->"} Final Votes)</span>
+          <br />
           <span className="font-semibold">
-            {Math.sqrt(votesCastedToRecipient).toFixed(2)}
-          </span>
-        </span>
-      </div>
-      <div className="flex flex-col sm:flex-row sm:gap-x-4 items-center justify-between">
-        <span className="text-sm">
-          Votes casted after vote:{" "}
-          <span className="font-semibold">
+            {Math.sqrt(votesCastedToRecipient).toFixed(2)} {"->"}{" "}
             {Math.sqrt(votesCastedToRecipient + votes).toFixed(2)}
           </span>
         </span>
