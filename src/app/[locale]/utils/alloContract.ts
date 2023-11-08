@@ -3,13 +3,13 @@ import {
   alloContractDetails,
   strategyContractDetails,
 } from "../config/allo.config";
-import { ViemClient } from "./client";
+// import { ViemClient } from "./client";
 import { alloContract, strategyContract } from "./contracts";
 import { encodeAbiParameters, encodeFunctionData } from "viem";
 import { getChainId } from "../config/network.config";
 
 // Import the Viem client
-const client = ViemClient;
+// const client = ViemClient;
 
 /**
  * Get the Allo proxy address

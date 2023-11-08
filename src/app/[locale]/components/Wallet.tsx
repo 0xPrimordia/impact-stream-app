@@ -5,10 +5,9 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { getSupabaseClient } from "../../../../lib/supabase";
 import { useTranslations } from "next-intl";
-import { getCookie } from "cookies-next";
 
 const supabaseAuth = async (address: string, userId: string) => {
-  const response = await fetch("/api/auth/login", {
+  await fetch("/api/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -1,43 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { truncateDescription } from "@/app/utils";
 import {
-  collaborator_names_with_author,
-  truncateDescription,
-} from "@/app/utils";
-import { CheckBadgeIcon, EyeIcon, MapPinIcon } from "@heroicons/react/24/outline";
+  CheckBadgeIcon,
+  EyeIcon,
+  MapPinIcon,
+} from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { IProposalCardProps, TSummaryProposal } from "@/app/types";
 import AddRemoveCartButton from "../../cart/components/AddRemoveCartButton";
 import { getVoiceCreditsCastByAllocatorToRecipient } from "../../utils/alloContract";
 import { usePrivy } from "@privy-io/react-auth";
-
-// function ProposalCard({ proposal }: { proposal: TSummaryProposal }) {
-//   const router = useRouter();
-
-//   return (
-//     <div
-//       className="flex flex-col gap-x-4 bg-gray-50 p-2"
-//       onClick={() => router.push(`/proposals/${proposal.id}`)}
-//     >
-//       <div className="flex flex-row items-center justify-between">
-//         <h3 className="font-bold mb-1 text-lg">{proposal.title}</h3>{" "}
-//       </div>
-//       <div className="text-sm align-middle">
-//         <MapPinIcon className="h-4 inline-block" /> {proposal.location}
-//       </div>
-//       <div className="mt-2">
-//         {proposal.summary
-//           ? truncateDescription(proposal.summary)
-//           : "No summary provided."}
-//       </div>
-// <span className="text-sm mt-2">
-//   {proposal?.collaborators &&
-//     collaborator_names_with_author(proposal?.collaborators, proposal?.author)}
-// </span>
-//     </div>
-//   );
-// }
 
 const ProposalCard = ({
   proposal,
@@ -68,7 +42,6 @@ const ProposalCard = ({
     <div className="flex flex-col gap-x-4 p-2 mt-2">
       <div className="justify-between cursor-pointer mb-2">
         <div className="flex">
-
           <h3
             className="text-lg font-semibold leading-6 text-gray-900"
             onClick={() => {
@@ -78,17 +51,18 @@ const ProposalCard = ({
             {proposal.title}
           </h3>
 
-          { showStatus && 
-          <div className="ml-2 text-xs font-normal flex">
-            {proposal.approved ?
-              <CheckBadgeIcon width={18} color="green"/> :
-              <>
-                <EyeIcon width={18} color="orange"/>
-                <span className="ml-1 mt-1">(in review)</span>
-              </>
-            }
-          </div>
-        }
+          {showStatus && (
+            <div className="ml-2 text-xs font-normal flex">
+              {proposal.approved ? (
+                <CheckBadgeIcon width={18} color="green" />
+              ) : (
+                <>
+                  <EyeIcon width={18} color="orange" />
+                  <span className="ml-1 mt-1">(in review)</span>
+                </>
+              )}
+            </div>
+          )}
 
           <div className="ml-auto">
             {showAction && <AddRemoveCartButton grantId={proposal.id} />}

@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useContext } from "react";
-import { getSupabaseClient, logoutSupabase } from "../../../../../lib/supabase";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect, useContext } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import {
@@ -13,15 +11,11 @@ import {
 import { TFullProposal, TMilestone } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { EditProposalForm } from "../components/EditProposalForm";
-import useCheckTokens from "../../hooks/useCheckTokens";
 import Link from "next/link";
 import { ProposalContext } from "@/app/context/ProposalContext";
-import { get } from "http";
 
 export default function Page({ params }: { params: { slug: string } }) {
-  const { ready, authenticated, user, logout } = usePrivy();
-  const { isAccessTokenValid, isRefreshTokenValid } = useCheckTokens();
-  const router = useRouter();
+  const { user } = usePrivy();
   const [proposal, setProposal] = useState<TFullProposal>();
   const [isAuthor, setIsAuthor] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -36,7 +30,6 @@ export default function Page({ params }: { params: { slug: string } }) {
   const loadProposal = async () => {
     const prop = await getProposalById(params.slug);
     if (prop) setProposal(prop);
-    console.log("===> prop", prop);
   };
 
   useEffect(() => {
@@ -51,7 +44,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       Object.values(proposal.project_milestones).forEach(
         (milestone: TMilestone) => {
           calculatedTotalBudget += Number(milestone.budget);
-        },
+        }
       );
       setTotalBudget(calculatedTotalBudget);
     }
@@ -88,7 +81,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         (collaborator: any) => ({
           name: collaborator.name || null,
           family_name: collaborator.family_name || null,
-        }),
+        })
       );
     }
 
@@ -180,7 +173,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                     </div>
                   )}
                 </>
-              ),
+              )
             )}
           <div className="italic mt-6">
             {t("minimumBudget") + ": $" + proposal?.minimum_budget}

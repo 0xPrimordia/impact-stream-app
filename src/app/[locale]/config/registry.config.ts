@@ -4,7 +4,7 @@ import { registryAbi } from "../abis/registry";
 export const registryContractDetails = (): IContractDetails => {
   return {
     [5]: {
-      proxy: "0xBC23124Ed2655A1579291f7ADDE581fF18327D41",
+      proxy: "0x4AAcca72145e1dF2aeC137E1f3C5E3D75DB8b5f3",
       abi: registryAbi,
     },
   };

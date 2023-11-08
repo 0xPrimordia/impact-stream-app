@@ -54,8 +54,8 @@ export const strategyContractDetails = (): IStrategyDetails => {
     },
     // Celo Alfajores
     [421613]: {
-      poolId: 0,
-      address: "0x0",
+      poolId: 3,
+      address: "0x45F8c3d0a415b5b3d4088F29895037e7a08168AC",
       abi: qvImpactStreamStrategyAbi,
     },
     // Celo Mainnet
