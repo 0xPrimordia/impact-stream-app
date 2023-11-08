@@ -1,5 +1,3 @@
-import { Json } from "../../types/supabase";
-
 export type TProposal = {
   id: string;
   title: string | null;
@@ -26,6 +24,22 @@ export type TCreateProposal = {
   minimum_budget: number | null;
   key_players: string | null;
   milestones: TMilestone[] | null;
+};
+
+export type TCreateDraft = {
+  id: string;
+  title: string | null;
+  location: string | null;
+  summary: string | null;
+  timeline: string | null;
+  affected_locations: string | null;
+  community_problem: string | null;
+  proposed_solution: string | null;
+  sustainability: string | null;
+  minimum_budget: number | null;
+  key_players: string | null;
+  milestones: TMilestone[] | null;
+  form_step: number | null;
 };
 
 export type TSummaryProposal = {
@@ -104,6 +118,10 @@ export interface IProposalProps {
   showAllocation?: boolean;
 }
 
+export interface IDraftListProps {
+  drafts: TCreateDraft[];
+}
+
 export interface IProposalListProps {
   proposals: TSummaryProposal[];
   showStatus?: boolean;
@@ -135,6 +153,23 @@ export interface IChainIndex {
   [key: string]: any;
 }
 
+export type TDraftProposal = {
+  id: string;
+  author_id: string;
+  title: string | null;
+  location: string | null;
+  summary: string | null;
+  timeline: string | null;
+  affected_locations: string | null;
+  community_problem: string | null;
+  proposed_solution: string | null;
+  sustainability: string | null;
+  minimum_budget: number | null;
+  key_players: string | null;
+  form_step: number | null;
+  collaborators: TCollaborator[] | null;
+};
+
 export interface IEditProposalProps {
   proposal: TFullProposal;
   proposalId: string;
@@ -160,4 +195,3 @@ export interface INavbarLinkProps {
 export interface IAllocationParams {
   [key: string]: number;
 }
-
