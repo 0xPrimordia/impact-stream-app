@@ -23,7 +23,3 @@ export const LoadingSkeleton = () => {
     </div>
   );
 };
-
-export default function Loading() {
-  return <LoadingSkeleton />;
-}
