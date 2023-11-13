@@ -12,6 +12,7 @@ import { IProposalCardProps, TSummaryProposal } from "@/app/types";
 import AddRemoveCartButton from "../../cart/components/AddRemoveCartButton";
 import { getVoiceCreditsCastByAllocatorToRecipient } from "../../utils/alloContract";
 import { usePrivy } from "@privy-io/react-auth";
+import { strategyContract } from "../../utils/contracts";
 
 const ProposalCard = ({
   proposal,
@@ -21,6 +22,7 @@ const ProposalCard = ({
 }: IProposalCardProps) => {
   const router = useRouter();
   const { user } = usePrivy();
+  const [isValidAllocator, setIsValidAllocator] = useState(false);
   const [votesCastedToRecipient, setVotesCastedToRecipient] =
     useState<number>(0);
 
@@ -35,6 +37,17 @@ const ProposalCard = ({
     };
     load();
   }, [proposal.allo_recipient_id, user?.wallet?.address]);
+
+  useEffect(() => {
+    getAllocator()
+  })
+
+  const getAllocator = async () => {
+    const isValid:boolean[] = await strategyContract.read.isValidAllocator([user?.wallet?.address])
+    if(isValid[0] === true) {
+      setIsValidAllocator(true)
+    }
+  }
 
   if (!user) return null;
 
@@ -64,9 +77,11 @@ const ProposalCard = ({
             </div>
           )}
 
-          <div className="ml-auto">
-            {showAction && <AddRemoveCartButton grantId={proposal.id} />}
-          </div>
+          {isValidAllocator && (
+            <div className="ml-auto">
+              {showAction && <AddRemoveCartButton grantId={proposal.id} />}
+            </div>
+          )}
         </div>
 
         <span className="text-sm">
