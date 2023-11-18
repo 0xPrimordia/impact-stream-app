@@ -205,7 +205,7 @@ export default function Settings() {
           </FormProvider>
 
           <button
-            className="w-full border border-slate-400 rounded leading-10 font-bold mt-2"
+            className="w-full border border-slate-400 rounded leading-10 font-bold mt-2 mb-6"
             onClick={handleDisconnect}
           >
             {t("logoutButton")}
