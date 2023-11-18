@@ -4,9 +4,9 @@ import {
   strategyContractDetails,
 } from "../config/allo.config";
 // import { ViemClient } from "./client";
-import { alloContract, strategyContract } from "./contracts";
 import { encodeAbiParameters, encodeFunctionData } from "viem";
 import { getChainId } from "../config/network.config";
+import { alloContract, strategyContract } from "./contracts";
 
 // Import the Viem client
 // const client = ViemClient;
@@ -47,11 +47,11 @@ export function allocate(allocations: IAllocationParams) {
   const filteredAllocations = filterZeroAllocations(allocations);
 
   const encodedDataArray: `0x${string}`[] = Object.entries(
-    filteredAllocations,
+    filteredAllocations
   ).map(([recipientId, value]) => {
     return encodeAbiParameters(
       [{ type: "address" }, { type: "uint256" }],
-      [recipientId as `0x${string}`, BigInt(value)],
+      [recipientId as `0x${string}`, BigInt(value)]
     );
   });
 
@@ -86,8 +86,12 @@ export function allocate(allocations: IAllocationParams) {
  * @param allocatorId
  * @returns boolean
  */
-async function isValidAllocator(allocatorId: string) {
-  const isValid = await strategyContract.read.isValidAllocator([allocatorId]);
+async function isValidAllocator(allocatorId: string): Promise<boolean> {
+  const isValid: any = await strategyContract.read.isValidAllocator([
+    allocatorId,
+  ]);
+
+  console.log("isValid", isValid);
 
   return isValid;
 }
@@ -101,7 +105,7 @@ async function isValidAllocator(allocatorId: string) {
  */
 export async function getMaxVoiceCreditsPerAllocator() {
   const maxVoiceCredits = Number(
-    (await strategyContract.read.maxVoiceCreditsPerAllocator([])).toString(),
+    (await strategyContract.read.maxVoiceCreditsPerAllocator([])).toString()
   );
 
   return maxVoiceCredits;
@@ -119,7 +123,7 @@ export async function getVoiceCreditsCastByAllocator(allocatorId: string) {
   }
 
   const voiceCreditsCastByAllocator = Number(
-    await strategyContract.read.getVoiceCreditsCastByAllocator([allocatorId]),
+    await strategyContract.read.getVoiceCreditsCastByAllocator([allocatorId])
   );
 
   return voiceCreditsCastByAllocator;
@@ -134,7 +138,7 @@ export async function getVoiceCreditsCastByAllocator(allocatorId: string) {
 //  */
 export async function getVoiceCreditsCastByAllocatorToRecipient(
   allocatorId: string,
-  recipientId: string,
+  recipientId: string
 ): Promise<number> {
   if (!(await isValidAllocator(allocatorId))) {
     return 0;
@@ -146,7 +150,7 @@ export async function getVoiceCreditsCastByAllocatorToRecipient(
     await strategyContract.read.getVoiceCreditsCastByAllocatorToRecipient([
       allocatorId,
       recipientId,
-    ]),
+    ])
   );
 
   return voiceCreditsCastByAllocatorToRecipient;

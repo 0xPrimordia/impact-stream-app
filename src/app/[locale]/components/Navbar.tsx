@@ -1,18 +1,18 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import {
-  XMarkIcon,
-  Bars3Icon,
-  ArchiveBoxIcon,
-} from "@heroicons/react/24/outline";
-import Image from "next/image";
-import { useTranslations } from "next-intl";
-import NavbarLink from "./NavbarLink";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+
 import { useCart } from "@/app/context/CartContext";
+import {
+  Bars3Icon,
+  XMarkIcon
+} from "@heroicons/react/24/outline";
 import { usePrivy } from "@privy-io/react-auth";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { strategyContract } from "../utils/contracts";
+import NavbarLink from "./NavbarLink";
 
 export const Navbar = () => {
   const { user } = usePrivy();
@@ -23,15 +23,20 @@ export const Navbar = () => {
   const context = useCart();
 
   useEffect(() => {
-    getAllocator()
-  })
+    const getAllocator = async () => {
+      const isValid: any = await strategyContract.read.isValidAllocator([
+        user?.wallet?.address!,
+      ]);
 
-  const getAllocator = async () => {
-    const isValid:boolean[] = await strategyContract.read.isValidAllocator([user?.wallet?.address])
-    if(isValid[0] === true) {
-      setIsValidAllocator(true)
-    }
-  }
+      console.log("isValid2", isValid);
+
+      if (isValid as boolean === true) {
+        setIsValidAllocator(true);
+      }
+    };
+
+    getAllocator();
+  }), [user?.wallet?.address];
 
   return (
     <div className="fixed top-0 left-0 right-0 bg-white p-8 pb-4 z-50">
@@ -105,7 +110,7 @@ export const Navbar = () => {
           <span className="h-8 absolute right-20 top-11">📥</span>
         </div>
       )}
-      
+
       {!overlay && (
         <div onClick={() => setOverlay(true)}>
           <Bars3Icon className="h-8 absolute right-6 top-10" />
