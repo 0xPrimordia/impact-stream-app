@@ -12,7 +12,7 @@ const configureChainsConfig = configureChains(
   [
     jsonRpcProvider({
       rpc: (chain) => ({
-        http: process.env.NEXT_PUBLIC_CHAIN_RPC!,
+        http: process.env.NEXT_PUBLIC_JSON_RPC_URL as string,
       }),
     }),
     alchemyProvider({
