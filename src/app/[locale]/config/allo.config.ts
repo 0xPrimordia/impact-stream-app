@@ -61,7 +61,7 @@ export const strategyContractDetails = (): IStrategyDetails => {
     // Celo Mainnet
     [42220]: {
       poolId: 0,
-      address: "0x05b939069163891997C879288f0BaaC3faaf4500",
+      address: "0xe9b7c8C19aDb07828Cca6Ce19C44C659C65022C5",
       abi: qvImpactStreamStrategyAbi,
     },
   };
