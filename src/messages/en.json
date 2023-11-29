@@ -93,7 +93,7 @@
     "link1": "My Proposals",
     "link2": "Proposals",
     "link3": "Donate",
-    "link4": "Cart",
+    "link4": "Votes",
     "link5": "Settings",
     "link6": "Learn More"
   },
@@ -105,13 +105,13 @@
     "message": "The voting phase has been extended to mid-October. Exact date to be announced."
   },
   "My Cart": {
-    "heading": "My Cart",
-    "nullMessage": "There are currently no items in your cart.",
+    "heading": "My Votes",
+    "nullMessage": "There are currently no items in your votes.",
     "checkoutButton": "Checkout"
   },
   "Checkout": {
     "heading": "Checkout",
-    "disclaimer": "Please review your cart and confirm your donation.",
+    "disclaimer": "Please review your votes and confirm your donation.",
     "confirmButton": "Confirm"
   },
   "My Proposals": {

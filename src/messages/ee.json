@@ -94,7 +94,7 @@
     "link1": "Nye Aɖaŋuɖoɖowo",
     "link2": "Aɖaŋuɖoɖowo",
     "link3": "Na nu",
-    "link4": "Tasiaɖam",
+    "link4": "Akɔdadawo",
     "link5": "Ðoɖowo",
     "link6": "Srɔ̃ Nu Geɖe"
   },
@@ -105,22 +105,22 @@
   "Footer": {
     "message": "Wokeke akɔdada ƒe akpaa ɖe enu va ɖo October ƒe domedome. Ɣletiŋkeke si tututu woaɖe gbeƒãe."
   },
-  "Nye Tasiaɖam": {
-    "tanya": "Nye Keke",
-    "nullMessage": "Nu aɖeke mele wò kekea me fifia o.",
+  "My Cart": {
+    "tanya": "Nye Aɖaŋuɖoɖowo",
+    "nullMessage": "Nu aɖeke mele wò aɖaŋuɖoɖowo me fifia o.",
     "checkoutButton": "Nukpɔkpɔ"
   },
-  "Adzɔxexe": {
+  "Checkout": {
     "tanya": "Xɔxexe",
     "disclaimer": "Taflatse lé ŋku ɖe wò kekea ŋu eye nàɖo kpe wò nudzɔdzɔa dzi.",
     "confirmButton": "Ðo kpe edzi"
   },
-  "Nye Nunanawo": {
+  "My Proposals": {
     "tanya": "Nye Gakpekpeɖeŋunana",
     "nullMessage": "Fifia la, kpekpeɖeŋunana aɖeke meli o alo kuxi aɖe le wò kadodoa ŋu.",
     "addGrantButton": "Wɔ Kpekpeɖeŋunana"
   },
-  "Nye Akɔdadawo": {
+  "My Votes": {
     "tanya": "Nye Akɔdadawo",
     "nullMessage": "Fifia la, akɔdada aɖeke meli o alo kuxi aɖe le wò kadodoa ŋu."
   }
