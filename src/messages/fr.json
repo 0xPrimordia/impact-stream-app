@@ -103,22 +103,22 @@
   "Footer": {
     "message": "La phase de vote a été prolongée jusqu'à la mi-octobre. Date exacte à annoncer."
   },
-  "Mon Panier": {
-    "heading": "Mon panier",
-    "nullMessage": "Il n'y a actuellement aucun article dans votre panier.",
+  "My Cart": {
+    "heading": "Mon Votes",
+    "nullMessage": "Il n'y a actuellement aucun article dans votre votes.",
     "checkoutButton": "Commander"
   },
-  "Vérifier": {
+  "Checkout": {
     "heading": "Commander",
-    "disclaimer": "Veuillez vérifier votre panier et confirmer votre don.",
+    "disclaimer": "Veuillez vérifier votre votes et confirmer votre don.",
     "confirmButton": "Confirmer"
   },
-  "Mes subventions": {
+  "My Proposals": {
     "heading": "Mes subventions",
     "nullMessage": "Il n'y a actuellement aucune subvention ou il y a un problème avec votre connexion.",
     "addGrantButton": "Créer une subvention"
   },
-  "Mes votes": {
+  "My Votes": {
     "heading": "Mes votes",
     "nullMessage": "Il n'y a actuellement aucun vote ou il y a un problème avec votre connexion."
   }
