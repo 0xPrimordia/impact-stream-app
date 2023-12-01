@@ -105,8 +105,8 @@
     "message": "The voting phase has been extended to mid-October. Exact date to be announced."
   },
   "My Cart": {
-    "heading": "My Cart",
-    "nullMessage": "You currently don't have any votes.",
+    "heading": "My Votes",
+    "nullMessage": "You currently have zero votes on proposals. Please go to All Proposals and click the heart next to any proposals you would like to submit one or more vote credits for.",
     "checkoutButton": "Checkout"
   },
   "Checkout": {
@@ -121,6 +121,6 @@
   },
   "My Votes": {
     "heading": "My Votes",
-    "nullMessage": "There are currently no votes or there is a problem with your connection."
+    "nullMessage": "You currently have zero votes on proposals. Please go to All Proposals and click the heart next to any proposals you would like to submit one or more vote credits for."
   }
 }
