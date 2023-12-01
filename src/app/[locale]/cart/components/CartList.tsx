@@ -69,7 +69,7 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
       </p>
       <p className="text-sm text-center mb-4">
         You have {maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator}{" "}
-        voice credits left
+        vote credits left
       </p>
 
       <div>
@@ -93,12 +93,12 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
           .map((value) => Number(value))
           .reduce((a, b) => a + b, 0) >
           maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator && (
-          <p className="text-red-500">Error: Not enough voice credits left.</p>
+          <p className="text-red-500">Error: Not enough vote credits left.</p>
         )}
       </div>
 
       <div className="mt-8 text-left text-sm">
-        <h3 className="font-semibold mb-3">Voting with Voice Credits</h3>
+        <h3 className="font-semibold mb-3">Voting with Vote Credits</h3>
         <p>
           At Impact Stream we value your opinion and want to make your voting
           experience even more impactful. You have the opportunity to vote for
@@ -106,11 +106,11 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
           voting.&quot;
         </p>
 
-        <h4 className="font-semibold mt-5 mb-2">Voice Credits:</h4>
+        <h4 className="font-semibold mt-5 mb-2">Vote Credits:</h4>
         <ul className="list-disc p-3 m-auto">
-          <li className="mb-2">Each user is provided with 10 Voice Credits.</li>
+          <li className="mb-2">Each user is provided with 10 Vote Credits.</li>
           <li className="mb-2">
-            These Voice Credits are your currency for voting.
+            These Vote Credits are your currency for voting.
           </li>
           <li className="mb-2">
             You can allocate these credits across the projects you support.
@@ -128,11 +128,11 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
             quadratically with each additional vote.
           </li>
           <li className="mb-2">
-            The more Voice Credits you allocate to a single project, the more
+            The more Vote Credits you allocate to a single project, the more
             impactful your vote becomes.
           </li>
           <li className="mb-2">
-            Use your Voice Credits wisely to make a significant impact on your
+            Use your Vote Credits wisely to make a significant impact on your
             favorite projects.
           </li>
         </ul>
@@ -144,20 +144,20 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
             the projects they&apos;re most passionate about.
           </li>
           <li className="mb-2">
-            It enables a more balanced distribution of Voice Credits, ensuring
+            It enables a more balanced distribution of Vote Credits, ensuring
             that popular projects receive more attention while still allowing
             users to support multiple projects.
           </li>
         </ul>
 
         <p>
-          Now, you&apos;re ready to make a difference! Allocate your Voice
+          Now, you&apos;re ready to make a difference! Allocate your Vote
           Credits strategically and support the projects that you believe in the
           most.
         </p>
 
         <p className="mt-5">
-          Thank you for being part of our community and for making your voice
+          Thank you for being part of our community and for making your vote
           heard!
         </p>
       </div>
