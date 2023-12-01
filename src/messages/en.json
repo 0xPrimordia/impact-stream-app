@@ -106,12 +106,12 @@
   },
   "My Cart": {
     "heading": "My Cart",
-    "nullMessage": "There are currently no items in your cart.",
+    "nullMessage": "You currently don't have any votes.",
     "checkoutButton": "Checkout"
   },
   "Checkout": {
     "heading": "Checkout",
-    "disclaimer": "Please review your cart and confirm your donation.",
+    "disclaimer": "Please review your votes and confirm your donation.",
     "confirmButton": "Confirm"
   },
   "My Proposals": {
