@@ -15,7 +15,7 @@ import { strategyContract } from "../utils/contracts";
 import NavbarLink from "./NavbarLink";
 
 export const Navbar = () => {
-  const { user, authenticated } = usePrivy();
+  const { user } = usePrivy();
   const [overlay, setOverlay] = useState(false);
   const [isValidAllocator, setIsValidAllocator] = useState(false);
   const t = useTranslations("Navigation");
@@ -95,7 +95,7 @@ export const Navbar = () => {
           />
         </nav>
       )}
-      {isValidAllocator && authenticated && (
+      {isValidAllocator && (
         <div
           onClick={() => {
             router.push(`/cart`);
