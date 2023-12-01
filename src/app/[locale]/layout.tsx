@@ -44,7 +44,7 @@ export default async function RootLayout({
                       <Navbar />
                     </div>
                     {children}
-            
+                    <Footer />
                   </ProposalsProvider>
                 </CartContextProvider>
               </div>
