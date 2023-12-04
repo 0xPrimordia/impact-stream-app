@@ -107,10 +107,10 @@
   "My Cart": {
     "heading": "My Votes",
     "nullMessage": "You currently have zero votes on proposals. Please go to All Proposals and click the heart next to any proposals you would like to submit one or more vote credits for.",
-    "checkoutButton": "Checkout"
+    "checkoutButton": "Submit Votes"
   },
   "Checkout": {
-    "heading": "Checkout",
+    "heading": "Submit Votes",
     "disclaimer": "Please review your votes and confirm your donation.",
     "confirmButton": "Confirm"
   },
