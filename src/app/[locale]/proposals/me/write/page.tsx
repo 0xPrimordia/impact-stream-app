@@ -417,7 +417,7 @@ export default function WriteProposal() {
           <>
             <MilestoneForm />
             <p
-              className="underline mb-8 text-sky-600"
+              className="underline mb-8 text-sky-600 cursor-pointer"
               onClick={() => setStep("previous")}
             >
               {t("previousButton")}

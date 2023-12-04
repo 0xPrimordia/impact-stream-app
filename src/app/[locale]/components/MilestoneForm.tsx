@@ -83,7 +83,7 @@ export const MilestoneForm = ({ milestones, ...props }: IMilestoneProps) => {
         </div>
       ))}
       <p
-        className="text-right underline mb-8 text-sky-600 mt-2"
+        className="text-right underline mb-8 text-sky-600 mt-2 cursor-pointer"
         onClick={addRow}
       >
         Add Milestone
