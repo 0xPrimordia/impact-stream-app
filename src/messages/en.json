@@ -64,7 +64,7 @@
     "keyPlayersValidationMessage": "Please provide people and venders involved.",
     "timelinePlaceholder": "Timeline",
     "timelineValidationMessage": "Please provide timeline.",
-    "budgetPlaceholder": "Budget",
+    "budgetPlaceholder": "Budget (CFA)",
     "addMilestoneButton": "Add Milestone",
     "milestoneContext": "Break your plan into steps. Show us what each step along the way will cost.",
     "submitButton": "Submit",

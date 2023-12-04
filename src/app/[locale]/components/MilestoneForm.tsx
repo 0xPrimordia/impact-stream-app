@@ -3,9 +3,11 @@ import { IMilestoneProps, IRow } from "@/app/types";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { useTranslations } from "next-intl";
 
 export const MilestoneForm = ({ milestones, ...props }: IMilestoneProps) => {
   const [rows, setRows] = useState<IRow[]>([]);
+  const t = useTranslations("Create Proposal");
   const {
     register,
     unregister,
@@ -35,16 +37,17 @@ export const MilestoneForm = ({ milestones, ...props }: IMilestoneProps) => {
     <fieldset>
       {rows.map((row, index) => (
         <div key={row.key} className="flex mb-2">
-          <label className="text-sm">Title</label>
+          <label className="text-sm">{t("title")}</label>
+          <p>{t("milestoneContext")}</p>
           <input
             {
               // @ts-ignore
               ...register(`milestones.${row.key}.title`)
             }
             className="w-1/2 border border-slate-300 rounded h-10 pl-2 mb-2"
-            placeholder="Title"
+            placeholder={t("title")}
           />
-          <label className="text-sm">Budget</label>
+          <label className="text-sm">{t("budgetPlaceholder")}</label>
           {row.key !== "default" && (
             <input
               {
@@ -52,7 +55,7 @@ export const MilestoneForm = ({ milestones, ...props }: IMilestoneProps) => {
                 ...register(`milestones.${row.key}.budget`)
               }
               className="w-2/5 border border-slate-300 rounded h-10 pl-2 mb-2 ml-2"
-              placeholder="Budget"
+              placeholder={t("budgetPlaceholder")}
               type="number"
             />
           )}
@@ -63,7 +66,7 @@ export const MilestoneForm = ({ milestones, ...props }: IMilestoneProps) => {
                 ...register(`milestones.${row.key}.budget`)
               }
               className="w-1/2 border border-slate-300 rounded h-10 pl-2 mb-2 ml-2"
-              placeholder="Budget"
+              placeholder={t("budgetPlaceholder")}
               type="number"
             />
           )}

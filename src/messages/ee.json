@@ -65,7 +65,7 @@
     "timelinePlaceholder": "Ɣeyiɣi Ƒe Ɖoɖo",
     "timelineValidationMessage": "Taflatse gblɔ ɣeyiɣi si woatsɔ awɔ dɔe.",
     "heading7": "Nu Vevi Siwo Wowɔ",
-    "budgetPlaceholder": "Gaɖaŋu",
+    "budgetPlaceholder": "Gaɖaŋu (CFA)",
     "addMilestoneButton": "Tsɔ Nu Vevi Aɖe Kpe Ɖe Eŋu",
     "milestoneContext": "Ma wò ɖoɖoa me ɖe afɔɖeɖewo me. Fia nusi afɔɖeɖe ɖesiaɖe si míaɖe le mɔa dzi abia mí.",
     "submitButton": "Tsᴐe Yi",
@@ -105,22 +105,22 @@
   "Footer": {
     "message": "Wokeke akɔdada ƒe akpaa ɖe enu va ɖo October ƒe domedome. Ɣletiŋkeke si tututu woaɖe gbeƒãe."
   },
-  "Nye Tasiaɖam": {
+  "My Cart": {
     "tanya": "Nye Keke",
     "nullMessage": "Nu aɖeke mele wò kekea me fifia o.",
     "checkoutButton": "Nukpɔkpɔ"
   },
-  "Adzɔxexe": {
+  "Checkout": {
     "tanya": "Xɔxexe",
     "disclaimer": "Taflatse lé ŋku ɖe wò kekea ŋu eye nàɖo kpe wò nudzɔdzɔa dzi.",
     "confirmButton": "Ðo kpe edzi"
   },
-  "Nye Nunanawo": {
+  "My Proposals": {
     "tanya": "Nye Gakpekpeɖeŋunana",
     "nullMessage": "Fifia la, kpekpeɖeŋunana aɖeke meli o alo kuxi aɖe le wò kadodoa ŋu.",
     "addGrantButton": "Wɔ Kpekpeɖeŋunana"
   },
-  "Nye Akɔdadawo": {
+  "My Votes": {
     "tanya": "Nye Akɔdadawo",
     "nullMessage": "Fifia la, akɔdada aɖeke meli o alo kuxi aɖe le wò kadodoa ŋu."
   }
