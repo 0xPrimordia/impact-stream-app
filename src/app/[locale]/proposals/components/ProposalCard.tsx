@@ -39,16 +39,21 @@ const ProposalCard = ({
   }, [proposal.allo_recipient_id, user?.wallet?.address]);
 
   useEffect(() => {
-    getAllocator()
-  })
+    const getAllocator = async () => {
+      const isValid: any = await strategyContract.read.isValidAllocator([
+        user?.wallet?.address!,
+      ]);
 
-  const getAllocator = async () => {
-    const isValid:boolean[] = await strategyContract.read.isValidAllocator([user?.wallet?.address])
-    if(isValid[0] === true) {
-      setIsValidAllocator(true)
-    }
-  }
+      console.log("isValid2", isValid);
 
+      if (isValid as boolean === true) {
+        setIsValidAllocator(true);
+      }
+    };
+
+    getAllocator();
+  }), [user?.wallet?.address];
+  
   if (!user) return null;
 
   return (
