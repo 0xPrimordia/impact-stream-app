@@ -90,6 +90,7 @@ export default function OnboardingForm({ currentUser }: { currentUser: TUser }) 
           {" "}
           {errors.givenName && errors.givenName.message}
         </span>
+        <label className="text-sm">{t("firstName")}</label>
         <input
           className={inputClasses}
           placeholder={t("firstName")}
@@ -99,6 +100,7 @@ export default function OnboardingForm({ currentUser }: { currentUser: TUser }) 
           {" "}
           {errors.familyName && errors.familyName.message}
         </span>
+        <label className="text-sm">{t("lastName")}</label>
         <input
           className={inputClasses}
           placeholder={t("lastName")}
@@ -108,6 +110,7 @@ export default function OnboardingForm({ currentUser }: { currentUser: TUser }) 
           {" "}
           {errors.villageNeighborhood && errors.villageNeighborhood.message}
         </span>
+        <label className="text-sm">{t("location")}</label>
         <input
           className={inputClasses}
           placeholder={t("location")}
@@ -119,6 +122,7 @@ export default function OnboardingForm({ currentUser }: { currentUser: TUser }) 
           {" "}
           {errors.email && errors.email.message}
         </span>
+        <label className="text-sm">{t("email")}</label>
         <input
           type="email"
           className={inputClasses}

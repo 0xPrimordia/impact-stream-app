@@ -35,6 +35,7 @@ export const MilestoneForm = ({ milestones, ...props }: IMilestoneProps) => {
     <fieldset>
       {rows.map((row, index) => (
         <div key={row.key} className="flex mb-2">
+          <label className="text-sm">Title</label>
           <input
             {
               // @ts-ignore
@@ -43,6 +44,7 @@ export const MilestoneForm = ({ milestones, ...props }: IMilestoneProps) => {
             className="w-1/2 border border-slate-300 rounded h-10 pl-2 mb-2"
             placeholder="Title"
           />
+          <label className="text-sm">Budget</label>
           {row.key !== "default" && (
             <input
               {

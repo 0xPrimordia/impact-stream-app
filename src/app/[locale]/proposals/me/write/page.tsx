@@ -212,6 +212,7 @@ export default function WriteProposal() {
               {" "}
               {errors.title && errors.title.message}
             </span>
+            <label className="text-sm">{t("title")}</label>
             <input
               className={inputClasses}
               placeholder={t("title")}
@@ -221,6 +222,7 @@ export default function WriteProposal() {
               {" "}
               {errors.location && errors.location.message}
             </span>
+            <label className="text-sm">{t("location")}</label>
             <input
               className={inputClasses}
               placeholder={t("location")}
@@ -270,6 +272,7 @@ export default function WriteProposal() {
               {" "}
               {errors.summary && errors.summary.message}
             </span>
+            <label className="text-sm">{t("summaryPlaceholder")}</label>
             <textarea
               className={textareaClasses}
               placeholder={t("summaryPlaceholder")}
@@ -282,6 +285,7 @@ export default function WriteProposal() {
               {" "}
               {errors.affected_locations && errors.affected_locations.message}
             </span>
+            <label className="text-sm">{t("locationsAffectedPlaceholder")}</label>
             <input
               className={inputClasses}
               placeholder={t("locationsAffectedPlaceholder")}
@@ -302,6 +306,7 @@ export default function WriteProposal() {
               {" "}
               {errors.community_problem && errors.community_problem.message}
             </span>
+            <label className="text-sm">{t("communityProblemPlaceholder")}</label>
             <textarea
               className={textareaClasses}
               placeholder={t("communityProblemPlaceholder")}
@@ -322,6 +327,7 @@ export default function WriteProposal() {
               {" "}
               {errors.proposed_solution && errors.proposed_solution.message}
             </span>
+            <label className="text-sm">{t("proposedSolutionPlaceholder")}</label>
             <textarea
               className={textareaClasses}
               placeholder={t("proposedSolutionPlaceholder")}
@@ -342,6 +348,7 @@ export default function WriteProposal() {
               {" "}
               {errors.sustainability && errors.sustainability.message}
             </span>
+            <label className="text-sm">{t("sustainabilityPlaceholder")}</label>
             <textarea
               className={textareaClasses}
               placeholder={t("sustainabilityPlaceholder")}
@@ -362,6 +369,7 @@ export default function WriteProposal() {
               {" "}
               {errors.minimum_budget && errors.minimum_budget.message}
             </span>
+            <label className="text-sm">{t("minimumBudgetPlaceholder")}</label>
             <input
               type="number"
               className="w-full border border-slate-300 rounded h-10 pl-2"
@@ -382,6 +390,7 @@ export default function WriteProposal() {
               </span>
             </div>
 
+            <label className="text-sm">{t("keyPlayersPlaceholder")}</label>
             <input
               className={inputClasses}
               placeholder={t("keyPlayersPlaceholder")}
@@ -393,6 +402,7 @@ export default function WriteProposal() {
               {" "}
               {errors.timeline && errors.timeline.message}
             </span>
+            <label className="text-sm">{t("timelinePlaceholder")}</label>
             <input
               className={inputClasses}
               placeholder={t("timelinePlaceholder")}
