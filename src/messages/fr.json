@@ -63,7 +63,7 @@
     "keyPlayersValidationMessage": "Veuillez indiquer les personnes et les fournisseurs concernés.",
     "timelinePlaceholder": "Ligne Du Temps",
     "timelineValidationMessage": "Veuillez fournir la ligne du temps.",
-    "budgetPlaceholder": "Budget",
+    "budgetPlaceholder": "Budget (CFA)",
     "addMilestoneButton": "Ajouter Un Jalon",
     "milestoneContext": "Divisez votre plan en étapes. Montrez-nous ce que coûtera chaque étape du chemin.",
     "submitButton": "Soumettre",
@@ -80,7 +80,7 @@
     "keyPlayers": "Joueurs Clés",
     "milestones": "Jalons",
     "minimumBudget": "Budget Minimal",
-    "totalBudget": "Budget Total"
+    "totalBudget": "Budget Total (CFA)"
   },
   "Donate": {
     "heading": "Donner",
@@ -103,22 +103,22 @@
   "Footer": {
     "message": "La phase de vote a été prolongée jusqu'à la mi-octobre. Date exacte à annoncer."
   },
-  "Mon Panier": {
+  "My Cart": {
     "heading": "Mon panier",
     "nullMessage": "Il n'y a actuellement aucun article dans votre panier.",
     "checkoutButton": "Commander"
   },
-  "Vérifier": {
+  "Checkout": {
     "heading": "Commander",
     "disclaimer": "Veuillez vérifier votre panier et confirmer votre don.",
     "confirmButton": "Confirmer"
   },
-  "Mes subventions": {
+  "My Proposals": {
     "heading": "Mes subventions",
     "nullMessage": "Il n'y a actuellement aucune subvention ou il y a un problème avec votre connexion.",
     "addGrantButton": "Créer une subvention"
   },
-  "Mes votes": {
+  "My Votes": {
     "heading": "Mes votes",
     "nullMessage": "Il n'y a actuellement aucun vote ou il y a un problème avec votre connexion."
   }
