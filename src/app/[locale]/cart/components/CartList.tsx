@@ -93,7 +93,7 @@ const CartList = ({ cartItems }: { cartItems: TSummaryProposal[] }) => {
           .map((value) => Number(value))
           .reduce((a, b) => a + b, 0) >
           maxVoiceCreditsPerAllocator - voiceCreditsUsedByAllocator && (
-          <p className="text-red-500">Error: Not enough vote credits left.</p>
+          <p className="text-red-500 fixed bottom-0 left-0 right-0 bg-white">Error: Not enough vote credits left.</p>
         )}
       </div>
 
