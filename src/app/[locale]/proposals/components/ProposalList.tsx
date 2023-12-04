@@ -34,13 +34,17 @@ const ProposalList = ({
         {/* filter out by status and then map the cards */}
         {filteredProposals ? (
           filteredProposals.map((proposal) => (
-            <div className="p-2" key={proposal.id}>
-              <ProposalCard
-                proposal={proposal}
-                showStatus={showStatus ?? false}
-                showAction={showAction ?? true}
-              />
-            </div>
+            <>
+              <div className="p-2" key={proposal.id}>
+                <ProposalCard
+                  proposal={proposal}
+                  showStatus={showStatus ?? false}
+                  showAction={showAction ?? true}
+                />
+              </div>
+              <hr className="border-b border-inherit" />
+            </>
+            
           ))
         ) : (
           <p className="text-sm text-center italic my-10">{t("nullMessage")}</p>
