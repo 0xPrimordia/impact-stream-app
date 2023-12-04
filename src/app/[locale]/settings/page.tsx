@@ -96,7 +96,7 @@ export default function Settings() {
                   Address
                 </label>
                 <p>
-                  {shortenAddress(currentUser.address!)}
+                  {currentUser.address!}
                 </p>
               </div>
 
