@@ -35,10 +35,10 @@ export const MilestoneForm = ({ milestones, ...props }: IMilestoneProps) => {
 
   return (
     <fieldset>
+      <p>{t("milestoneContext")}</p>
       {rows.map((row, index) => (
         <div key={row.key} className="flex mb-2">
-          <label className="text-sm">{t("title")}</label>
-          <p>{t("milestoneContext")}</p>
+          <label className="text-sm">{t("title")}</label>\
           <input
             {
               // @ts-ignore
