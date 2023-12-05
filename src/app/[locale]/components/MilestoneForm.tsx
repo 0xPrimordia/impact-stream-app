@@ -35,41 +35,45 @@ export const MilestoneForm = ({ milestones, ...props }: IMilestoneProps) => {
 
   return (
     <fieldset>
-      <p>{t("milestoneContext")}</p>
+      <p className="pb-6">{t("milestoneContext")}</p>
       {rows.map((row, index) => (
         <div key={row.key} className="flex mb-2">
-          <label className="text-sm">{t("title")}</label>\
-          <input
-            {
-              // @ts-ignore
-              ...register(`milestones.${row.key}.title`)
-            }
-            className="w-1/2 border border-slate-300 rounded h-10 pl-2 mb-2"
-            placeholder={t("title")}
-          />
-          <label className="text-sm">{t("budgetPlaceholder")}</label>
-          {row.key !== "default" && (
+          <div className="w-2/5">
+            <label className="text-sm block">{t("title")}</label>
             <input
               {
                 // @ts-ignore
-                ...register(`milestones.${row.key}.budget`)
+                ...register(`milestones.${row.key}.title`)
               }
-              className="w-2/5 border border-slate-300 rounded h-10 pl-2 mb-2 ml-2"
-              placeholder={t("budgetPlaceholder")}
-              type="number"
+              className="border border-slate-300 rounded h-10 pl-2 mb-2"
+              placeholder={t("title")}
             />
-          )}
-          {row.key === "default" && (
-            <input
-              {
-                // @ts-ignore
-                ...register(`milestones.${row.key}.budget`)
-              }
-              className="w-1/2 border border-slate-300 rounded h-10 pl-2 mb-2 ml-2"
-              placeholder={t("budgetPlaceholder")}
-              type="number"
-            />
-          )}
+          </div>
+          <div className="w-2/5">
+            <label className="text-sm block pl-2">{t("budgetPlaceholder")}</label>
+            {row.key !== "default" && (
+              <input
+                {
+                  // @ts-ignore
+                  ...register(`milestones.${row.key}.budget`)
+                }
+                className="border border-slate-300 rounded h-10 pl-2 mb-2 ml-2 w-full"
+                placeholder={t("budgetPlaceholder")}
+                type="number"
+              />
+            )}
+            {row.key === "default" && (
+              <input
+                {
+                  // @ts-ignore
+                  ...register(`milestones.${row.key}.budget`)
+                }
+                className="border border-slate-300 rounded h-10 pl-2 mb-2 ml-2 w-full"
+                placeholder={t("budgetPlaceholder")}
+                type="number"
+              />
+            )}
+          </div>
           {row.key !== "default" && (
             <XMarkIcon
               onClick={() => {
@@ -77,7 +81,7 @@ export const MilestoneForm = ({ milestones, ...props }: IMilestoneProps) => {
                 unregister(`milestones.${row.key}.budget`);
                 removeRow(row.key);
               }}
-              className="h-6 ml-2 mt-2.5"
+              className="h-6 ml-4 mt-7"
             />
           )}
         </div>
