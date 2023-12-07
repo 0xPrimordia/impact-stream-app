@@ -95,7 +95,7 @@ export default function Settings() {
                 <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
                   Address
                 </label>
-                <p>
+                <p className="text-sm">
                   {currentUser.address!}
                 </p>
               </div>
