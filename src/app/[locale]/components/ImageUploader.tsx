@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import { getSupabaseClient } from "../../../../lib/supabase";
-import { Web3Storage, CIDString, Web3File } from 'web3.storage';
+import { Web3Storage, CIDString, Web3File } from "web3.storage";
 import { storeImage } from "./ImageGallery";
-import Image from 'next/legacy/image'
+import Image from "next/legacy/image";
+import { useTranslations } from "next-intl";
 
 export const ImageUploader = () => {
   const { user } = usePrivy();
@@ -21,82 +22,85 @@ export const ImageUploader = () => {
     // environement variable or other configuration that's kept outside of
     // your code base. For this to work, you need to set the
     // WEB3STORAGE_TOKEN environment variable before you run your code.
-    return process.env.NEXT_WEB3_STORAGE_TOKEN
+    return process.env.NEXT_WEB3_STORAGE_TOKEN;
   }
 
   useEffect(() => {
+    function makeStorageClient() {
+      const token = getAccessToken();
+      console.log(token, "token");
+
+      if (token) return new Web3Storage({ token: token });
+    }
+
+    async function setClient() {
+      let client;
+      try {
+        client = makeStorageClient();
+      } catch (error) {
+        console.error(error);
+      }
+      setStorageClient(client);
+    }
+
     setClient();
   }, []);
 
-  function makeStorageClient() {
-    const token = getAccessToken()
-    console.log("token")
-    console.log(token)
-    if (token)
-      return new Web3Storage({ token: token })
-  }
-
   function getFiles() {
-    const fileInput: any = document.querySelector('input[type="file"]')
-    return fileInput?.files
-  }
-
-  async function setClient() {
-    let client;
-    try {
-      client = await makeStorageClient()
-    } catch (error) {
-      console.log(error)
-    }
-    setStorageClient(client)
+    const fileInput: any = document.querySelector('input[type="file"]');
+    return fileInput?.files;
   }
 
   async function storeFiles(files: any) {
     if (storageClient) {
       //const cid = await storageClient.put(files)
-      const Image = await storeImage(files, "avatar")
-      // store CID in DB then display image 
-      console.log('stored files with cid:', Image?.cid)
-      setFiles(Image?.imageGatewayURL)
+      const Image = await storeImage(files, "avatar");
+      // store CID in DB then display image
+      console.log("stored files with cid:", Image?.cid);
+      setFiles(Image?.imageGatewayURL);
       try {
-        const supabase = await getSupabaseClient()
+        const supabase = await getSupabaseClient();
         const { error } = await supabase
           .from("users")
           .update({
-            profile_image_url: Image?.imageGatewayURL
+            profile_image_url: Image?.imageGatewayURL,
           })
           .eq("id", user?.id);
         if (error) {
           throw error;
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
-      return Image
+      return Image;
     }
-
   }
 
   const uploadFiles = () => {
-    setIsUploading(true)
-    const files = getFiles()
+    setIsUploading(true);
+    const files = getFiles();
     try {
-      storeFiles(files)
+      storeFiles(files);
     } catch (error) {
-      console.log(error)
+      console.error(error);
     }
-    setIsUploading(false)
-  }
+    setIsUploading(false);
+  };
+
+  const t = useTranslations("Onboarding");
 
   return (
     <>
-      {files && (
-            <Image className="pb-4" alt="uploaded image" src={files}/>
-      )}
+      {files && <Image className="pb-4" alt="uploaded image" src={files} />}
       {!files && (
         <>
-          <input className="text-sm italic mt-2" type='file' />
-          <button disabled={isUploading} className="relative border border-slate-400 rounded py-1 px-2 text-sm font-bold relative disabled:opacity-50 mt-4 mb-6" type='button' onClick={uploadFiles}>
+          <input className="text-sm italic mt-2" type="file" />
+          <button
+            disabled={isUploading}
+            className="border border-slate-400 rounded py-1 px-2 text-sm relative disabled:opacity-50 mt-4 mb-6 hover:bg-sky-600 hover:text-white"
+            type="button"
+            onClick={uploadFiles}
+          >
             Upload
             {isUploading && (
               <svg
@@ -120,5 +124,5 @@ export const ImageUploader = () => {
         </>
       )}
     </>
-  )
-}
+  );
+};

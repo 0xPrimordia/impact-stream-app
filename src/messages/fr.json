@@ -14,10 +14,13 @@
     "email": "Email",
     "emailValidation": "Courriel valide requis",
     "disclaimer": "Vos informations ne seront pas partagées avec le public et ne seront utilisées qu'à des fins d'identification et pour vous contacter si nécessaire.",
-    "submitButton": "Soumettre"
+    "submitButton": "Soumettre",
+    "profileImage": "Image de profil",
+    "imageUploadBtn": "Télécharger"
   },
   "Proposals": {
     "heading": "Subventions Proposées",
+    "heading2": "Mes propositions",
     "nullMessage": "Il n'y a actuellement aucune proposition ou il y a un problème avec votre connexion.",
     "addProposalButton": "Ajouter Une Subvention"
   },
@@ -52,13 +55,15 @@
     "sustainabilityContext": "Les meilleurs projets sont ceux qui pourront être pérennisés par les togolais. Nous voulons voir des projets construits pour durer des générations.",
     "heading6": "Détails Du Projet",
     "minimumBudgetPlaceholder": "Budget Total Minimum",
-    "minimumBudgetContext": "Faites de votre mieux pour considérer le montant minimum de financement qui serait utile. Il est possible sur la page suivante de discuter des budgets maximaux et idéaux. Pour la chronologie, n'hésitez pas à donner une fourchette de temps.",
+    "minimumBudgetContext": "Montant en CFA (pas USD ou autre), ne dépassant pas 12 000 000 CFA.",
     "minimumBudgetValidationMessage": "Veuillez fournir un budget minimum.",
+    "minimumBudgetMin": "La valeur minimale est 1 CFA",
+    "minimumBudgetMax": "La valeur maximale est 12,000,000 CFA",
     "keyPlayersPlaceholder": "Personnes Et Fournisseurs Impliqués",
     "keyPlayersValidationMessage": "Veuillez indiquer les personnes et les fournisseurs concernés.",
     "timelinePlaceholder": "Ligne Du Temps",
     "timelineValidationMessage": "Veuillez fournir la ligne du temps.",
-    "budgetPlaceholder": "Budget",
+    "budgetPlaceholder": "Budget (CFA)",
     "addMilestoneButton": "Ajouter Un Jalon",
     "milestoneContext": "Divisez votre plan en étapes. Montrez-nous ce que coûtera chaque étape du chemin.",
     "submitButton": "Soumettre",
@@ -66,6 +71,7 @@
   },
   "Proposal Details": {
     "heading": "Subventions Proposées",
+    "heading2": "Mes propositions",
     "summary": "Résumé",
     "locationsAffected": "Emplacements Affectés",
     "communityProblem": "Problème Communautaire",
@@ -74,7 +80,7 @@
     "keyPlayers": "Joueurs Clés",
     "milestones": "Jalons",
     "minimumBudget": "Budget Minimal",
-    "totalBudget": "Budget Total"
+    "totalBudget": "Budget Total (CFA)"
   },
   "Donate": {
     "heading": "Donner",
@@ -83,8 +89,12 @@
     "link": "faire un don sur ce lien."
   },
   "Navigation": {
-    "link1": "Les Propositions",
-    "link2": "Paramètres"
+    "link1": "Mes Propositions",
+    "link2": "Les Propositions",
+    "link3": "Faire un don",
+    "link4": "Mon panier",
+    "link5": "Paramètres",
+    "link6": "Apprendre encore plus"
   },
   "Settings": {
     "heading": "Paramètres Utilisateur",
@@ -92,5 +102,24 @@
   },
   "Footer": {
     "message": "La phase de vote a été prolongée jusqu'à la mi-octobre. Date exacte à annoncer."
+  },
+  "My Cart": {
+    "heading": "Mon panier",
+    "nullMessage": "Il n'y a actuellement aucun article dans votre panier.",
+    "checkoutButton": "Commander"
+  },
+  "Checkout": {
+    "heading": "Commander",
+    "disclaimer": "Veuillez vérifier votre panier et confirmer votre don.",
+    "confirmButton": "Confirmer"
+  },
+  "My Proposals": {
+    "heading": "Mes subventions",
+    "nullMessage": "Il n'y a actuellement aucune subvention ou il y a un problème avec votre connexion.",
+    "addGrantButton": "Créer une subvention"
+  },
+  "My Votes": {
+    "heading": "Mes votes",
+    "nullMessage": "Il n'y a actuellement aucun vote ou il y a un problème avec votre connexion."
   }
 }
